@@ -13,6 +13,7 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint( value = "/chat/{username}")
@@ -22,12 +23,12 @@ public class ChatEndpoint {
      private static Map<String,String>users = new LinkedHashMap<>(); 
     
     @OnOpen
-    public void onOpen(Session session) {
+    public void onOpen(Session session , @PathParam("username") String username) {
         System.out.println("Session open successful : ID :  " + session.getId());
         this.session = session;
         System.out.println("Query String : " + session.getQueryString());
         clients.add(this);                                       // добовляем экземпляр сессий в коллекцию 
-        users.put(session.getQueryString(), session.getId());    // Добовляем имя пользователя и его id сессий в мапу
+        users.put(username, session.getId());                    // Добовляем имя пользователя и его id сессий в мапу
 
 
     }
