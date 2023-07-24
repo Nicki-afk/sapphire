@@ -18,23 +18,23 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint( value = "/chat/{username}")
 public class ChatEndpoint {
     private Session session;
-    // private static final Set<ChatEndpoint> clients = new CopyOnWriteArraySet<>();
-    // private static Map<String,Integer>userLogins = new LinkedHashMap<>(); 
+     private static final Set<ChatEndpoint> clients = new CopyOnWriteArraySet<>();
+     private static Map<String,String>users = new LinkedHashMap<>(); 
     
-    private static Map<String , ChatEndpoint>clientMap = new HashMap<>();
-
     @OnOpen
     public void onOpen(Session session) {
         System.out.println("Session open successful : ID :  " + session.getId());
         this.session = session;
         System.out.println("Query String : " + session.getQueryString());
-        this.clientMap.put(session.getQueryString(), this);
+        clients.add(this);                                       // добовляем экземпляр сессий в коллекцию 
+        users.put(session.getQueryString(), session.getId());    // Добовляем имя пользователя и его id сессий в мапу
+
 
     }
 
     @OnClose
     public void onClose(Session session) {
-        clientMap.remove(this);
+        clients.remove(this);
     }
 
     @OnError
@@ -47,6 +47,8 @@ public class ChatEndpoint {
         //System.out.println("Session ID " + session.getId());
     
         System.out.println("Server permit message : " + message);
+
+        sendToCompanion(message);
 
 
        // sendMessageToAll("Hello Server!");
@@ -69,7 +71,12 @@ public class ChatEndpoint {
     
 
     private void sendToCompanion(Message message){
-        // ...
+        try{
+
+        
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
     }
 
