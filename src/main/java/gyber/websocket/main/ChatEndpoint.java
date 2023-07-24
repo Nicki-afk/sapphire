@@ -27,8 +27,15 @@ public class ChatEndpoint {
         System.out.println("Session open successful : ID :  " + session.getId());
         this.session = session;
         System.out.println("Query String : " + session.getQueryString());
+
         clients.add(this);                                       // добовляем экземпляр сессий в коллекцию 
         users.put(username, session.getId());                    // Добовляем имя пользователя и его id сессий в мапу
+
+        Message message = new Message();
+        message.setFrom(username);
+        message.setContent("Connect successful to server!");
+
+        sendToCompanion(message);
 
 
     }
