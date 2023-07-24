@@ -29,7 +29,7 @@ public class ChatEndpoint {
         System.out.println("Query String : " + session.getQueryString());
 
         clients.add(this);                                       // добовляем экземпляр сессий в коллекцию 
-        users.put(username, session.getId());                    // Добовляем имя пользователя и его id сессий в мапу
+        users.put(session.getId(), username);                    // Добовляем имя пользователя и его id сессий в мапу
 
         Message message = new Message();
         message.setFrom(username);
@@ -51,12 +51,14 @@ public class ChatEndpoint {
     }
 
     @OnMessage
-    public void onMessage(Message message) {
+    public void onMessage(Session session , Message message) {
         //System.out.println("Session ID " + session.getId());
     
         System.out.println("Server permit message : " + message);
 
-        sendToCompanion(message);
+        message.setFrom(users.get(session.getId()));   // указываем получателя
+
+        sendToCompanion(message);                       // отправлем сообщение 
 
 
        // sendMessageToAll("Hello Server!");
