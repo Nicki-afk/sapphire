@@ -1,6 +1,8 @@
 package gyber.websocket.main;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -15,6 +17,8 @@ import javax.websocket.server.ServerEndpoint;
 public class ChatEndpoint {
     private Session session;
     private static final Set<ChatEndpoint> clients = new CopyOnWriteArraySet<>();
+  // private static final Map<String,ChatEndpoint>clients = new LinkedHashMap<>();
+   
 
     @OnOpen
     public void onOpen(Session session) {
