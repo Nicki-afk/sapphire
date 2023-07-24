@@ -66,13 +66,7 @@ public class ChatEndpoint {
     }
 
 
-    private boolean loginUser(AuthorizedMessage authorizedMessage){
-
-        
-
-        return false;
-
-    }
+    
 
     private void sendToCompanion(Message message){
         // ...
