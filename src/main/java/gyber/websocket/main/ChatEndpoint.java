@@ -34,9 +34,11 @@ public class ChatEndpoint {
     }
 
     @OnMessage
-    public void onMessage(String message) {
+    public void onMessage(Message message) {
         System.out.println("Server permit message : " + message);
-        sendMessageToAll(message);
+
+
+      //  sendMessageToAll(message);
     }
 
     private void sendMessageToAll(String message) {
@@ -50,6 +52,12 @@ public class ChatEndpoint {
                 }
             }
         });
+    }
+
+
+    private void sendToCompanion(Message message){
+        // ...
+
     }
 
 }
