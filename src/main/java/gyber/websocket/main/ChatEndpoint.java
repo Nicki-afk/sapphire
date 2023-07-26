@@ -28,14 +28,14 @@ public class ChatEndpoint {
         this.session = session;
         System.out.println("Query String : " + session.getQueryString());
 
-        clients.add(this);                                       // добовляем экземпляр сессий в коллекцию 
-        users.put(session.getId(), username);                    // Добовляем имя пользователя и его id сессий в мапу
+        clients.add(this);                                       // добавляем экземпляр сессий в коллекцию 
+        users.put(session.getId(), username);                    // Добавляем имя пользователя и его id сессий в мапу
 
         Message message = new Message();
         message.setFrom(username);
         message.setContent("Connect successful to server!"); // Отправляем ответ о том что подключение успешно 
 
-        sendToCompanion(message);
+        sendToCompanion(session , message);
 
     }
 
