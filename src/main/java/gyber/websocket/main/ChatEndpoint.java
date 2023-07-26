@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.logging.Logger;
 
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
@@ -17,26 +18,28 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+
 @ServerEndpoint( value = "/chat/{username}" , encoders = MessageEncoder.class , decoders = MessageDecoder.class)
 public class ChatEndpoint {
     private Session session;
      private static final Set<ChatEndpoint> clients = new CopyOnWriteArraySet<>();
      private static Map<String,Session>users = new LinkedHashMap<>(); 
+
+
+     private static Logger logger = Logger.getLogger("ChatEndPoint");
+
     
     @OnOpen
     public void onOpen(Session session , @PathParam("username") String username) {
-        System.out.println("Session open successful : ID :  " + session.getId());
+        logger.info("INIT... NEW SEESSION ON " + username );
+
         this.session = session;
-        System.out.println("Query String : " + session.getQueryString());
+      
+        logger.info("INIT SESSION SUCCESSFUL ! SESSION ID : " + session.getId());
 
         clients.add(this);                                       // добавляем экземпляр сессий в коллекцию 
-        users.put(username, session);                    // Добавляем имя пользователя и его id сессий в мапу
+        users.put(username, session);                           // Добавляем имя пользователя и его id сессий в мапу
 
-        Message message = new Message();
-        message.setFrom(username);
-        message.setContent("Connect successful to server!"); // Отправляем ответ о том что подключение успешно 
-
-        sendToCompanion(session , message);
 
     }
 
@@ -47,34 +50,30 @@ public class ChatEndpoint {
 
     @OnError
     public void onError(Session session, Throwable throwable) {
-        System.out.println("ERROR : " + throwable.getLocalizedMessage());
+
+        if(throwable != null){
+           logger.warning("EXCEPTION IN WORK : " + throwable);
+            logger.warning("FULL STACK TRACE : ");
+            throwable.printStackTrace();
+        }
+
     }
 
     @OnMessage
     public void onMessage(Session session , Message message) {
-        //System.out.println("Session ID " + session.getId());
-    
-        System.out.println("Server permit message : " + message);
+        
 
-      //  message.setFrom(users.get(session.getId()));             // указываем получателя
+        logger.info("USER : ".concat(message.getTo()).concat("SEND MESSAGE TO -> " + message.getFrom()));
+        logger.info("SEND MESSAGE ...");
 
         sendToCompanion(this.users.get(message.getFrom()) , message);                       // отправлем сообщение 
 
+        logger.info("MESSAGE USER : " + message.getTo() + " TO USER : " + message.getFrom() + " SENT SUCCESSFUL");
 
-       // sendMessageToAll("Hello Server!");
     }
 
     private void sendMessageToAll(String message) {
-        // System.out.println("sendMessageToAll()");
-        // clients.forEach(endpoint -> {
-        //     synchronized (endpoint) {
-        //         try {
-        //             endpoint.session.getBasicRemote().sendText(message);
-        //         } catch (IOException e) {
-        //             e.printStackTrace();
-        //         }
-        //     }
-        // });
+    
     }
 
 
@@ -107,5 +106,15 @@ public class ChatEndpoint {
         }
 
     }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    
 
 }
