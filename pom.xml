@@ -73,7 +73,7 @@
           <artifactId>maven-war-plugin</artifactId>
           
           <configuration>
-            <outputDirectory>~/dev/Tomcat/webapps/</outputDirectory>
+            <outputDirectory>/home/nicki/dev/Tomcat/webapps/</outputDirectory>
             <warName>gyberwebsocket-0.0.2-inside-test</warName>
         </configuration>
 
