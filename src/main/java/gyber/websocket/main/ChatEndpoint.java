@@ -37,7 +37,6 @@ public class ChatEndpoint {
 
         sendToCompanion(message);
 
-
     }
 
     @OnClose
@@ -58,7 +57,7 @@ public class ChatEndpoint {
 
         message.setFrom(users.get(session.getId()));   // указываем получателя
 
-        sendToCompanion(message);                       // отправлем сообщение 
+        sendToCompanion(session , message);                       // отправлем сообщение 
 
 
        // sendMessageToAll("Hello Server!");
@@ -80,13 +79,12 @@ public class ChatEndpoint {
 
     
 
-    private void sendToCompanion(Message message){
+    private void sendToCompanion( Session session , Message message){
         try{
 
 
-            
+            this.session.getBasicRemote().sendObject(message);
 
-        
         }catch(Exception e){
             e.printStackTrace();
         }
