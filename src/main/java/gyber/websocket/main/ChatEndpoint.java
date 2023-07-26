@@ -16,7 +16,7 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint( value = "/chat/{username}")
+@ServerEndpoint( value = "/chat/{username}" , encoders = MessageEncoder.class , decoders = MessageDecoder.class)
 public class ChatEndpoint {
     private Session session;
      private static final Set<ChatEndpoint> clients = new CopyOnWriteArraySet<>();
@@ -33,7 +33,7 @@ public class ChatEndpoint {
 
         Message message = new Message();
         message.setFrom(username);
-        message.setContent("Connect successful to server!");
+        message.setContent("Connect successful to server!"); // Отправляем ответ о том что подключение успешно 
 
         sendToCompanion(message);
 
@@ -82,6 +82,9 @@ public class ChatEndpoint {
 
     private void sendToCompanion(Message message){
         try{
+
+
+            
 
         
         }catch(Exception e){
