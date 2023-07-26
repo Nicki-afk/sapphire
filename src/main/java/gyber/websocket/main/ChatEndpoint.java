@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -20,7 +21,7 @@ import javax.websocket.server.ServerEndpoint;
 public class ChatEndpoint {
     private Session session;
      private static final Set<ChatEndpoint> clients = new CopyOnWriteArraySet<>();
-     private static Map<String,String>users = new LinkedHashMap<>(); 
+     private static Map<String,Session>users = new LinkedHashMap<>(); 
     
     @OnOpen
     public void onOpen(Session session , @PathParam("username") String username) {
@@ -29,7 +30,7 @@ public class ChatEndpoint {
         System.out.println("Query String : " + session.getQueryString());
 
         clients.add(this);                                       // добавляем экземпляр сессий в коллекцию 
-        users.put(session.getId(), username);                    // Добавляем имя пользователя и его id сессий в мапу
+        users.put(username, session);                    // Добавляем имя пользователя и его id сессий в мапу
 
         Message message = new Message();
         message.setFrom(username);
@@ -55,9 +56,9 @@ public class ChatEndpoint {
     
         System.out.println("Server permit message : " + message);
 
-        message.setFrom(users.get(session.getId()));   // указываем получателя
+      //  message.setFrom(users.get(session.getId()));             // указываем получателя
 
-        sendToCompanion(session , message);                       // отправлем сообщение 
+        sendToCompanion(this.users.get(message.getFrom()) , message);                       // отправлем сообщение 
 
 
        // sendMessageToAll("Hello Server!");
@@ -80,10 +81,24 @@ public class ChatEndpoint {
     
 
     private void sendToCompanion( Session session , Message message){
+    
+
         try{
 
+            try{
 
-            this.session.getBasicRemote().sendObject(message);
+                session.getBasicRemote().sendObject(message);
+               
+            }catch(Exception e){
+
+                e.printStackTrace();
+
+            }
+
+            
+
+            this.session.getBasicRemote().sendObject(new Message("SERVER" , message.getTo(), "ERROR User not found : " + message.getFrom()));
+
 
         }catch(Exception e){
             e.printStackTrace();
