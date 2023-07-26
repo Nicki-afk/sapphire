@@ -93,11 +93,13 @@ public class ChatEndpoint {
 
                 e.printStackTrace();
 
+                this.session.getBasicRemote().sendObject(new Message("SERVER" , message.getTo(), "ERROR User not found : " + message.getFrom()));
+
             }
 
             
 
-            this.session.getBasicRemote().sendObject(new Message("SERVER" , message.getTo(), "ERROR User not found : " + message.getFrom()));
+            
 
 
         }catch(Exception e){
