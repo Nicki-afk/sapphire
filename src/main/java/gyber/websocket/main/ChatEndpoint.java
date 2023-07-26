@@ -45,7 +45,13 @@ public class ChatEndpoint {
 
     @OnClose
     public void onClose(Session session) {
+
+        logger.info("SESSION CLOSING INIT ... ");
         clients.remove(this);
+        users.remove(session);
+
+        logger.info("SESSIONS SIZE : " + users.size());
+        logger.info("SESSION CLOSE SUCCESSFUL!");
     }
 
     @OnError
