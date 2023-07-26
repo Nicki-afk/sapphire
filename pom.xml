@@ -6,7 +6,7 @@
 
   <groupId>gyber.org</groupId>
   <artifactId>gyberwebsocket</artifactId>
-  <version>0.0.0.1-inside-test</version>
+  <version>0.0.0.2-inside-test</version>
   <packaging>war</packaging>
 
   <name>gyberwebsocket Maven Webapp</name>
@@ -71,6 +71,14 @@
         </plugin>
         <plugin>
           <artifactId>maven-war-plugin</artifactId>
+          
+          <configuration>
+            <outputDirectory>~/dev/Tomcat/webapps/</outputDirectory>
+            <warName>gyberwebsocket-0.0.2-inside-test</warName>
+        </configuration>
+
+
+
           <version>3.2.2</version>
         </plugin>
         <plugin>
