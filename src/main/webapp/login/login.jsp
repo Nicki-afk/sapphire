@@ -18,12 +18,11 @@
 
         <p class="login_text">Log in</p>
 
-        <form action="login.jsp" method="post">
+        <form action="http://localhost:8080/gyberwebsocket-0.0.2-inside-test/login" method="post">
             
-            <input type="text" , name="firstname" placeholder="@nick_name">
+            <input type="text" , name="username" placeholder="@nick_name">
             <input type="password" name="password" placeholder="Password">
             <br>
-
             <input type="submit" value="login" class="submit_btn">
         </form>
     </div>
