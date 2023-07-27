@@ -16,7 +16,8 @@ public class LogInServlet extends HttpServlet{
         
         //super.doGet(req, resp);
 
-        resp.encodeURL(getServletInfo())
+
+        req.getRequestDispatcher("/login/login.jsp").forward(req, resp);
         
     }
 
