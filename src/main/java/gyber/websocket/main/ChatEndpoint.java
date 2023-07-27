@@ -18,6 +18,10 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import gyber.websocket.messageConfig.Message;
+import gyber.websocket.messageConfig.MessageDecoder;
+import gyber.websocket.messageConfig.MessageEncoder;
+
 
 @ServerEndpoint( value = "/chat/{username}" , encoders = MessageEncoder.class , decoders = MessageDecoder.class)
 public class ChatEndpoint {
