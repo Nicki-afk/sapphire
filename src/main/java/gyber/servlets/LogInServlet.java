@@ -16,7 +16,7 @@ public class LogInServlet extends HttpServlet{
         
         //super.doGet(req, resp);
 
-        resp.getWriter().println("Hello!");
+        resp.encodeURL(getServletInfo())
         
     }
 
