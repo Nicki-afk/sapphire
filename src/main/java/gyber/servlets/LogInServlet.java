@@ -22,7 +22,9 @@ public class LogInServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-        System.out.println("\n\nUser login username : : " + req.getParameter("username"));
+
+        // login logic ... 
+
         resp.setStatus(200);
 
     }
