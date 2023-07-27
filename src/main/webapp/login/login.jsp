@@ -16,15 +16,15 @@
 
     <div class="form_block"> 
 
-        <p class="login_text">Login</p>
+        <p class="login_text">Log in</p>
 
         <form action="login.jsp" method="post">
             
-            <input type="text" , name="firstname" placeholder="Your firstname">
-            <input type="text" name="lastname" placeholder="Your lastname">
+            <input type="text" , name="firstname" placeholder="@nick_name">
+            <input type="password" name="password" placeholder="Password">
             <br>
 
-            <input type="submit" value="Submit" class="submit_btn">
+            <input type="submit" value="login" class="submit_btn">
         </form>
     </div>
 
