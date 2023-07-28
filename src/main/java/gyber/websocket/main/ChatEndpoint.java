@@ -73,16 +73,36 @@ public class ChatEndpoint {
     public void onMessage(Session session , Message message) {
         
 
-        logger.info("USER : ".concat(message.getTo()).concat("SEND MESSAGE TO -> " + message.getFrom()));
-        logger.info("SEND MESSAGE ...");
+        // logger.info("USER : ".concat(message.getTo()).concat("SEND MESSAGE TO -> " + message.getFrom()));
+        // logger.info("SEND MESSAGE ...");
 
-        sendToCompanion(this.users.get(message.getFrom()) , message);                       // отправлем сообщение 
+        // sendToCompanion(this.users.get(message.getFrom()) , message);                       // отправлем сообщение 
 
-        logger.info("MESSAGE USER : " + message.getTo() + " TO USER : " + message.getFrom() + " SENT SUCCESSFUL");
+        // logger.info("MESSAGE USER : " + message.getTo() + " TO USER : " + message.getFrom() + " SENT SUCCESSFUL");
+
+
+        if(message.getPrefixTo().equals("")){
+            sendMessageToAll(message);
+
+        }
+
 
     }
 
-    private void sendMessageToAll(String message) {
+    private void sendMessageToAll(Message message) {
+
+        try{
+
+            for(ChatEndpoint chatEndpoint : clients){
+
+                chatEndpoint.session.getBasicRemote().sendObject(message);
+
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     
     }
 
@@ -92,28 +112,28 @@ public class ChatEndpoint {
     private void sendToCompanion( Session session , Message message){
     
 
-        try{
+        // try{
 
-            try{
+        //     try{
 
-                session.getBasicRemote().sendObject(message);
+        //         session.getBasicRemote().sendObject(message);
                
-            }catch(Exception e){
+        //     }catch(Exception e){
 
-                e.printStackTrace();
+        //         e.printStackTrace();
 
-                this.session.getBasicRemote().sendObject(new Message("SERVER" , message.getTo(), "ERROR User not found : " + message.getFrom()));
+        //         this.session.getBasicRemote().sendObject(new Message("SERVER" , message.getTo(), "ERROR User not found : " + message.getFrom()));
 
-            }
-
-            
+        //     }
 
             
 
+            
 
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+
+        // }catch(Exception e){
+        //     e.printStackTrace();
+        // }
 
     }
 
