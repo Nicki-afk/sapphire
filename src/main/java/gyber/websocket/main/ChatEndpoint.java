@@ -88,7 +88,11 @@ public class ChatEndpoint {
 
             for(ChatEndpoint chatEndpoint : clients){
 
+                logger.info("SEND MESSAGE ON SESSION " + chatEndpoint.session.getId() + " ...");
+
                 chatEndpoint.session.getBasicRemote().sendObject(message);
+                
+                logger.info("MESSAGE SENT SUCCESSFUL TO SESSION " + chatEndpoint.session.getId());
 
             }
 
