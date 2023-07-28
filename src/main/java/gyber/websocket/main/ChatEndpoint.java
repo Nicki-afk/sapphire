@@ -73,14 +73,7 @@ public class ChatEndpoint {
     public void onMessage(Session session , Message message) {
         
 
-        // logger.info("USER : ".concat(message.getTo()).concat("SEND MESSAGE TO -> " + message.getFrom()));
-        // logger.info("SEND MESSAGE ...");
-
-        // sendToCompanion(this.users.get(message.getFrom()) , message);                       // отправлем сообщение 
-
-        // logger.info("MESSAGE USER : " + message.getTo() + " TO USER : " + message.getFrom() + " SENT SUCCESSFUL");
-
-
+    
         if(message.getPrefixTo().equals("")){
             sendMessageToAll(message);
 
