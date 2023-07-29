@@ -38,6 +38,7 @@ public class ChatEndpoint {
         logger.info("INIT... NEW SEESSION ON " + username );
 
         this.session = session;
+        this.session.setMaxIdleTimeout(120000);     // Таймут сессий 2 минуты
       
         logger.info("INIT SESSION SUCCESSFUL ! SESSION ID : " + session.getId());
 
