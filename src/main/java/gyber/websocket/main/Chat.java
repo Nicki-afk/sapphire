@@ -16,7 +16,8 @@ public class Chat {
 
     public Chat(){}
 
-    public Chat(String personOne , String personTwo){
+    public Chat(Integer chatId , String personOne , String personTwo){
+        this.chatId = chatId;
         this.personOne = personOne;
         this.personTwo = personTwo;
     }
