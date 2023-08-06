@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -23,7 +24,7 @@ import gyber.websocket.messageConfig.MessageDecoder;
 import gyber.websocket.messageConfig.MessageEncoder;
 
 
-@ServerEndpoint( value = "/chat/{username}" , encoders = MessageEncoder.class , decoders = MessageDecoder.class)
+@ServerEndpoint( value = "/allchat" , encoders = MessageEncoder.class , decoders = MessageDecoder.class)
 public class ChatEndpoint {
     private Session session;
      private static final Set<ChatEndpoint> clients = new CopyOnWriteArraySet<>();
@@ -34,14 +35,19 @@ public class ChatEndpoint {
 
     
     @OnOpen
-    public void onOpen(Session session , @PathParam("username") String username) {
+    public void onOpen(Session session) {
+        Map<String , List<String>> queryParams = session.getRequestParameterMap();
+        String username = queryParams.get("username").get(0);
+
+
+
+
         logger.info("INIT... NEW SEESSION ON " + username );
 
         this.session = session;
         this.session.setMaxIdleTimeout(120000);     // Таймут сессий 2 минуты
       
         logger.info("INIT SESSION SUCCESSFUL ! SESSION ID : " + session.getId());
-
         clients.add(this);                                       // добавляем экземпляр сессий в коллекцию 
         users.put(username, session);                           // Добавляем имя пользователя и его id сессий в мапу
 
