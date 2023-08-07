@@ -20,24 +20,25 @@ import gyber.websocket.messageConfig.Message;
 import gyber.websocket.messageConfig.MessageDecoder;
 import gyber.websocket.messageConfig.MessageEncoder;
 
-@ServerEndpoint(value = "/chatfor/" , encoders = MessageEncoder.class , decoders = MessageDecoder.class)
+@ServerEndpoint(value = "/chatfor" , encoders = MessageEncoder.class , decoders = MessageDecoder.class)
 public class P2PChatEndPoint  {
   //  private Chat chat;
     private Session session;
+    private String username;
 
     // private List<Chat>chatsList = new ArrayList<Chat>();
     private Logger logger = Logger.getLogger("P2PChat");
     // private Map<String , Chat>sessionIdAndChat = new HashMap<>();
    //  private AtomicInteger atomicInteger = new AtomicInteger(0);
     private static final Set<P2PChatEndPoint> clients = new CopyOnWriteArraySet<>();
-    private Map<String , Session>usernameAndUserSession = new HashMap<>();
+    // private Map<String , P2PChatEndPoint>usernameAndUserSession = new Copy; // не работает!
 
 
 
     @OnOpen
     public void onOpen(Session session){
         logger.info("INIT NEW P2P SESSION ...");
-        String username = session.getRequestParameterMap().get("username").get(0);
+        this.username = session.getRequestParameterMap().get("username").get(0);
         logger.info("USER CONNECT TO SERVER IN NICKNAME : " + username);
 
 
@@ -46,7 +47,7 @@ public class P2PChatEndPoint  {
         logger.info("P2P SESSION CONFIG SUCCESSFUL !");
 
         this.clients.add(this);
-        this.usernameAndUserSession.put(username, session);
+        //this.usernameAndUserSession.put(username, this);
         logger.info("SESSION REGISTER SUCCESSFUL IN SERVER !");
 
 
@@ -55,6 +56,7 @@ public class P2PChatEndPoint  {
 
     @OnMessage
     public void onMessage(Session session , Message message){
+        System.out.println(message);
         logger.info("NEW MESSAGE IN USER : " + message.getFrom());
         send(message);
 
@@ -66,9 +68,9 @@ public class P2PChatEndPoint  {
     public void onClose(Session session){
         logger.info("SESSION CLOSING INIT ... ");
         clients.remove(this);
-        this.usernameAndUserSession.remove(session);
+        //this.usernameAndUserSession.remove(session);
 
-        logger.info("SESSIONS SIZE : " + usernameAndUserSession.size());
+     //   logger.info("SESSIONS SIZE : " + usernameAndUserSession.size());
         logger.info("SESSION CLOSE SUCCESSFUL!");
 
     }
@@ -90,11 +92,18 @@ public class P2PChatEndPoint  {
     public void send(Message message){
 
         try{
+            System.out.println("MESSAGE : " + message);
             String to = message.getTo();
-            this.usernameAndUserSession.get(to).getBasicRemote().sendObject(message);
-          //  this.session.getBasicRemote().sendObject(message);
+           
+            for(P2PChatEndPoint p2pChatEndPoint : clients){
+                if(p2pChatEndPoint.username.equals(to)){
+                    p2pChatEndPoint.session.getBasicRemote().sendObject(message);
+
+                }
 
 
+            }
+        
         }catch(Exception e){
             e.printStackTrace();
 
@@ -103,5 +112,8 @@ public class P2PChatEndPoint  {
     
 
     }
+
+
+
     
 }
