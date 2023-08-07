@@ -60,6 +60,51 @@ public class Chat {
         this.messageQueue = messageQueue;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((chatId == null) ? 0 : chatId.hashCode());
+        result = prime * result + ((personOne == null) ? 0 : personOne.hashCode());
+        result = prime * result + ((personTwo == null) ? 0 : personTwo.hashCode());
+        result = prime * result + ((messageQueue == null) ? 0 : messageQueue.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Chat other = (Chat) obj;
+        if (chatId == null) {
+            if (other.chatId != null)
+                return false;
+        } else if (!chatId.equals(other.chatId))
+            return false;
+        if (personOne == null) {
+            if (other.personOne != null)
+                return false;
+        } else if (!personOne.equals(other.personOne))
+            return false;
+        if (personTwo == null) {
+            if (other.personTwo != null)
+                return false;
+        } else if (!personTwo.equals(other.personTwo))
+            return false;
+        if (messageQueue == null) {
+            if (other.messageQueue != null)
+                return false;
+        } else if (!messageQueue.equals(other.messageQueue))
+            return false;
+        return true;
+    }
+
+    
+
     
 
 
