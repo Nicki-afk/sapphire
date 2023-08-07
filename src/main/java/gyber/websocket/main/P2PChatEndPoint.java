@@ -62,7 +62,7 @@ public class P2PChatEndPoint  {
 
     @OnError
     public void onError(){
-        
+
     }
 
 
@@ -70,10 +70,18 @@ public class P2PChatEndPoint  {
 
     public void send(Message message){
 
-       
+        try{
+            String to = message.getTo();
+            this.usernameAndUserSession.get(to).getBasicRemote().sendObject(message);
+          //  this.session.getBasicRemote().sendObject(message);
 
 
+        }catch(Exception e){
+            e.printStackTrace();
 
+        }
+
+    
 
     }
     
