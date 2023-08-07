@@ -81,6 +81,16 @@ public class Message {
         this.date = date;
     }
 
+
+
+    @Override
+    public String toString() {
+        return "Message [chatId=" + chatId + ", from=" + from + ", to=" + to + ", content=" + content + ", date=" + date
+                + "]";
+    }
+
+    
+
     
 
 
