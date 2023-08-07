@@ -81,7 +81,7 @@ public class ChatEndpoint {
         
 
     
-        if(message.getPrefixTo().equals("")){
+        if(message.getTo().equals("")){
             sendMessageToAll(message);
 
         }
