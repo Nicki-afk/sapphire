@@ -28,14 +28,20 @@ public class P2PChatEndPoint  {
     // private Map<String , Chat>sessionIdAndChat = new HashMap<>();
    //  private AtomicInteger atomicInteger = new AtomicInteger(0);
     private static final Set<P2PChatEndPoint> clients = new CopyOnWriteArraySet<>();
+    private Map<String , Session>usernameAndUserSession = new HashMap<>();
 
 
 
     @OnOpen
     public void onOpen(Session session){
-        Map<String , List<String>>onOpenData = session.getRequestParameterMap();
+        String username = session.getRequestParameterMap().get("username").get(0);
 
-       
+        this.session = session;
+        this.session.setMaxIdleTimeout(120000);
+
+        this.clients.add(this);
+        this.usernameAndUserSession.put(username, session);
+
 
     }
 
@@ -52,7 +58,7 @@ public class P2PChatEndPoint  {
     public void send(Message message){
 
        
-
+        
 
 
 
