@@ -36,13 +36,18 @@ public class P2PChatEndPoint  {
 
     @OnOpen
     public void onOpen(Session session){
+        logger.info("INIT NEW P2P SESSION ...");
         String username = session.getRequestParameterMap().get("username").get(0);
+        logger.info("USER CONNECT TO SERVER IN NICKNAME : " + username);
+
 
         this.session = session;
         this.session.setMaxIdleTimeout(120000);
+        logger.info("P2P SESSION CONFIG SUCCESSFUL !");
 
         this.clients.add(this);
         this.usernameAndUserSession.put(username, session);
+        logger.info("SESSION REGISTER SUCCESSFUL IN SERVER !");
 
 
     }
@@ -50,18 +55,32 @@ public class P2PChatEndPoint  {
 
     @OnMessage
     public void onMessage(Session session , Message message){
+        logger.info("NEW MESSAGE IN USER : " + message.getFrom());
+        send(message);
 
             
     }
 
 
     @OnClose
-    public void onClose(){
+    public void onClose(Session session){
+        logger.info("SESSION CLOSING INIT ... ");
+        clients.remove(this);
+        this.usernameAndUserSession.remove(session);
+
+        logger.info("SESSIONS SIZE : " + usernameAndUserSession.size());
+        logger.info("SESSION CLOSE SUCCESSFUL!");
 
     }
 
     @OnError
-    public void onError(){
+    public void onError(Session session , Throwable wThrowable){
+
+        if(wThrowable != null){
+            logger.warning("EXCEPTION IN WORK : " + wThrowable);
+             logger.warning("FULL STACK TRACE : ");
+             wThrowable.printStackTrace();
+         }
 
     }
 
