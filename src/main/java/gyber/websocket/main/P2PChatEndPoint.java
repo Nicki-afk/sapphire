@@ -9,6 +9,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -53,12 +55,23 @@ public class P2PChatEndPoint  {
     }
 
 
+    @OnClose
+    public void onClose(){
+
+    }
+
+    @OnError
+    public void onError(){
+        
+    }
+
+
 
 
     public void send(Message message){
 
        
-        
+
 
 
 
