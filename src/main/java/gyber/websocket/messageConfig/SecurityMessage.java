@@ -9,7 +9,7 @@ public class SecurityMessage extends Message{
 
 
     public SecurityMessage(String from , String to , PublicKey publicKey){
-        //super(from, to, " ", "PUBLIC_KEY_EXCHANGE");
+        super(from, to, " ", "PUBLIC_KEY_EXCHANGE");
     
         this.publicKey = publicKey;
     }
