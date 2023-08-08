@@ -1,12 +1,15 @@
 package gyber.websocket.messageConfig;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Message {
     private String from;
     private String to;
     private String content;
     private String serverPrefix;
+    private Map<String , Object> systemData = new HashMap<>();
 
 
 
@@ -22,9 +25,8 @@ public class Message {
         this.content = content;
     }
 
-    
 
-    
+
 
 
 
@@ -35,6 +37,12 @@ public class Message {
         this.serverPrefix = serverPrefix;
     }
 
+
+    public void addSystemData(String key , Object value ){
+        this.systemData.put(key, value);
+        
+
+    }
 
 
     public String getFrom() {
@@ -67,6 +75,7 @@ public class Message {
     public void setServerPrefix(String serverPrefix) {
         this.serverPrefix = serverPrefix;
     }
+
 
 
     
