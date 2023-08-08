@@ -114,6 +114,18 @@ public class P2PChatEndPoint  {
     }
 
 
+    public void sendPublicKey(Message message){
+        try{
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+
+    }
+
+
 
     
 }
