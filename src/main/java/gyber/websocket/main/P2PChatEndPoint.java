@@ -16,11 +16,14 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import com.google.gson.Gson;
+
 import gyber.websocket.messageConfig.Message;
 import gyber.websocket.messageConfig.MessageDecoder;
 import gyber.websocket.messageConfig.MessageEncoder;
+import gyber.websocket.messageConfig.SecurityMessage;
 
-@ServerEndpoint(value = "/chatfor" , encoders = MessageEncoder.class , decoders = MessageDecoder.class)
+@ServerEndpoint(value = "/chatfor" , encoders = MessageEncoder.class , decoders = MessageDecoder.class )
 public class P2PChatEndPoint  {
   //  private Chat chat;
     private Session session;
@@ -56,9 +59,15 @@ public class P2PChatEndPoint  {
 
     @OnMessage
     public void onMessage(Session session , Message message){
-        System.out.println(message);
-        logger.info("NEW MESSAGE IN USER : " + message.getFrom());
-        send(message);
+
+     
+        if(!message.getServerPrefix().isEmpty()){
+            sendPublicKey(message);
+        }else{
+            send(message);
+        }
+
+        // send(message);
 
             
     }
@@ -94,7 +103,7 @@ public class P2PChatEndPoint  {
         try{
             System.out.println("MESSAGE : " + message);
             String to = message.getTo();
-           
+         
             for(P2PChatEndPoint p2pChatEndPoint : clients){
                 if(p2pChatEndPoint.username.equals(to)){
                     p2pChatEndPoint.session.getBasicRemote().sendObject(message);
@@ -116,9 +125,11 @@ public class P2PChatEndPoint  {
 
     public void sendPublicKey(Message message){
         try{
+
+            
             logger.info(message.getFrom() + " sends the public key to the interlocutor : ".toUpperCase() + message.getTo());
             String to = message.getTo();
-            
+
               for(P2PChatEndPoint p2pChatEndPoint : clients){
                 if(p2pChatEndPoint.username.equals(to)){
                     p2pChatEndPoint.session.getBasicRemote().sendObject(message);
