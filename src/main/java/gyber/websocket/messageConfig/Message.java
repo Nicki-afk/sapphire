@@ -9,6 +9,10 @@ public class Message {
     private String content;
     private Date date;
 
+    // С помощью этого свойства можно отправлть сообщение серверу 
+    private String serverPrefix;
+
+
 
 
 
@@ -82,11 +86,26 @@ public class Message {
     }
 
 
+    
+
+
 
     @Override
     public String toString() {
         return "Message [chatId=" + chatId + ", from=" + from + ", to=" + to + ", content=" + content + ", date=" + date
                 + "]";
+    }
+
+
+
+    public String getServerPrefix() {
+        return serverPrefix;
+    }
+
+
+
+    public void setServerPrefix(String serverPrefix) {
+        this.serverPrefix = serverPrefix;
     }
 
     
