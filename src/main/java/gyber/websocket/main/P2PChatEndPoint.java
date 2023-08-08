@@ -116,7 +116,19 @@ public class P2PChatEndPoint  {
 
     public void sendPublicKey(Message message){
         try{
+            logger.info(message.getFrom() + " sends the public key to the interlocutor : ".toUpperCase() + message.getTo());
+            String to = message.getTo();
+            
+              for(P2PChatEndPoint p2pChatEndPoint : clients){
+                if(p2pChatEndPoint.username.equals(to)){
+                    p2pChatEndPoint.session.getBasicRemote().sendObject(message);
 
+                }
+
+            }
+
+
+            
 
         }catch(Exception e){
             e.printStackTrace();
