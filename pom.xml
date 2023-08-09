@@ -30,18 +30,29 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>6.0.11</version>
+  </dependency>
 
-    <dependency>
-      <groupId>javax.websocket</groupId>
-      <artifactId>javax.websocket-api</artifactId>
-      <version>1.1</version>
-    </dependency>
 
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.8.0</version>
-   </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-websocket</artifactId>
+    <version>6.0.11</version>
+  </dependency>
+
+  <!-- https://mvnrepository.com/artifact/org.springframework/spring-messaging -->
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-messaging</artifactId>
+    <version>6.0.11</version>
+  </dependency>
+
 
       <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
     <dependency>
@@ -50,11 +61,7 @@
       <version>2.20.0</version>
     </dependency>
 
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>4.0.1</version>
-  </dependency>
+  
   </dependencies>
 
   <build>
@@ -78,17 +85,7 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
         </plugin>
-        <plugin>
-          <artifactId>maven-war-plugin</artifactId>
-          <configuration>
-            <outputDirectory>/home/nicki/dev/Tomcat/apache-tomcat-8.5.91/webapps/</outputDirectory>
-            <warName>gyberwebsocket-0.0.2-inside-test</warName>
-        </configuration>
-
-
-
-          <version>3.2.2</version>
-        </plugin>
+        
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
           <version>2.5.2</version>
