@@ -1,17 +1,20 @@
 package gyber.websocket.messageConfig;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Message {
+    private Long id;
     private String from;
     private String to;
     private String content;
-    private String serverPrefix;
-    private Map<String , Object> systemData = new HashMap<>();
+    private LocalDateTime dateSent;
+    private LocalDateTime dateReceived;
+    private Boolean isRead = false;
 
-
+ 
 
 
 
@@ -19,68 +22,135 @@ public class Message {
 
 
 
-    public Message(String from, String prefixTo, String content) {
-        this.from = from;
-        this.to = prefixTo;
-        this.content = content;
-    }
 
 
-
-
-
-
-    public Message(String from, String to, String content, String serverPrefix) {
+    public Message(Long id, String from, String to, String content, LocalDateTime dateSent, LocalDateTime dateReceived,
+            Boolean isRead) {
+        this.id = id;
         this.from = from;
         this.to = to;
         this.content = content;
-        this.serverPrefix = serverPrefix;
+        this.dateSent = dateSent;
+        this.dateReceived = dateReceived;
+        this.isRead = isRead;
     }
 
 
-    public void addSystemData(String key , Object value ){
-        this.systemData.put(key, value);
-        
 
+
+
+    public Long getId() {
+        return id;
     }
+
+
+
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+
 
 
     public String getFrom() {
         return from;
     }
+
+
+
+
+
     public void setFrom(String from) {
         this.from = from;
     }
+
+
+
+
+
     public String getTo() {
         return to;
     }
-    public void setTo(String prefixTo) {
-        this.to = prefixTo;
+
+
+
+
+
+    public void setTo(String to) {
+        this.to = to;
     }
+
+
+
+
+
     public String getContent() {
         return content;
     }
+
+
+
+
+
     public void setContent(String content) {
         this.content = content;
     }
 
 
 
-    public String getServerPrefix() {
-        return serverPrefix;
+
+
+    public LocalDateTime getDateSent() {
+        return dateSent;
     }
 
 
 
-    public void setServerPrefix(String serverPrefix) {
-        this.serverPrefix = serverPrefix;
+
+
+    public void setDateSent(LocalDateTime dateSent) {
+        this.dateSent = dateSent;
     }
 
+
+
+
+
+    public LocalDateTime getDateReceived() {
+        return dateReceived;
+    }
+
+
+
+
+
+    public void setDateReceived(LocalDateTime dateReceived) {
+        this.dateReceived = dateReceived;
+    }
+
+
+
+
+
+    public Boolean getIsRead() {
+        return isRead;
+    }
+
+
+
+
+
+    public void setIsRead(Boolean isRead) {
+        this.isRead = isRead;
+    }
 
 
     
 
-
+    
     
 
     
