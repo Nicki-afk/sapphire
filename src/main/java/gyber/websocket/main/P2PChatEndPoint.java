@@ -1,12 +1,6 @@
 package gyber.websocket.main;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 import javax.websocket.OnClose;
@@ -15,7 +9,6 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-import com.google.gson.Gson;
 import gyber.websocket.messageConfig.Message;
 import gyber.websocket.messageConfig.MessageDecoder;
 import gyber.websocket.messageConfig.MessageEncoder;
@@ -40,7 +33,6 @@ public class P2PChatEndPoint  {
         logger.info("P2P SESSION CONFIG SUCCESSFUL !");
 
         this.clients.add(this);
-        //this.usernameAndUserSession.put(username, this);
         logger.info("SESSION REGISTER SUCCESSFUL IN SERVER !");
 
 
@@ -55,11 +47,7 @@ public class P2PChatEndPoint  {
             sendPublicKey(message);
         }else{
             send(message);
-        }
-
-        // send(message);
-
-            
+        }   
     }
 
 
@@ -67,9 +55,6 @@ public class P2PChatEndPoint  {
     public void onClose(Session session){
         logger.info("SESSION CLOSING INIT ... ");
         clients.remove(this);
-        //this.usernameAndUserSession.remove(session);
-
-     //   logger.info("SESSIONS SIZE : " + usernameAndUserSession.size());
         logger.info("SESSION CLOSE SUCCESSFUL!");
 
     }
