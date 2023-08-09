@@ -15,28 +15,18 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-
 import com.google.gson.Gson;
-
 import gyber.websocket.messageConfig.Message;
 import gyber.websocket.messageConfig.MessageDecoder;
 import gyber.websocket.messageConfig.MessageEncoder;
-import gyber.websocket.messageConfig.SecurityMessage;
 
 @ServerEndpoint(value = "/chatfor" , encoders = MessageEncoder.class , decoders = MessageDecoder.class )
 public class P2PChatEndPoint  {
-  //  private Chat chat;
     private Session session;
     private String username;
-
-    // private List<Chat>chatsList = new ArrayList<Chat>();
     private Logger logger = Logger.getLogger("P2PChat");
-    // private Map<String , Chat>sessionIdAndChat = new HashMap<>();
-   //  private AtomicInteger atomicInteger = new AtomicInteger(0);
     private static final Set<P2PChatEndPoint> clients = new CopyOnWriteArraySet<>();
-    // private Map<String , P2PChatEndPoint>usernameAndUserSession = new Copy; // не работает!
-
-
+ 
 
     @OnOpen
     public void onOpen(Session session){
