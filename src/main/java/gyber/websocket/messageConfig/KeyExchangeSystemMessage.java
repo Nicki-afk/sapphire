@@ -6,7 +6,7 @@ import java.util.Base64;
 public class KeyExchangeSystemMessage extends Message {
 
     private String pubKey;
-    private String encoder = "Base64";
+ //   private String encoder = "Base64";
 
 
     public KeyExchangeSystemMessage(){}
