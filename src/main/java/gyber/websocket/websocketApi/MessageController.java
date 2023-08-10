@@ -12,9 +12,8 @@ import org.springframework.web.util.HtmlUtils;
 
 import gyber.websocket.messageConfig.Message;
 
-@RequestMapping("/")
 @Controller
-public class SimpleMessageController {
+public class MessageController {
 
 
 
