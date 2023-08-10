@@ -1,9 +1,6 @@
 package gyber.websocket.messageConfig;
-
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class Message {
     private Long id;
@@ -13,6 +10,7 @@ public class Message {
     private LocalDateTime dateSent;
     private LocalDateTime dateReceived;
     private Boolean isRead = false;
+    private Boolean isDelivered = false;
 
  
 
@@ -148,14 +146,22 @@ public class Message {
     }
 
 
-    
 
-    
-    
 
-    
 
-    
+    public Boolean getIsDelivered() {
+        return isDelivered;
+    }
+
+
+
+
+
+    public void setIsDelivered(Boolean isDelivered) {
+        this.isDelivered = isDelivered;
+    }
+
+
 
 
 
