@@ -20,13 +20,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
-        config.setApplicationDestinationPrefixes("/app");
+        config.enableSimpleBroker("/topic"); // Для рассылки сообщений 
+        config.setApplicationDestinationPrefixes("/app"); // Для получения сообщений
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-         registry.addEndpoint("/chat");
+        // Для подключения к серверу 
+         registry.addEndpoint("/chat"); 
          registry.addEndpoint("/chat").withSockJS();
     }
 
