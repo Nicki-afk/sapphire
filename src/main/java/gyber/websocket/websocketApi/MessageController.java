@@ -1,15 +1,21 @@
 package gyber.websocket.websocketApi;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import gyber.websocket.messageConfig.KeyExchangeSystemMessage;
 import gyber.websocket.messageConfig.Message;
 
 @Controller
 public class MessageController {
 
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
 
 
@@ -24,9 +30,10 @@ public class MessageController {
 
 
     @MessageMapping("/chacngekey")
-    public Message sendTo(Message message){
+    public void sendTo(KeyExchangeSystemMessage message){
 
-        return null;
+        String userChannel = "/app/".concat(message.getFrom());
+        this.simpMessagingTemplate.convertAndSend( userChannel , message);
 
     }
 
