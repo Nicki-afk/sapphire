@@ -4,7 +4,31 @@
         <script src="resources/js/sockjs-0.3.4.js"></script>
         <script src="resources/js/stomp.js"></script>
         <script type="text/javascript">
+            
+            
+            class Message {
+                constructor(id, from, to, content, dateSent, dateReceived) {
+                    this.id = id;
+                    this.from = from;
+                    this.to = to;
+                    this.content = content;
+                    this.dateSent = dateSent;
+                    this.dateReceived = dateReceived;
+                    this.isRead = false;
+                    this.isDelivered = false;
+                }
+            }
+
+            
+            
+            
+            
+            
             var stompClient = null;
+
+
+
+
             
             function setConnected(connected) {
                 document.getElementById('connect').disabled = connected;
@@ -20,7 +44,7 @@
                 stompClient.connect({}, function(frame) {
                     setConnected(true);
                     console.log('Connected: ' + frame);
-                    stompClient.subscribe('/topic/messages', function(messageOutput) {
+                    stompClient.subscribe('/app/nic_ko', function(messageOutput) {
                         showMessageOutput(JSON.parse(messageOutput.body));
                     });
                 });
@@ -35,10 +59,31 @@
             }
             
             function sendMessage() {
-                var from = document.getElementById('from').value;
-                var text = document.getElementById('text').value;
-                stompClient.send("/app/chat", {}, 
-                  JSON.stringify({'from':from, 'text':text}));
+
+
+
+                // var from = document.getElementById('from').value;
+                // var text = document.getElementById('text').value;
+                // stompClient.send("/app/chat", {}, 
+                //   JSON.stringify({'from':from, 'text':text}));
+
+
+                // Пример создания нового сообщения
+                const newMessage = new Message(
+                    null,
+                    'GyberUser1',
+                    'GyberUser2',
+                    'Привет, это тестовое сообщение',
+                    new Date().toISOString(),
+                    null
+                );
+
+                // Конвертируем сообщение в JSON
+                const messageJson = JSON.stringify(newMessage);
+
+                // Предполагая, что у тебя есть открытое WebSocket соединение
+                stompClient.send("topic/changekey" , {} , messageJson);
+
             }
             
             function showMessageOutput(messageOutput) {
