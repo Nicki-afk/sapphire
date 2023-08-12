@@ -22,14 +22,20 @@ public class MessageController {
 
 
 
-   @MessageMapping("/chat")
-   @SendTo("/topic/messages")
-    public Message send(Message message) throws Exception {
-        // String time = new SimpleDateFormat("HH:mm").format(new Date());
-        return message;
-    }   
+//    @MessageMapping("/chat")
+//    @SendTo("/topic/messages")
+//     public Message send(Message message) throws Exception {
+//         // String time = new SimpleDateFormat("HH:mm").format(new Date());
+//         return message;
+//     }   
 
-ш
+    @MessageMapping("/keyexchange")
+    public void keyExchange(@Payload KeyExchangeSystemMessage keyExchangeSystemMessage){
+        String userChannel = "/app/keyexchange".concat(keyExchangeSystemMessage.getTo());
+        this.simpMessagingTemplate.convertAndSend(userChannel, keyExchangeSystemMessage);
+        System.out.println("Message key sent succesful");
+    }
+
     @MessageMapping("/p2p")
     public void sendToUser(@Payload Message message){
         String userChanel = "/app/p2p/".concat(message.getTo());
