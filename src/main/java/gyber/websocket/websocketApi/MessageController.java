@@ -37,6 +37,7 @@ public class MessageController {
 
     }
 
+    // TODO : После добавления Spring Security изменить метод на convertAndSendToUser()
     @MessageMapping("/keyexchange")
     public void keyExchange(@Payload KeyExchangeSystemMessage keyExchangeSystemMessage){
         String userChannel = "/app/keyexchange".concat(keyExchangeSystemMessage.getTo());
@@ -44,6 +45,7 @@ public class MessageController {
         System.out.println("Message key sent succesful");
     }
 
+    // TODO : После добавления Spring Security изменить метод на convertAndSendToUser()
     @MessageMapping("/p2p")
     public void sendToUser(@Payload Message message){
         String userChanel = "/app/p2p/".concat(message.getTo());
