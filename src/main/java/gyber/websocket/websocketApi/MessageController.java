@@ -19,16 +19,6 @@ public class MessageController {
     private SimpMessagingTemplate simpMessagingTemplate;
 
 
-
-
-
-//    @MessageMapping("/chat")
-//    @SendTo("/topic/messages")
-//     public Message send(Message message) throws Exception {
-//         // String time = new SimpleDateFormat("HH:mm").format(new Date());
-//         return message;
-//     }   
-
     @MessageMapping("/tohimself")
     public void sendToHimself(Message message){
         String userChanel = "/app/tohimself/".concat(message.getFrom());
