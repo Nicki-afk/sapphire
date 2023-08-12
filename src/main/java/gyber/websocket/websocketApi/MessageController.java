@@ -29,6 +29,14 @@ public class MessageController {
 //         return message;
 //     }   
 
+    @MessageMapping("/tohimself")
+    public void sendToHimself(Message message){
+        String userChanel = "/app/tohimself/".concat(message.getFrom());
+        this.simpMessagingTemplate.convertAndSend(userChanel, message);
+        System.out.println("Message to himself sent successful");
+
+    }
+
     @MessageMapping("/keyexchange")
     public void keyExchange(@Payload KeyExchangeSystemMessage keyExchangeSystemMessage){
         String userChannel = "/app/keyexchange".concat(keyExchangeSystemMessage.getTo());
