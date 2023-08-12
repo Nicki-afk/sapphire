@@ -3,6 +3,7 @@ package gyber.websocket.websocketApi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -28,14 +29,16 @@ public class MessageController {
         return message;
     }   
 
-
-    @MessageMapping("/chacngekey")
-    public void sendTo(KeyExchangeSystemMessage message){
-
-        String userChannel = "/app/".concat(message.getFrom());
-        this.simpMessagingTemplate.convertAndSend( userChannel , message);
-
+ш
+    @MessageMapping("/p2p")
+    public void sendToUser(@Payload Message message){
+        String userChanel = "/app/p2p/".concat(message.getTo());
+        this.simpMessagingTemplate.convertAndSend(userChanel, message);
+        System.out.println("Message sent succesful");
     }
+
+
+    
 
     
 }
