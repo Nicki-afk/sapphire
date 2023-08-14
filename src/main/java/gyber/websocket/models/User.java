@@ -14,6 +14,8 @@ public class User {
     private String metamaskKey;
     private String betaTestKey;
     private String passwd;
+    private NetStatus onlineStatus;
+    
 
     
 }
