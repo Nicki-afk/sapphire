@@ -8,8 +8,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import gyber.websocket.messageConfig.KeyExchangeSystemMessage;
-import gyber.websocket.messageConfig.Message;
+import gyber.websocket.models.KeyExchangeSystemMessage;
+import gyber.websocket.models.Message;
 
 @Controller
 public class MessageController {
