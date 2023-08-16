@@ -18,6 +18,8 @@ public class User {
     private String betaTestKey;
     private String passwd;
     private NetStatus onlineStatus;
+    private String hashAvatarPath;
+    
 
     private List<Chat>userChats;
     
