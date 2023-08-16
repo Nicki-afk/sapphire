@@ -12,10 +12,9 @@ public class UserDTO {
     private Long id;
 
     private String userName;
-    private String firstName;
-    private String lastName;
     private NetStatus onlineStatus;
-    
+    private String ipfsDataHash;
+
 
     
 }
