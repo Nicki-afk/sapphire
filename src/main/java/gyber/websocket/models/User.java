@@ -1,5 +1,7 @@
 package gyber.websocket.models;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,8 @@ public class User {
     private String betaTestKey;
     private String passwd;
     private NetStatus onlineStatus;
+
+    private List<Chat>userChats;
     
 
     
