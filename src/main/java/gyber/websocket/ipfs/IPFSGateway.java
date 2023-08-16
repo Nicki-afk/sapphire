@@ -2,21 +2,35 @@ package gyber.websocket.ipfs;
 
 import java.io.File;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import gyber.websocket.models.User;
+
 @Service
 public class IPFSGateway {
-    private String ipfsUrlAddress = "https://ipfs.infura.io:5001/api/v0/";
+
+    @Value("${ipfs.url.add}")
+    private  String saveUrlPath;
+
+    @Value("${ipfs.url.get}")
+    private static String getUrlPath;
+
+    private RestTemplate connector = new RestTemplate();
+
     
     
-    public String saveUserData(File file){
+    public Object saveUserData(File file){
 
         
 
@@ -29,11 +43,29 @@ public class IPFSGateway {
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-        String responseHash = eRestTemplate.postForObject(ipfsUrlAddress + "add", requestEntity, String.class);
-
-
+        Object responseHash = eRestTemplate.postForObject(saveUrlPath , requestEntity, Object.class);
 
         return responseHash;
+    }
+
+
+    // Non tested
+    public User getUserDataByHash(String hash){
+        byte[] arrByte = this.connector.getForObject(getUrlPath + hash, byte[].class);
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        User parseUser = null;
+        try{
+             parseUser = objectMapper.readValue(new String(arrByte), User.class);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+
+
+
+        return parseUser;
+
     }
 
 
