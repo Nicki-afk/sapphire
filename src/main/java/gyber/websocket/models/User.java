@@ -14,7 +14,7 @@ public class User {
     private String userName;
     private String firstName;
     private String lastName;
-    private String metamaskKey;
+    private String cryptoWallet;
     private String betaTestKey;
     private String passwd;
     private NetStatus onlineStatus;
