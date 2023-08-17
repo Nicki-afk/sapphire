@@ -30,7 +30,7 @@ public class IPFSGateway {
 
     
     
-    public Object saveUserData(File file){
+    public Object sendToIPFS(File file){
 
         
 
