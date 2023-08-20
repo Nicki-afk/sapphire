@@ -27,3 +27,6 @@ dependencies/
 
 # Windows Thumbs.db files
 Thumbs.db
+
+# Props 
+**.properties
