@@ -9,5 +9,6 @@ public interface UserRepository extends JpaRepository<Integer , User>{
 
     UserIPFSModel findById(Long id);
     UserIPFSModel findByUsername(String userName);
+    UserIPFSModel findByCryptoWalletAddress(String cryptoWalletAddress);
     
 }
