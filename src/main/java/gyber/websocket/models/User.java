@@ -16,7 +16,6 @@ public class User {
     private String lastName;
     private String cryptoWallet;
     private String betaTestKey;
-    private String passwd;
     private NetStatus onlineStatus;
     private String hashAvatarPath;
     
