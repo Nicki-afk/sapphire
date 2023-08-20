@@ -1,6 +1,9 @@
 package gyber.websocket.models;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,14 +21,19 @@ public class UserIPFSCustomDetailsService  implements UserDetailsService{
 
         UserIPFSModel userIPFSModel = null;
         if(username.length() > 10){
-            userIPFSModel = this.userRepository.findByCryptoWalletAddress(username);
+            userIPFSModel = this.userRepository.findByCryptoWalletAddress(username).orElseThrow(() -> new UsernameNotFoundException("The cryptowalletaddress not found"));
 
         }else{
-            userIPFSModel = this.userRepository.findByUsername(username);
+            userIPFSModel = this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("The username not found "));
         }
 
 
-        throw new UnsupportedOperationException("Unimplemented method 'loadUserByUsername'");
+        return new User(
+            userIPFSModel.getUserName() , 
+            userIPFSModel.getCryptoWalletAddress() , 
+            new ArrayList<>()
+
+        );
     }
     
 }
