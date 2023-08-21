@@ -7,9 +7,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import gyber.websocket.models.repo.UserRepository;
 
+@Service
 public class UserIPFSCustomDetailsService  implements UserDetailsService{
 
     @Autowired
@@ -24,7 +26,7 @@ public class UserIPFSCustomDetailsService  implements UserDetailsService{
             userIPFSModel = this.userRepository.findByCryptoWalletAddress(username).orElseThrow(() -> new UsernameNotFoundException("The cryptowalletaddress not found"));
 
         }else{
-            userIPFSModel = this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("The username not found "));
+            userIPFSModel = this.userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("The username not found "));
         }
 
 
