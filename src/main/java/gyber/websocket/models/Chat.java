@@ -3,8 +3,7 @@ package gyber.websocket.models;
 import java.time.LocalDateTime;
 import java.util.Queue;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
