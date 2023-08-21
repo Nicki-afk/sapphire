@@ -13,7 +13,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gyber.websocket.models.User;
 
@@ -50,23 +50,23 @@ public class IPFSGateway {
 
 
     // Non tested
-    public User getUserDataByHash(String hash){
-        byte[] arrByte = this.connector.getForObject(getUrlPath + hash, byte[].class);
-        ObjectMapper objectMapper = new ObjectMapper();
+    // public User getUserDataByHash(String hash){
+    //     byte[] arrByte = this.connector.getForObject(getUrlPath + hash, byte[].class);
+    //     ObjectMapper objectMapper = new ObjectMapper();
 
-        User parseUser = null;
-        try{
-             parseUser = objectMapper.readValue(new String(arrByte), User.class);
-        }catch(Exception e){
-            e.printStackTrace();
+    //     User parseUser = null;
+    //     try{
+    //          parseUser = objectMapper.readValue(new String(arrByte), User.class);
+    //     }catch(Exception e){
+    //         e.printStackTrace();
 
-        }
+    //     }
 
 
 
-        return parseUser;
+    //     return parseUser;
 
-    }
+    // }
 
 
 
