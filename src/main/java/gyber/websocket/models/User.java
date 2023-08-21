@@ -20,7 +20,7 @@ public class User {
     private String hashAvatarPath;
     
 
-    private List<Chat>userChats;
+  //  private List<Chat>userChats;
     
 
     
