@@ -6,37 +6,20 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
 import gyber.websocket.models.UserIPFSCustomDetailsService;
 
 
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+// @Configuration
+// @EnableWebSecurity
+// public class SecurityConfig  {
 
-    @Autowired
-    private UserIPFSCustomDetailsService userIPFSCustomDetailsService;
-
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-        .csrf().disable()
-        .authorizeRequests()
-        .antMatchers("/pub/**").permitAll()
-        .anyRequest().authenticated()
-        .and()
-        .formLogin()
-        .permitAll()
-        .and()
-        .logout();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userIPFSCustomDetailsService);
-    }
+//     @Autowired
+//     private UserIPFSCustomDetailsService userIPFSCustomDetailsService;
 
 
-}
+    
+
+
+
+
+// }

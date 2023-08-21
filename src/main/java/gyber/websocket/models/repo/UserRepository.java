@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import gyber.websocket.models.User;
 import gyber.websocket.models.UserIPFSModel;
 
-public interface UserRepository extends JpaRepository<Integer , User>{
+public interface UserRepository extends JpaRepository<UserIPFSModel , Long>{
 
     Optional<UserIPFSModel> findById(Long id);
-    Optional<UserIPFSModel> findByUsername(String userName);
+    Optional<UserIPFSModel> findByUserName(String userName);
     Optional<UserIPFSModel> findByCryptoWalletAddress(String cryptoWalletAddress);
     
 }
