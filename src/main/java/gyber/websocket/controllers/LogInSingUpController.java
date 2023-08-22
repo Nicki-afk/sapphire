@@ -1,5 +1,6 @@
 package gyber.websocket.controllers;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 // import org.apache.catalina.connector.Response;
@@ -11,32 +12,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import gyber.websocket.models.User;
+import gyber.websocket.models.UserIPFSModel;
 
-@Controller("/user")
+@Controller()
+@RequestMapping("/register")
 public class LogInSingUpController {
 
 
-    @PostMapping("/reg/simple_reg")
-    public ResponseEntity registerUser(@RequestBody User user){
-
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/reg/metamask_reg")
-    public ResponseEntity registerUserByMetamaskAddress(){
-        return ResponseEntity.badRequest().build();
-    }
-
-    @PostMapping("/login/nickname_passwd")
-    public ResponseEntity logInUser(@RequestBody Map<String , String> userNameAndPasswd){
-        return ResponseEntity.ok().build();
-
-    }
+    // @PostMapping
+    // public ResponseEntity postUserEntity(@ResponseBody Map<String , String> clientData){
+    //     String crypto = clientData.get("sign");
 
 
-    @PostMapping("/login/metamask_address")
-    public ResponseEntity logInUserByMetamskAddress(@RequestBody Map<String , String>keyValue){
 
-        return ResponseEntity.ok().build();
+
+    // }
+
+
+    @PostMapping
+    public ResponseEntity postUser(@RequestBody UserIPFSModel userIPFSModel){
+
+
+
+        return userIPFSModel == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok().build(); 
+
+
     }
 }
