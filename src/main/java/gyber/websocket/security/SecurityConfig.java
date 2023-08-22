@@ -13,9 +13,37 @@ import org.springframework.security.web.SecurityFilterChain;
 import gyber.websocket.models.UserIPFSCustomDetailsService;
 
 
-// @Configuration
-// @EnableWebSecurity
-// public class SecurityConfig  extends WebSecurityConfigurerAdapter{
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig  extends WebSecurityConfigurerAdapter{
+
+    @Autowired
+    private UserIPFSCustomDetailsService userIPFSCustomDetailsService;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userIPFSCustomDetailsService);
+
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+    
+        http
+        .authorizeRequests()
+        .antMatchers("/pub/**")
+        .permitAll()
+        .anyRequest().authenticated()
+        .and()
+        .formLogin()
+        .and()
+        .logout()
+        .and()
+        .csrf().disable();
+    }
+
+
+    
 
 
 
@@ -23,4 +51,4 @@ import gyber.websocket.models.UserIPFSCustomDetailsService;
 
 
 
-// }
+}
