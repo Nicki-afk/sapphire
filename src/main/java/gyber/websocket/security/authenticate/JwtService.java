@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import gyber.websocket.models.UserIPFSModel;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -52,6 +53,25 @@ public class JwtService implements TokenAuthenticate {
             .setIssuedAt(new Date())
             .compact();
 
+    }
+
+
+
+
+
+
+
+
+    @Override
+    public boolean validateToken(String token) {
+            try {
+            Jwts.parser().setSigningKey(this.singature).parseClaimsJws(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }   
+
+        return false;
     }
 
 
