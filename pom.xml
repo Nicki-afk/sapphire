@@ -6,12 +6,10 @@
 
   <groupId>gyber.org</groupId>
   <artifactId>gyberwebsocket</artifactId>
-  <version>0.0.0.2-inside-test</version>
-  <!-- <packaging>war</packaging> -->
+  <version>0.0.0.5-inside-test</version>
 
-  <name>gyberwebsocket Maven Webapp</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>Sapphir Messanger</name>
+  <url>https://gyber.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,21 +35,19 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+    
   <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-web</artifactId>
   </dependency>
 
 
-  <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
   <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-data-jpa</artifactId>
   </dependency>
 
-  <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
-<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+  
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-security</artifactId>
@@ -71,40 +67,37 @@
   <!-- <version>3.1.2</version> -->
 </dependency>
 
-<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
+
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-devtools</artifactId>
   <!-- <version>2.6.3</version> -->
 </dependency>
 
-<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
+
 <dependency>
   <groupId>io.jsonwebtoken</groupId>
   <artifactId>jjwt-api</artifactId>
-  <version>0.11.5</version>
+  <version>0.11.1</version>
 </dependency>
 
 
+<dependency>
+  <groupId>io.jsonwebtoken</groupId>
+  <artifactId>jjwt-impl</artifactId>
+  <version>0.11.1</version>
+  <scope>runtime</scope>
+</dependency>
 
+<dependency>
+  <groupId>io.jsonwebtoken</groupId>
+  <artifactId>jjwt-jackson</artifactId> 
+  <version>0.11.1</version>
+  <scope>runtime</scope>
+</dependency>
 
-
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
-  <!-- <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-websocket</artifactId>
-    <version>6.0.11</version>
-  </dependency>
 
   
-  <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-messaging</artifactId>
-    <version>6.0.11</version>
-  </dependency> -->
-
-
-  <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
   <dependency>
     <groupId>org.projectlombok</groupId>
     <artifactId>lombok</artifactId>
@@ -113,7 +106,7 @@
   </dependency>
 
 
-  <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+  
   <dependency>
     <groupId>com.h2database</groupId>
     <artifactId>h2</artifactId>
@@ -124,7 +117,7 @@
 
 
 
-      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+      
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
@@ -137,6 +130,12 @@
   </dependencies>
 
   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
     
   </build>
 </project>
