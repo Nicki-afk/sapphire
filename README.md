@@ -1,86 +1,172 @@
-# J-messanger server
+# Sapphir Messanger (Server)
 
 <br>
 <br>
 
-## What is J-Messenger? 
-This is a small messenger project based on a simple WebSocket data transfer protocol. The main difference of this messenger is that it allows you to encrypt data with your own public key. The idea is for users to use their own encryption keys, so the server is just transmitting encrypted messages. This repository provides the code of the messenger server itself. You can find the client code in my GitHub profile.
+## What is Sapphir Messanger ?  
+Sapphire is a new messenger with a unique message forwarding mechanism. The fact is that this messenger does not forward the message as such, it only manipulates links to these messages. The messages themselves are stored in IPFS and the server manipulates only these links.
 
 <br>
 <br>
+
+> ## Version note
+> The version that is currently in the repository may not describe all the functionality of the project as it is still under development. A version matching the description will be released soon.
+
+>
+ 
+
+
+ 
+
+## Launch parameters
+
+To start you will need : 
+
+```
+Apache Maven 3.6.3
+java 17.0.6 2023-01-17 LTS
+Java(TM) SE Runtime Environment (build 17.0.6+9-LTS-190)
+```
+
+
+
 
 ## Application launch
 
-I am using maven to build projects. In this case, I wrote in the markup of the pom.xml file my path to the **Tomcat** directory, so that when building the file, it would immediately go to the webapps folder and automatically deploy there.
-
-So here's what you need to do first. You need to download the Tomcat server and extract it to any folder. Next, you **need to start Tomcat**. This can be done in the following way:
+And so this project is written using the modern Spring framework. As we all know Spring needs a property file, so first we have to go to the resources folder and create the needed property file there.
 
 ```
-# Go to bin directory
-cd /your/tomcat/directory/bin/
-
-# Start server
-sudo bash ./startup.sh
+cd /resources
+touch application.properties
 ```
+
+After we have created the resource file, we need to configure it. And so here's what you need to specify
+
+```
+# You must specify data to connect to your database. By default you
+  can use h2 database. If you want to add a connection to your 
+  database, you will need to add your database dependency to the 
+  pom.xml file and then rebuild the project
+
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.show-sql=true
+logging.level.org.hibernate.SQL=DEBUG
+
+
+
+# This parameter sets the registration of database queries, you can 
+turn it off or comment it out.
+
+spring.h2.console.enabled=true
+
+
+
+# You must also specify the application port, if you want to use the standard port 8080 you can comment out this line. If port 8080 is busy, you can specify the port on which you want to run the application as a value
+server.port=8081
+
+# After that, you must specify the JWT and RT parameters of the authorization tokens
+
+jwt.token.validity.time=yourtime
+rt.token.validity.time=yourtime
+sign.token.sign=your-secret
+
+
+```
+
 
 </br>
 </br>
 
-Great ! Now that the server is up and running, we can move on to deploying our WebSocket application. To do this, download the archive from GitHub, or simply clone
+After that, if you have the necessary versions of Java and Maven installed, you should start the server
+
+## Test Client
+You can also write simple JavaScript code on the client with which you can test the server. The example was taken from the official Spring website
 
 ```
-git clone https://github.com/Nicki-afk/j-messanger-server.git
+const stompClient = new StompJs.Client({
+    brokerURL: 'ws://localhost:8080/chat'
+});
+
+stompClient.onConnect = (frame) => {
+    setConnected(true);
+    console.log('Connected: ' + frame);
+    stompClient.subscribe('/app/tohimself/{your username}', (greeting) => {
+        showGreeting(JSON.parse(greeting.body).content);
+    });
+};
+
+stompClient.onWebSocketError = (error) => {
+    console.error('Error with websocket', error);
+};
+
+stompClient.onStompError = (frame) => {
+    console.error('Broker reported error: ' + frame.headers['message']);
+    console.error('Additional details: ' + frame.body);
+};
+
+
+function sendName() {
+    stompClient.publish({
+        destination: "/app/tohimself",
+        body: JSON.stringify({'name': $("#name").val()})
+    });
+}
+
+
+function setConnected(connected) {
+    $("#connect").prop("disabled", connected);
+    $("#disconnect").prop("disabled", !connected);
+    if (connected) {
+        $("#conversation").show();
+    }
+    else {
+        $("#conversation").hide();
+    }
+    $("#greetings").html("");
+}
+
+function connect() {
+    stompClient.activate();
+}
+
+function disconnect() {
+    stompClient.deactivate();
+    setConnected(false);
+    console.log("Disconnected");
+}
+
+function sendName() {
+    stompClient.publish({
+        destination: "/app/hello",
+        body: JSON.stringify({'name': $("#name").val()})
+    });
+}
+
+function showGreeting(message) {
+    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+}
+
+$(function () {
+    $("form").on('submit', (e) => e.preventDefault());
+    $( "#connect" ).click(() => connect());
+    $( "#disconnect" ).click(() => disconnect());
+    $( "#send" ).click(() => sendName());
+});
+
 ```
 
-</br>
-</br>
+**Note!!!** I don't understand JavaScript well and the code above may not work despite the fact that it was taken from the official Spring documentation.
 
-Next, when you have downloaded the application, you must make sure that you have maven installed, this can be done with the following command
 
-```
-mvn --version
-```
 
-</br>
-</br>
 
-If you see something like this, then you can proceed to launch the application
 
-```
-Apache Maven 3.6.3 
-Maven home: /usr/share/maven
-Java version: 11.0.19, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
-Default locale: ru_RU, platform encoding: UTF-8 
-OS name: "linux", version: "5.19.0-50-generic", arch: "amd64", family: "unix"
-```
 
-<br>
-<br>
-
-To run the application, you can use my **pre-start.sh** script written in **bash** which will change the path to the Tomcat directory. 
-
-You can use the command
-
-```
-sudo bash ./pre-start.sh
-```
-<br>
-
-Next, you will be asked which Tomcat directory you want to specify. Specify the full path to the directory. Also, do not forget to specify the webapps directory at the end where the application will be deployed.
-
-```
-Write directory Tomcat in which you want install application : /home/nicki/Tomcat/apache-tomcat-8.0/webapps/
-Are you sure you want to replace the 84 string with /home/nicki/Tomcat/apache-tomcat-8.0/webapps/? (y/n): y
-String 84 in file change successful to : /home/nicki/Tomcat/apache-tomcat-8.0/webapps/
-```
-<br>
-
-Great ! Now we can build our application using maven. Let's use the command 
-
-```
-mvn clean package
-```
-Great ! That's all . Now the application will be automatically saved to the webapps folder in the Tomcat directory and will be automatically launched. Now you can interact with the application through the **j-messanger client**
 
 ---
 
