@@ -19,6 +19,7 @@ public class UserIPFSModel {
 
     @Column(name = "username")         private String userName;
     @Column(name = "crypto_wallet")    private String cryptoWalletAddress;
+    @Column(name = "pub_key")          private String publicUserKey;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "net_status")
