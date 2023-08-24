@@ -9,8 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import gyber.websocket.models.UserIPFSCustomDetailsService;
+import gyber.websocket.security.authenticate.JwtFilter;
 
 
 @Configuration
@@ -30,12 +32,15 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
     
         http
+        .addFilterBefore(gFilter() , UsernamePasswordAuthenticationFilter.class)
         .authorizeRequests()
         .antMatchers("/pub/**")
         .permitAll()
         .antMatchers("/register/**")
         .permitAll()
         .antMatchers("/h2-console/**")
+        .permitAll()
+        .antMatchers("/auth/")
         .permitAll()
         .anyRequest().authenticated()
         .and()
@@ -44,6 +49,13 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
         .logout()
         .and()
         .csrf().disable();
+    }
+
+
+    @Bean
+    public JwtFilter gFilter(){
+        return new JwtFilter();
+
     }
 
 
