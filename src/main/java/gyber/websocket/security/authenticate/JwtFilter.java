@@ -1,6 +1,8 @@
 package gyber.websocket.security.authenticate;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -14,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gyber.websocket.models.UserIPFSCustomDetailsService;
 
@@ -55,6 +59,27 @@ public class JwtFilter extends OncePerRequestFilter{
             // Сохраняем данные об аутентифицированном пользователе 
             SecurityContextHolder.getContext().setAuthentication(authData);
 
+            filterChain.doFilter(request, response);
+
+        }else{
+
+            // TODO : Вынести в отдельный метод 
+            ObjectMapper objectMapper = new ObjectMapper();
+            
+
+
+            String errorMessage = objectMapper.writeValueAsString(
+                Map.of("time" , new Date() , "code" , 401 , "message" , "User tokens JWT/RT Not found. Try to contact the address /auth for authorization")
+            );
+
+            response.setStatus(401);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(errorMessage);
+
+
+            
+            return;
         }
 
     }
