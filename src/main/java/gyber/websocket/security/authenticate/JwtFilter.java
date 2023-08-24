@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,6 +36,14 @@ public class JwtFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
        
+        if(request.getRequestURI().equals("/register") | request.getRequestURI().equals("/auth")){
+            // response.sendRedirect("/register");
+            // return;
+            filterChain.doFilter(request, response);
+            return;
+
+        }
+
        String headerData =  request.getHeader("Authorization");
        String token = "";
 
@@ -65,9 +74,6 @@ public class JwtFilter extends OncePerRequestFilter{
 
             // TODO : Вынести в отдельный метод 
             ObjectMapper objectMapper = new ObjectMapper();
-            
-
-
             String errorMessage = objectMapper.writeValueAsString(
                 Map.of("time" , new Date() , "code" , 401 , "message" , "User tokens JWT/RT Not found. Try to contact the address /auth for authorization")
             );

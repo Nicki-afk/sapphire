@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import gyber.websocket.models.UserIPFSDetails;
 import gyber.websocket.models.UserIPFSModel;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -30,19 +31,15 @@ public class JwtService implements TokenAuthenticate {
 
 
     @Override
-    public String createToken(UserIPFSModel userIPFSModel) {
+    public String createToken(UserIPFSDetails userDetails) {
        
 
         LocalDateTime timeToSet = LocalDateTime.now().plusHours(4);
         Date dateToSet = Date.from(timeToSet.atZone(ZoneId.systemDefault()).toInstant());
 
         Map<String , Object>payload = new HashMap<>();
-        payload.put("userId", userIPFSModel.getId());
-        payload.put("username", userIPFSModel.getUserName());
-
-
-
-
+        payload.put("userId", userDetails.getId());
+        payload.put("username", userDetails.getUsername());
 
        return Jwts.
              builder()

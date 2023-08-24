@@ -18,6 +18,7 @@ public class UserIPFSCustomDetailsService  implements UserDetailsService{
     private UserRepository userRepository;
 
 
+    // String username change to signature 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -32,10 +33,16 @@ public class UserIPFSCustomDetailsService  implements UserDetailsService{
 
         return new User(
             userIPFSModel.getUserName() , 
-            userIPFSModel.getCryptoWalletAddress() , 
+            "" , 
             new ArrayList<>()
 
         );
+    }
+
+    public UserIPFSDetails loadUserByCryptowalletAddress(String cryptoWalletAddress){
+        UserIPFSDetails userIPFSDetails = new UserIPFSDetails(this.userRepository.findByCryptoWalletAddress(cryptoWalletAddress).orElseThrow(() -> new UsernameNotFoundException("Cryptowallet address not found")));
+        return userIPFSDetails;
+
     }
     
 }

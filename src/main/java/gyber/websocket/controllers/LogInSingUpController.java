@@ -19,7 +19,7 @@ import gyber.websocket.models.User;
 import gyber.websocket.models.UserIPFSModel;
 import gyber.websocket.models.repo.UserRepository;
 
-@Controller()
+@Controller
 @RequestMapping("/register")
 public class LogInSingUpController {
 
