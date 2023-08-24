@@ -75,4 +75,19 @@ public class JwtService implements TokenAuthenticate {
     }
 
 
+    // TODO : Добавить проверку на валидацию токена. Добавить ошибки , обработать исключения 
+    public String getUserNameInToken(String token){
+
+
+
+        return Jwts
+                    .parser()
+                    .setSigningKey(this.singature)
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .get("username", String.class);
+
+    }
+
+
 }
