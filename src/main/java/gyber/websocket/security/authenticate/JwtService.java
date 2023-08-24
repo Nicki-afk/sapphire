@@ -41,14 +41,18 @@ public class JwtService implements TokenAuthenticate {
         payload.put("userId", userDetails.getId());
         payload.put("username", userDetails.getUsername());
 
-       return Jwts.
-             builder()
-            .setExpiration(dateToSet)
-            .signWith(SignatureAlgorithm.HS256 , singature)
-            .setSubject("JWT-DETAILS")
-            .setClaims(payload)
-            .setIssuedAt(new Date())
-            .compact();
+       return   Jwts.
+                         builder()
+                        .signWith(SignatureAlgorithm.HS256 , singature)
+                        .setSubject("jwt")
+                        .setClaims(payload)
+                        .setHeaderParam("type", "JWT")
+                        .setIssuedAt(new Date())
+                        .setIssuer("sapphire-messanger-server")
+                        .setExpiration(dateToSet)
+                        .compact();
+
+                  
 
     }
 
@@ -61,11 +65,13 @@ public class JwtService implements TokenAuthenticate {
 
     @Override
     public boolean validateToken(String token) {
-            try {
-            Jwts.parser().setSigningKey(this.singature).parseClaimsJws(token);
-            return true;
+        try {
+            
+              Jwts.parser().setSigningKey(this.singature).parseClaimsJws(token).getBody();
+              return true;
+        
         } catch (JwtException | IllegalArgumentException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }   
 
         return false;
