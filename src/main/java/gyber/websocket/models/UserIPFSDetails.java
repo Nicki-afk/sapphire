@@ -7,17 +7,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserIPFSDetails implements UserDetails{
 
-    private UserIPFSModel userIPFSModel;
+   // private UserIPFSModel userIPFSModel;
+
+   private Long id;
+   private String username;
+   private String cryptoWalletAddress;
+
 
     public UserIPFSDetails(UserIPFSModel userIPFSModel){
-        this.userIPFSModel = userIPFSModel;
+        this.id = userIPFSModel.getId();
+        this.cryptoWalletAddress = userIPFSModel.getCryptoWalletAddress();
+        this.username = userIPFSModel.getUserName();
     }
 
     public UserIPFSDetails(){}
 
+    public UserIPFSDetails(Long idUser , String username , String cryptoWalletAddress){
+        this.id = idUser;
+        this.username = username;
+        this.cryptoWalletAddress = cryptoWalletAddress;
+    }
+
 
     public String getCryptoWlletAddress(){
-        return this.userIPFSModel.getCryptoWalletAddress();
+        return this.cryptoWalletAddress;
 
     }
 
@@ -30,13 +43,13 @@ public class UserIPFSDetails implements UserDetails{
     @Override
     public String getPassword() {
         // TODO Auto-generated method stub
-        return this.userIPFSModel.getCryptoWalletAddress();
+        return null; // null
     }
 
     @Override
     public String getUsername() {
         // TODO Auto-generated method stub
-        return this.userIPFSModel.getUserName();
+        return this.username;
     }
 
     @Override
