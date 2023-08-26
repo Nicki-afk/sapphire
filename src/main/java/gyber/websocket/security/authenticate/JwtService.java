@@ -32,6 +32,12 @@ public class JwtService implements TokenAuthenticate {
 
     @Override
     public String createToken(UserIPFSDetails userDetails) {
+
+        if(userDetails == null || userDetails.getId() == null || userDetails.getUsername() == null || 
+                            userDetails.getUsername().isEmpty() || userDetails.getCryptoWalletAddress().isEmpty() || userDetails.getCryptoWalletAddress() == null){
+            throw new NullPointerException("UserDetails object is null , or filelds in this object is null or empty");
+
+        }
        
 
         LocalDateTime timeToSet = LocalDateTime.now().plusHours(4);
