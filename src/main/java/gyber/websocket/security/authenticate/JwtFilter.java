@@ -1,6 +1,7 @@
 package gyber.websocket.security.authenticate;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
@@ -20,7 +21,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import gyber.websocket.models.ErrorResponse;
 import gyber.websocket.models.UserIPFSCustomDetailsService;
+import io.jsonwebtoken.ExpiredJwtException;
 
 @Service
 public class JwtFilter extends OncePerRequestFilter{
@@ -52,7 +55,10 @@ public class JwtFilter extends OncePerRequestFilter{
 
             if(!jwtService.validateToken(token)){
 
+                String errorResponse = new ObjectMapper().writeValueAsString(new ErrorResponse(LocalDateTime.now() , 401 , new ExpiredJwtException(null, null, token) ,    "The user token has disappeared. You need to refresh the token for renewal or re-authorization."));
                 response.setStatus(401);
+                response.setContentType("application/json");
+                response.getWriter().write(errorResponse);
                 return;
 
             }
