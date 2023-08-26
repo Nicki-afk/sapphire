@@ -20,7 +20,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtService implements TokenAuthenticate {
 
 
-   @Value("${jwt.token.validity.time}") private long validTime;
+   private Date expirationDate = Date.from(LocalDateTime.now().plusHours(4).atZone(ZoneId.systemDefault()).toInstant());
    @Value("${sign.token.sign}")  private String singature;
    
 
@@ -40,8 +40,8 @@ public class JwtService implements TokenAuthenticate {
         }
        
 
-        LocalDateTime timeToSet = LocalDateTime.now().plusHours(4);
-        Date dateToSet = Date.from(timeToSet.atZone(ZoneId.systemDefault()).toInstant());
+        // LocalDateTime timeToSet = LocalDateTime.now().plusHours(4);
+        // Date dateToSet = Date.from(timeToSet.atZone(ZoneId.systemDefault()).toInstant());
 
         Map<String , Object>payload = new HashMap<>();
         payload.put("userId", userDetails.getId());
@@ -55,7 +55,7 @@ public class JwtService implements TokenAuthenticate {
                         .setHeaderParam("type", "JWT")
                         .setIssuedAt(new Date())
                         .setIssuer("sapphire-messanger-server")
-                        .setExpiration(dateToSet)
+                        .setExpiration(this.expirationDate)
                         .compact();
 
                   
@@ -95,6 +95,19 @@ public class JwtService implements TokenAuthenticate {
                     .parseClaimsJws(token)
                     .getBody()
                     .get("username", String.class);
+
+    }
+
+
+    // for test
+    public void setExpirationDate(long seconds){
+        this.expirationDate = Date.from(LocalDateTime.now().plusSeconds(seconds).atZone(ZoneId.systemDefault()).toInstant());
+
+
+    }
+
+    public void setSigningKey(String key){
+        this.singature = key;
 
     }
 
