@@ -21,7 +21,7 @@ public class JwtService implements TokenAuthenticate {
 
 
    private Date expirationDate = Date.from(LocalDateTime.now().plusHours(4).atZone(ZoneId.systemDefault()).toInstant());
-   @Value("${sign.token.sign}")  private String singature;
+   @Value("${jwt.token.sign}")  private String singature;
    
 
 
