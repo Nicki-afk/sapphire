@@ -1,9 +1,9 @@
-# Sapphir Messanger (Server)
+# Sapphire Messanger (Server)
 
 <br>
 <br>
 
-## What is Sapphir Messanger ?  
+## What is Sapphire Messanger ?  
 Sapphire is a new messenger with a unique message forwarding mechanism. The fact is that this messenger does not forward the message as such, it only manipulates links to these messages. The messages themselves are stored in IPFS and the server manipulates only these links.
 
 <br>
