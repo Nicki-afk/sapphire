@@ -22,5 +22,48 @@ public class JwtServiceTest {
     private JwtService jwtService;
 
 
+
+    @Test // Проверка на валидные значения 
+    public void testJwtTokenWithValidVars(){
+
+    }
+
+
+    @Test  // Проверка на не валидные значения , типа null или похожих
+    public void testJwtTokenWithInvalidVars(){
+
+    }
+
+    @Test // Проверка формата токена (hrader.payload.signature)
+    public void testJwtTokenWithValidFormat(){
+
+    }
+
+
+    @Test // Проверка токена с валидным значением времени
+    public void testJwtTokenIsValidToTime(){
+
+    }
+
+    @Test // Проверка на токен с невалидным значением времени 
+    public void testJwtTokenIsInvalidToTime(){
+
+
+    }
+
+
+    @Test // Проверка подписи сервера 
+    public void testJwtTokenForInvalidSignature(){
+
+    }
+
+
+
+    @Test // Проверка была ли дата изменена 
+    public void testJwtHasTheDataChanged(){
+
+    }
+
+
     
 }
