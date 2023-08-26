@@ -4,6 +4,7 @@ import gyber.websocket.models.UserIPFSDetails;
 import gyber.websocket.models.UserIPFSModel;
 
 public interface TokenAuthenticate {
-    String createToken(UserIPFSDetails userIPFSDetails);
+    default String createToken(UserIPFSDetails userIPFSDetails){ return "";};
+    default String createToken(){ return "";};
     boolean validateToken(String token);
 }
