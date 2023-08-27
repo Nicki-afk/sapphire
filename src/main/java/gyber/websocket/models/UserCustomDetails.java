@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserIPFSDetails implements UserDetails{
+public class UserCustomDetails implements UserDetails{
 
    // private UserIPFSModel userIPFSModel;
 
@@ -19,15 +19,15 @@ public class UserIPFSDetails implements UserDetails{
    private String cryptoWalletAddress;
 
 
-    public UserIPFSDetails(UserIPFSModel userIPFSModel){
+    public UserCustomDetails(User userIPFSModel){
         this.id = userIPFSModel.getId();
         this.cryptoWalletAddress = userIPFSModel.getCryptoWalletAddress();
         this.username = userIPFSModel.getUserName();
     }
 
-    public UserIPFSDetails(){}
+    public UserCustomDetails(){}
 
-    public UserIPFSDetails(Long idUser , String username , String cryptoWalletAddress){
+    public UserCustomDetails(Long idUser , String username , String cryptoWalletAddress){
         this.id = idUser;
         this.username = username;
         this.cryptoWalletAddress = cryptoWalletAddress;

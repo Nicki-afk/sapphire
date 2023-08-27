@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import gyber.websocket.models.UserIPFSDetails;
+import gyber.websocket.models.UserCustomDetails;
 import gyber.websocket.security.authenticate.JwtService;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -29,7 +29,7 @@ public class JwtServiceTest {
     @Test // Проверка на валидные значения 
     public void testJwtTokenWithValidVars(){
 
-        UserIPFSDetails userIPFSDetails = new UserIPFSDetails(2L, "Nick", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9)");
+        UserCustomDetails userIPFSDetails = new UserCustomDetails(2L, "Nick", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9)");
         String token = this.jwtService.createToken(userIPFSDetails);
         assertNotNull("Test no passed token is  null", token);
 
@@ -46,7 +46,7 @@ public class JwtServiceTest {
 
     @Test(expected = NullPointerException.class)
     public void testJwtANameNullParameter(){
-        this.jwtService.createToken(new UserIPFSDetails(2L, null, "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
+        this.jwtService.createToken(new UserCustomDetails(2L, null, "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
         System.out.println("Test passed . Token can't be created becouse name is null");
        
 
@@ -54,20 +54,20 @@ public class JwtServiceTest {
 
     @Test(expected = NullPointerException.class)
     public void testJwtANameIsEmptyParameter(){
-        this.jwtService.createToken(new UserIPFSDetails(2L, "", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
+        this.jwtService.createToken(new UserCustomDetails(2L, "", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
         System.out.println("Test passed . Token can't be created becouse name is empty");
     }
 
     @Test(expected = NullPointerException.class)
     public void testCryptoWalletAddresIsNullParameter(){
-        this.jwtService.createToken(new UserIPFSDetails(2L, "@ni_cko", null));
+        this.jwtService.createToken(new UserCustomDetails(2L, "@ni_cko", null));
         System.out.println("Test passed. Token can't be created becouse cryptowallet aaddress is null");
     }
 
 
     @Test(expected = NullPointerException.class)
     public void testJwtCryptoWalletAddressIsEmpty(){
-        this.jwtService.createToken(new UserIPFSDetails(2L, "@nic_ko", ""));
+        this.jwtService.createToken(new UserCustomDetails(2L, "@nic_ko", ""));
         System.out.println("Test passed. Token can't be created becouse token field is null");
     }
 
@@ -79,7 +79,7 @@ public class JwtServiceTest {
         try{
 
             this.jwtService.setExpirationDate(60);
-            String tokeString = this.jwtService.createToken(new UserIPFSDetails(2L, "@nic_ko", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
+            String tokeString = this.jwtService.createToken(new UserCustomDetails(2L, "@nic_ko", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
 
             while(true){
                 Thread.sleep(30000);
@@ -102,7 +102,7 @@ public class JwtServiceTest {
         try{
 
             this.jwtService.setExpirationDate(30);
-            String tokeString = this.jwtService.createToken(new UserIPFSDetails(2L, "@nic_ko", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
+            String tokeString = this.jwtService.createToken(new UserCustomDetails(2L, "@nic_ko", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
 
             while(true){
                 Thread.sleep(40000); // 40 sec
@@ -123,7 +123,7 @@ public class JwtServiceTest {
 
     @Test(expected = JwtException.class) // Проверка подписи сервера 
     public void testJwtTokenForInvalidSignature(){
-        String tokenInTrueSignature = this.jwtService.createToken(new UserIPFSDetails(2L, "@nic_ko", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
+        String tokenInTrueSignature = this.jwtService.createToken(new UserCustomDetails(2L, "@nic_ko", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
         this.jwtService.setSigningKey("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9IsmKOjHyHYqS4cAmljpBb0fCGuCAs5xN5qy8elpts");
         String username = this.jwtService.getUserNameInToken(tokenInTrueSignature);
 

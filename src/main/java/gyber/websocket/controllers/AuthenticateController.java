@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import gyber.websocket.models.UserIPFSCustomDetailsService;
-import gyber.websocket.models.UserIPFSDetails;
+import gyber.websocket.models.UserCustomDetailsService;
+import gyber.websocket.models.UserCustomDetails;
 import gyber.websocket.security.authenticate.JwtService;
 
 
@@ -29,7 +29,7 @@ public class AuthenticateController {
 
 
     @Autowired
-    private UserIPFSCustomDetailsService userIPFSCustomDetailsService;
+    private UserCustomDetailsService userIPFSCustomDetailsService;
 
 
     @Autowired
@@ -43,7 +43,7 @@ public class AuthenticateController {
         String cryptoWalletAddress = userAuthData.get("crypto_wallet_address");
 
       //  UserDetails userDetails = userIPFSCustomDetailsService.loadUserByUsername(cryptoWalletAddress);
-      UserIPFSDetails userDetails = this.userIPFSCustomDetailsService.loadUserByCryptowalletAddress(cryptoWalletAddress);
+      UserCustomDetails userDetails = this.userIPFSCustomDetailsService.loadUserByCryptowalletAddress(cryptoWalletAddress);
 
 
         UsernamePasswordAuthenticationToken userCredentalsData = new UsernamePasswordAuthenticationToken(userDetails.getUsername() , null);

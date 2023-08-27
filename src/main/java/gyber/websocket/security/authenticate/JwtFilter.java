@@ -22,7 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gyber.websocket.models.ErrorResponse;
-import gyber.websocket.models.UserIPFSCustomDetailsService;
+import gyber.websocket.models.UserCustomDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 
 @Service
@@ -32,7 +32,7 @@ public class JwtFilter extends OncePerRequestFilter{
     private JwtService jwtService;
 
     @Autowired
-    private UserIPFSCustomDetailsService userIPFSCustomDetailsService;
+    private UserCustomDetailsService userIPFSCustomDetailsService;
 
 
 

@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import gyber.websocket.models.User;
-import gyber.websocket.models.UserIPFSModel;
 import gyber.websocket.models.repo.UserRepository;
 
 @Controller
@@ -29,7 +26,7 @@ public class LogInSingUpController {
 
 
     @PostMapping
-    public ResponseEntity postUser(@RequestBody UserIPFSModel userIPFSModel){
+    public ResponseEntity postUser(@RequestBody User userIPFSModel){
 
         this.userRepository.save(userIPFSModel);
 
@@ -43,7 +40,7 @@ public class LogInSingUpController {
     @GetMapping("/get")
     public ResponseEntity getUser(@RequestParam("username") String username){
 
-        UserIPFSModel userIPFSModel = this.userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        User userIPFSModel = this.userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         return ResponseEntity.ok(userIPFSModel);
 
     }

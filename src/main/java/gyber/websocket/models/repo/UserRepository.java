@@ -5,12 +5,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import gyber.websocket.models.User;
-import gyber.websocket.models.UserIPFSModel;
 
-public interface UserRepository extends JpaRepository<UserIPFSModel , Long>{
+public interface UserRepository extends JpaRepository<User , Long>{
 
-    Optional<UserIPFSModel> findById(Long id);
-    Optional<UserIPFSModel> findByUserName(String userName);
-    Optional<UserIPFSModel> findByCryptoWalletAddress(String cryptoWalletAddress);
+    Optional<User> findById(Long id);
+    Optional<User> findByUserName(String userName);
+    Optional<User> findByCryptoWalletAddress(String cryptoWalletAddress);
     
 }

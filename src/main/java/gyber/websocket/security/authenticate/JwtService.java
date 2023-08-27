@@ -10,8 +10,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import gyber.websocket.models.UserIPFSDetails;
-import gyber.websocket.models.UserIPFSModel;
+import gyber.websocket.models.UserCustomDetails;
+import gyber.websocket.models.User;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,7 +31,7 @@ public class JwtService implements TokenAuthenticate {
 
 
     @Override
-    public String createToken(UserIPFSDetails userDetails) {
+    public String createToken(UserCustomDetails userDetails) {
 
         if(userDetails == null || userDetails.getId() == null || userDetails.getUsername() == null || 
                             userDetails.getUsername().isEmpty() || userDetails.getCryptoWalletAddress().isEmpty() || userDetails.getCryptoWalletAddress() == null){

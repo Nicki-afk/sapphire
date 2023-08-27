@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 //import com.fasterxml.jackson.databind.ObjectMapper;
 
-import gyber.websocket.models.User;
+// import gyber.websocket.models.User;
 
 @Service
 public class IPFSGateway {

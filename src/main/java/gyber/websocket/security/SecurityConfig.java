@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import gyber.websocket.models.UserIPFSCustomDetailsService;
+import gyber.websocket.models.UserCustomDetailsService;
 import gyber.websocket.security.authenticate.JwtFilter;
 
 
@@ -20,7 +20,7 @@ import gyber.websocket.security.authenticate.JwtFilter;
 public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 
     @Autowired
-    private UserIPFSCustomDetailsService userIPFSCustomDetailsService;
+    private UserCustomDetailsService userIPFSCustomDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

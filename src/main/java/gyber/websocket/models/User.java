@@ -1,27 +1,36 @@
 package gyber.websocket.models;
 
-import java.util.List;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
+@Entity
+@Table(name = "users")
+@Getter
 @NoArgsConstructor
-@Data
+@AllArgsConstructor
+@Setter
 public class User {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String userName;
-    private String firstName;
-    private String lastName;
-    private String cryptoWallet;
-    private String betaTestKey;
-    private NetStatus onlineStatus;
-    private String hashAvatarPath;
-    
 
-  //  private List<Chat>userChats;
-    
+    @Column(name = "username")         private String userName;
+    @Column(name = "crypto_wallet")    private String cryptoWalletAddress;
+    @Column(name = "pub_key")          private String publicUserKey;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "net_status")
+    private NetStatus onlineNetStatus;
     
+    @Column(name = "hash_data") private String hashUserFile;
+
+
+
 }
