@@ -10,33 +10,29 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
 
-import gyber.websocket.models.UserIPFSDetails;
-import gyber.websocket.models.UserIPFSModel;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import net.bytebuddy.utility.RandomString;
 
 @Service
 public class RTService implements TokenAuthenticate{
 
 
-    @Value("${rt.token.sign}")
-    private String tokenSecret;
+
+    private String randomTokenString =  new RandomString(128).nextString();
+    private Date expirDate = Date.from(LocalDateTime.now().plusDays(2).atZone(ZoneId.systemDefault()).toInstant());
 
 
     @Override
     public String createToken() {
-        String randomString = new RandomString(128).nextString();
-        StringBuilder stringBuilder = new StringBuilder();
-
-       String refreshTokenString =  stringBuilder
-                                    .append(randomString)
-                                    .append("_")
-                                    .append(LocalDateTime.now())
-                                    .append("_")
-                                    .append(Date.from(LocalDateTime.now().plusDays(2).atZone(ZoneId.systemDefault()).toInstant()).getTime())
-                                    .toString();
+     
+       String refreshTokenString =  new StringBuilder()
+                                        .append(randomTokenString)
+                                        .append("_")
+                                        .append(LocalDateTime.now())
+                                        .append("_")
+                                        .append(this.expirDate.getTime())
+                                        .toString();
 
         String refreshTokenBase64 = Base64.getEncoder().encodeToString(refreshTokenString.getBytes());
 
@@ -46,10 +42,19 @@ public class RTService implements TokenAuthenticate{
     @Override
     public boolean validateToken(String token) {
 
+        if(token == null || token.isEmpty() ){
+            throw new NullPointerException("Token is null or empty");
+
+        }
+
         String refreshTokenDecode = new String(Base64.getDecoder().decode(token));
+
+
         LocalDateTime timeValidRefreshToken = Instant.ofEpochMilli(  ( Long.parseLong(refreshTokenDecode.split("_")[2])  )  ).atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-        if(LocalDateTime.now().isAfter(timeValidRefreshToken) || LocalDateTime.now().isEqual(timeValidRefreshToken)){
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        if(timeValidRefreshToken.isBefore(currentTime)){
 
             return false;
 
@@ -57,6 +62,18 @@ public class RTService implements TokenAuthenticate{
 
         return true;
     
+    }
+
+    public RTService setExpirationDate(long seconds){
+        this.expirDate = Date.from(LocalDateTime.now().plusSeconds(seconds).atZone(ZoneId.systemDefault()).toInstant());
+
+        return this;
+
+    }
+
+    public RTService setSecretRandomString(String randomString){
+        this.randomTokenString = randomString;
+        return this;
     }
     
 }
