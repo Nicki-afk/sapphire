@@ -13,9 +13,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-//import com.fasterxml.jackson.databind.ObjectMapper;
 
-// import gyber.websocket.models.User;
+/*
+ * Класс временно не используется так как вся логика по работе с 
+ * IPFS происходит на клиенте 
+ */
 
 @Service
 public class IPFSGateway {
