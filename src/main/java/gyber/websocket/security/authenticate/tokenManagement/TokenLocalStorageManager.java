@@ -5,7 +5,7 @@ import java.util.Map;
 
 import gyber.websocket.models.User;
 
-public class TokenLocalStorage {
+public class TokenLocalStorageManager {
 
 
     private Map<User , TokenPairObject>userAndHisTokensPair = new HashMap<>();
@@ -32,7 +32,7 @@ public class TokenLocalStorage {
         return false;
     }
 
-    
+
 
     
 }
