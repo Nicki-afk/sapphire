@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import gyber.websocket.models.TokenPairObject;
 import gyber.websocket.models.User;
 import gyber.websocket.models.UserCustomDetails;
 import gyber.websocket.models.repo.UserRepository;
 import gyber.websocket.security.authenticate.JwtService;
 import gyber.websocket.security.authenticate.RTService;
+import gyber.websocket.security.authenticate.tokenManagement.TokenPairObject;
 
 @Controller
 @RequestMapping("/register")
