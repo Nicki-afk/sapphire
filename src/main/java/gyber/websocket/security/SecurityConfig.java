@@ -12,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import gyber.websocket.models.UserCustomDetailsService;
-import gyber.websocket.security.authenticate.JwtFilter;
+import gyber.websocket.security.authenticate.filters.JwtFilter;
 
 
 @Configuration

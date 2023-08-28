@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import gyber.websocket.models.User;
-import gyber.websocket.security.authenticate.JwtService;
-import gyber.websocket.security.authenticate.RTService;
 
 @Service
 public class TokenLocalStorageManager {

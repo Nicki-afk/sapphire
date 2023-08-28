@@ -1,4 +1,4 @@
-package gyber.websocket.security.authenticate;
+package gyber.websocket.security.authenticate.filters;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gyber.websocket.models.ErrorResponse;
 import gyber.websocket.models.UserCustomDetailsService;
+import gyber.websocket.security.authenticate.tokenManagement.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
 
 @Service

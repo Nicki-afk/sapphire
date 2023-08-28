@@ -1,4 +1,4 @@
-package gyber.websocket.security.authenticate;
+package gyber.websocket.security.authenticate.tokenManagement;
 
 import gyber.websocket.models.UserCustomDetails;
 import gyber.websocket.models.User;

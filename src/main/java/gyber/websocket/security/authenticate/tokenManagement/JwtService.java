@@ -1,4 +1,4 @@
-package gyber.websocket.security.authenticate;
+package gyber.websocket.security.authenticate.tokenManagement;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

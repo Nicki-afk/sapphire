@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import gyber.websocket.models.User;
 import gyber.websocket.models.UserCustomDetails;
 import gyber.websocket.models.repo.UserRepository;
-import gyber.websocket.security.authenticate.JwtService;
-import gyber.websocket.security.authenticate.RTService;
+import gyber.websocket.security.authenticate.tokenManagement.JwtService;
+import gyber.websocket.security.authenticate.tokenManagement.RTService;
 import gyber.websocket.security.authenticate.tokenManagement.TokenPairObject;
 
 @Controller

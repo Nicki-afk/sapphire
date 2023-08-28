@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import gyber.websocket.models.UserCustomDetails;
-import gyber.websocket.security.authenticate.JwtService;
+import gyber.websocket.security.authenticate.tokenManagement.JwtService;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 

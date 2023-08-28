@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import gyber.websocket.models.UserCustomDetailsService;
+import gyber.websocket.security.authenticate.tokenManagement.JwtService;
 import gyber.websocket.models.UserCustomDetails;
-import gyber.websocket.security.authenticate.JwtService;
 
 
 
