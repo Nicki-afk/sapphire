@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import gyber.websocket.models.UserCustomDetailsService;
 import gyber.websocket.security.authenticate.filters.JwtFilter;
+import gyber.websocket.security.authenticate.filters.RefreshFilter;
 
 
 @Configuration
@@ -32,7 +33,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
     
         http
-        .addFilterBefore(gFilter() , UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(getRefreshFilter() , UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(getJwtFilter(), UsernamePasswordAuthenticationFilter.class)
         .authorizeRequests()
         .antMatchers("/pub/**")
         .permitAll()
@@ -53,10 +55,18 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 
 
     @Bean
-    public JwtFilter gFilter(){
+    public JwtFilter getJwtFilter(){
         return new JwtFilter();
 
     }
+
+
+    @Bean
+    public RefreshFilter getRefreshFilter(){
+        return new RefreshFilter();
+    }
+
+
 
 
     
