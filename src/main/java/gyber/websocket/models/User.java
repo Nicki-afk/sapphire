@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "users")
@@ -17,6 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @EqualsAndHashCode
+@ToString
 public class User {
     
     @Id
