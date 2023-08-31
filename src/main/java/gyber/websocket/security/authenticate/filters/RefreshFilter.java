@@ -29,9 +29,16 @@ public class RefreshFilter extends OncePerRequestFilter{
             filterChain.doFilter(request, response); // Передаем на JwtFilter   
 
         }else{
-            if(!tokenLocalStorageManager.refreshTokenIsValid(refreshHeader)){
+
+        
+            if(!tokenLocalStorageManager.exisistRefresh(refreshHeader)){
                 response.setStatus(401);
                 return;
+
+            }else if(!tokenLocalStorageManager.refreshTokenIsValid(refreshHeader)){
+                
+                
+
             }
 
             response.setStatus(200);
