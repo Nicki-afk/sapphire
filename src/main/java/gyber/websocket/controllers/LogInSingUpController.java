@@ -21,6 +21,7 @@ import gyber.websocket.models.UserCustomDetails;
 import gyber.websocket.models.repo.UserRepository;
 import gyber.websocket.security.authenticate.tokenManagement.JwtService;
 import gyber.websocket.security.authenticate.tokenManagement.RTService;
+import gyber.websocket.security.authenticate.tokenManagement.TokenLocalStorageManager;
 import gyber.websocket.security.authenticate.tokenManagement.TokenPairObject;
 
 @Controller
@@ -32,11 +33,8 @@ public class LogInSingUpController {
     private UserRepository userRepository;
 
     @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private RTService refreshTokenService;
-
+    private TokenLocalStorageManager tokenLocalStorageManager;
+    
 
 
     @PostMapping
@@ -65,7 +63,6 @@ public class LogInSingUpController {
         UsernamePasswordAuthenticationToken userPrincipal = new UsernamePasswordAuthenticationToken(userCustomDetails.getUsername(), null, userCustomDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(userPrincipal);
 
-        return new TokenPairObject(this.jwtService.createToken(userCustomDetails), this.refreshTokenService.createToken());
-
+        return this.tokenLocalStorageManager.addTokenPairForUser(user);
     }
 }
