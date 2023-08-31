@@ -5,6 +5,7 @@ package gyber.websocket.models;
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
+@EqualsAndHashCode
 public class User {
     
     @Id
