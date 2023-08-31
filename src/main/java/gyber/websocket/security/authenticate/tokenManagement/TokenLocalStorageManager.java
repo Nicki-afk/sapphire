@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 
 import gyber.websocket.models.User;
 import gyber.websocket.models.UserCustomDetails;
+import lombok.Getter;
+import lombok.Setter;
 
 @Service
+@Getter
+@Setter
 public class TokenLocalStorageManager {
     private Map<User , TokenPairObject>userAndHisTokensPair = new HashMap<>();
 
@@ -18,15 +22,35 @@ public class TokenLocalStorageManager {
     @Autowired private RTService refreshTokenService;
 
 
-    public TokenPairObject addTokenPairForUser(User user){
+    /*
+     * Блокирует поток пока не будет произведена вставка в карту. Сделано 
+     * для того что бы поддерживать актуальность данных , однако может вызвать проблемы 
+     * с временем выполнения. Таким образом проверка токенов в фильтре при чтений 
+     * информации может быть значительно замедленна так как поток будет заблокирован 
+     */
+    public synchronized TokenPairObject addTokenPairForUser(User user){
 
+        if(user == null ){
+            throw new NullPointerException("Object user is null");
+
+        }
         TokenPairObject tokenPairUser = new TokenPairObject(this.jwtService.createToken(new UserCustomDetails(user)), this.refreshTokenService.createToken());
         this.userAndHisTokensPair.put(user, tokenPairUser);
         
         return tokenPairUser;
     }
 
-    public boolean isRefreshTokenBelongsThisUser(User user){
+    public boolean isRefreshTokenBelongsThisUser(User user , String refresh){
+
+        if(user == null || refresh.isEmpty() || refresh == null){
+            throw new NullPointerException("User , or token is empty or null");
+
+        }
+
+        if(this.userAndHisTokensPair.containsKey(user)){
+            return this.userAndHisTokensPair.get(user).getRefreshToken().equals(refresh);
+        }
+
         return false;
     }
 
@@ -72,18 +96,29 @@ public class TokenLocalStorageManager {
     }
 
     public User getUserByJwt(String jwt){
+
+        Set<User>userKeySet = this.userAndHisTokensPair.keySet();
+        for(User user : userKeySet){
+            if(this.userAndHisTokensPair.get(user).getJwtToken().equals(jwt)){
+                return user;
+            }
+
+        }
+
         return null;
 
     }
 
 
     public boolean existTokenPair(TokenPairObject tokenPairObject){
-        return false;
+    
+
+        return this.userAndHisTokensPair.containsValue(tokenPairObject);
     }
 
 
     public boolean jwtTokenIsValid(String jwtString){
-        return this.jwtTokenIsValid(jwtString);
+        return this.jwtService.validateToken(jwtString);
     }
 
     public boolean refreshTokenIsValid(String refreshString){
