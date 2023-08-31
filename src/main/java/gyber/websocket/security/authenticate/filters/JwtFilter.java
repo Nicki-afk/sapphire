@@ -41,8 +41,6 @@ public class JwtFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
        
         if(request.getRequestURI().equals("/register") | request.getRequestURI().equals("/auth")){
-            // response.sendRedirect("/register");
-            // return;
             filterChain.doFilter(request, response);
             return;
 
