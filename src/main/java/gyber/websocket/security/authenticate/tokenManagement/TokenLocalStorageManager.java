@@ -2,11 +2,13 @@ package gyber.websocket.security.authenticate.tokenManagement;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import gyber.websocket.models.User;
+import gyber.websocket.models.UserCustomDetails;
 
 @Service
 public class TokenLocalStorageManager {
@@ -16,8 +18,12 @@ public class TokenLocalStorageManager {
     @Autowired private RTService refreshTokenService;
 
 
-    public void addTokenPairForUser(User user , TokenPairObject tokenPairUser){
+    public TokenPairObject addTokenPairForUser(User user){
+
+        TokenPairObject tokenPairUser = new TokenPairObject(this.jwtService.createToken(new UserCustomDetails(user)), this.refreshTokenService.createToken());
         this.userAndHisTokensPair.put(user, tokenPairUser);
+        
+        return tokenPairUser;
     }
 
     public boolean isRefreshTokenBelongsThisUser(User user){
@@ -30,6 +36,44 @@ public class TokenLocalStorageManager {
 
     public void updateTokenPairUser(User user){
 
+        UserCustomDetails userCustomDetails = new UserCustomDetails(user);
+        TokenPairObject newTokenPairObject = new TokenPairObject(this.jwtService.createToken(userCustomDetails), this.refreshTokenService.createToken());
+        this.userAndHisTokensPair.replace(user, this.userAndHisTokensPair.get(user), newTokenPairObject);
+
+    }
+
+    public boolean exisistRefresh(String refresh){
+
+        Set<User>userKeySet = this.userAndHisTokensPair.keySet();
+        for(User user : userKeySet){
+            if(this.userAndHisTokensPair.get(user).getRefreshToken().equals(refresh)){
+                return true;
+            }
+
+        }
+
+        return false;
+
+
+    }
+
+    public User getUserByRefresh(String refresh){
+
+        Set<User>userKeySet = this.userAndHisTokensPair.keySet();
+        for(User user : userKeySet){
+            if(this.userAndHisTokensPair.get(user).getRefreshToken().equals(refresh)){
+                return user;
+            }
+
+        }
+
+        return null;
+         
+    }
+
+    public User getUserByJwt(String jwt){
+        return null;
+
     }
 
 
@@ -39,7 +83,7 @@ public class TokenLocalStorageManager {
 
 
     public boolean jwtTokenIsValid(String jwtString){
-        return false;
+        return this.jwtTokenIsValid(jwtString);
     }
 
     public boolean refreshTokenIsValid(String refreshString){
