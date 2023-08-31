@@ -43,9 +43,11 @@ public class TokenLocalStorageManager {
     }
 
     public boolean refreshTokenIsValid(String refreshString){
-        return false;
+
+        return this.refreshTokenService.validateToken(refreshString);
     }
 
+    
 
 
     
