@@ -109,6 +109,17 @@ public class TokenLocalStorageManagerTest {
         this.tokenLocalStorageManagerTest.isRefreshTokenBelongsThisUser(null, "null");
     }
 
+    @Test
+    public void testGetUserByRefresh(){
+        User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
+        TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(user);
+        User returnedUser = this.tokenLocalStorageManagerTest.getUserByRefresh(tokenPairObject.getRefreshToken());
+        assertNotNull(returnedUser);
+        assertEquals(user, returnedUser);
+        
+        
+    }
+
 
     @ParameterizedTest
     @MethodSource("theUserMethodSource")
