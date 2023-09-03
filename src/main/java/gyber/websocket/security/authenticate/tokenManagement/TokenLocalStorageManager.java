@@ -14,6 +14,11 @@ import gyber.websocket.models.UserCustomDetails;
 import lombok.Getter;
 import lombok.Setter;
 
+
+/*
+ * TODO : Добавить удаление токенов пользователя
+ *        Отредактировать свойство ReadWriteLock -> сделать статичным и сделать константой
+ */
 @Service
 public class TokenLocalStorageManager {
     private Map<User , TokenPairObject>userAndHisTokensPair = new HashMap<>();
@@ -47,80 +52,99 @@ public class TokenLocalStorageManager {
 
     }
 
+
+    /*
+     * TODO : Оптимизировать под Stream<>
+     */
     public boolean isRefreshTokenBelongsThisUser(User user , String refresh){
 
-        if(user == null || refresh.isEmpty() || refresh == null){
-            throw new NullPointerException("User , or token is empty or null");
+        this.reaaReadWriteLock.readLock().lock();
 
+        try{
+            if(user == null || refresh.isEmpty() || refresh == null){
+                throw new NullPointerException("User , or token is empty or null");
+
+            }
+
+            if(this.userAndHisTokensPair.containsKey(user)){
+                return this.userAndHisTokensPair.get(user).getRefreshToken().equals(refresh);
+            }
+
+            return false;
+
+        }finally{
+            this.reaaReadWriteLock.readLock().unlock();
         }
-
-        if(this.userAndHisTokensPair.containsKey(user)){
-            return this.userAndHisTokensPair.get(user).getRefreshToken().equals(refresh);
-        }
-
-        return false;
     }
 
+     /*
+     * TODO : Дописать 
+     */
     public boolean isRefreshTokenBelongsThisUser(Long userId){
         return false;
     }
 
     public void updateTokenPairUser(User user){
 
-        UserCustomDetails userCustomDetails = new UserCustomDetails(user);
-        TokenPairObject newTokenPairObject = new TokenPairObject(this.jwtService.createToken(userCustomDetails), this.refreshTokenService.createToken());
-        this.userAndHisTokensPair.replace(user, this.userAndHisTokensPair.get(user), newTokenPairObject);
+        this.reaaReadWriteLock.writeLock().lock();
 
+        try{
+            UserCustomDetails userCustomDetails = new UserCustomDetails(user);
+            TokenPairObject newTokenPairObject = new TokenPairObject(this.jwtService.createToken(userCustomDetails), this.refreshTokenService.createToken());
+            this.userAndHisTokensPair.replace(user, this.userAndHisTokensPair.get(user), newTokenPairObject);
+            
+        }finally{
+            this.reaaReadWriteLock.writeLock().unlock();
+        }
     }
 
     public boolean exisistRefresh(String refresh){
 
-        Set<User>userKeySet = this.userAndHisTokensPair.keySet();
-        for(User user : userKeySet){
-            if(this.userAndHisTokensPair.get(user).getRefreshToken().equals(refresh)){
-                return true;
-            }
-
-        }
-
-        return false;
-
-
+        this.reaaReadWriteLock.readLock().lock();
+        try{
+            return this.userAndHisTokensPair.entrySet().stream()
+                .anyMatch(entry -> entry.getValue().getRefreshToken().equals(refresh));
+        }finally{
+            this.reaaReadWriteLock.readLock().unlock();
+        }    
     }
 
     public User getUserByRefresh(String refresh){
 
-        Set<User>userKeySet = this.userAndHisTokensPair.keySet();
-        for(User user : userKeySet){
-            if(this.userAndHisTokensPair.get(user).getRefreshToken().equals(refresh)){
-                return user;
-            }
+     
+        this.reaaReadWriteLock.readLock().lock();
+        try{
+            return this.userAndHisTokensPair.entrySet().stream().filter(entry -> entry.getValue().getRefreshToken().equals(refresh)).findFirst().get().getKey();
 
+        }finally{
+            this.reaaReadWriteLock.readLock().unlock();
         }
-
-        return null;
          
     }
 
     public User getUserByJwt(String jwt){
 
-        Set<User>userKeySet = this.userAndHisTokensPair.keySet();
-        for(User user : userKeySet){
-            if(this.userAndHisTokensPair.get(user).getJwtToken().equals(jwt)){
-                return user;
-            }
+        this.reaaReadWriteLock.readLock().lock();
+        try{
+            return this.userAndHisTokensPair.entrySet().stream().filter(entry -> entry.getValue().getJwtToken().equals(jwt)).findFirst().get().getKey();
 
+        }finally{
+            this.reaaReadWriteLock.readLock().unlock();
         }
-
-        return null;
 
     }
 
 
     public boolean existTokenPair(TokenPairObject tokenPairObject){
     
+        this.reaaReadWriteLock.readLock().lock();
 
-        return this.userAndHisTokensPair.containsValue(tokenPairObject);
+        try{
+
+            return this.userAndHisTokensPair.containsValue(tokenPairObject);
+        }finally{
+            this.reaaReadWriteLock.readLock().unlock();
+        }
     }
 
 
@@ -134,11 +158,19 @@ public class TokenLocalStorageManager {
     }
 
     public TokenPairObject getTokenPairInUser(User user){
-        
-        TokenPairObject tokenPairObject = this.userAndHisTokensPair.get(user);
-        
 
-        return tokenPairObject;
+        this.reaaReadWriteLock.readLock().lock();
+        
+        try{
+            TokenPairObject tokenPairObject = this.userAndHisTokensPair.get(user);
+            return tokenPairObject;
+
+        }finally{
+
+            this.reaaReadWriteLock.readLock().unlock();
+        }
+
+        
         
 
     }
@@ -148,8 +180,9 @@ public class TokenLocalStorageManager {
 
     public  Map<User, TokenPairObject> getUserAndHisTokensPair() {
      
+        this.reaaReadWriteLock.readLock().lock();
+
         try{
-            this.reaaReadWriteLock.readLock().lock();
             Map<User , TokenPairObject>returnedMap = this.userAndHisTokensPair;
             return returnedMap;
         }finally{
@@ -158,17 +191,5 @@ public class TokenLocalStorageManager {
 
     }
 
-    public void setUserAndHisTokensPair(Map<User, TokenPairObject> userAndHisTokensPair) {
-        this.userAndHisTokensPair = userAndHisTokensPair;
-    }
-
-    
-
-
-    
-
-    
-
-
-    
+        
 }
