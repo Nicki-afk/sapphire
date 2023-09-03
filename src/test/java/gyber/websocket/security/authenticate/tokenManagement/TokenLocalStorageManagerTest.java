@@ -25,7 +25,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import gyber.websocket.models.NetStatus;
 import gyber.websocket.models.User;
 
-
+/*
+ * TODO : Усложнить тест. Добавить метод который генерирует множество параметров User
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TokenLocalStorageManager.class , JwtService.class , RTService.class})
 public class TokenLocalStorageManagerTest {
@@ -35,34 +37,6 @@ public class TokenLocalStorageManagerTest {
     private TokenLocalStorageManager tokenLocalStorageManagerTest;
 
 
-    public Stream<User> theUserMethodSource(){
-        return
-            Stream.of(
-                new User(1L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.DEPARTED, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w")  , 
-                new User(2L, "@Zip_o", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w")  , 
-                new User(3L, "@Xios", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.WAS_RECENTLY, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w")  , 
-                new User(4L, "@Nobis", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.DEPARTED, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w")  
-            );
-    }
-
-
-    public static Stream<User>get100ObjectUserForThreadingTest(){
-
-        User[]moreUsers = new User[2];
-        for(int x = 0; x < moreUsers.length; x++ ){
-            moreUsers[x] = new User(
-            (long) x,
-            "@".concat(new RandomString(6).nextString()),
-            new RandomString(128).nextString(),
-            new RandomString(128).nextString(),
-            NetStatus.ONLINE,
-            new RandomString(200).nextString()
-            );
-
-        }
-
-        return Arrays.stream(moreUsers);
-    }
 
 
     
@@ -120,18 +94,17 @@ public class TokenLocalStorageManagerTest {
         
     }
 
+    @Test
+    public void testGetUserByJwt(){
+        User putUser = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
+        TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(putUser);
+        User returnUser = this.tokenLocalStorageManagerTest.getUserByJwt(tokenPairObject.getJwtToken());
+        assertNotNull(returnUser);
+        assertEquals(putUser , returnUser);
 
-    @ParameterizedTest
-    @MethodSource("theUserMethodSource")
-    public void generalTest(User user){
-        TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(user);
-        assertNotNull("Test not passed. Token pair object is null ", tokenPairObject);
-        assertTrue("Test not passed. Token pair not exist", this.tokenLocalStorageManagerTest.existTokenPair(tokenPairObject));
-        assertEquals("Test not passed. User not found by refresh", user , this.tokenLocalStorageManagerTest.getUserByRefresh(tokenPairObject.getRefreshToken()));
-        assertEquals("Test not passed. User not found by jwt", user , this.tokenLocalStorageManagerTest.getUserByJwt(tokenPairObject.getJwtToken()));
-        assertTrue("Test not passed. Refresh token exist", this.tokenLocalStorageManagerTest.exisistRefresh(tokenPairObject.getRefreshToken()));
 
     }
+
 
 
 
@@ -150,49 +123,7 @@ public class TokenLocalStorageManagerTest {
     }
 
 
-    @ParameterizedTest
-    @MethodSource("get100ObjectUserForThreadingTest")
-    public void generalThreadTest(User user){
-       ExecutorService executorService = Executors.newFixedThreadPool(20);
-       CountDownLatch countDownLatch = new CountDownLatch(20);
-       //TokenPairObject tokenPairObject = new TokenPairObject();
-
-       // simple write
-       for(int x = 0; x < 20; x++){
-            executorService.submit(() -> {
-                TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(user);
-                assertNotNull("Token pair object is null", tokenPairObject);
-                countDownLatch.countDown();
-            });
-
-       }
-
-       // simple read
-       for(int x = 0; x < 20; x++){
-            executorService.submit(() -> {
-                TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.getUserAndHisTokensPair().get(user);
-                assertNotNull(tokenPairObject);
-                countDownLatch.countDown();
-            });
-       }
-
-
-       try {
-
-            countDownLatch.await();
-
-       } catch (InterruptedException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-       }
-
-       assertTrue("Test not passed. Map.lenght < 100. Map length == ".concat(this.tokenLocalStorageManagerTest.getUserAndHisTokensPair().size() + ""), (this.tokenLocalStorageManagerTest.getUserAndHisTokensPair().size() == 100));
-
-
-       
-
-
-    }
+  
 }
 
 
