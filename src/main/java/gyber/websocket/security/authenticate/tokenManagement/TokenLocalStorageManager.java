@@ -3,6 +3,8 @@ package gyber.websocket.security.authenticate.tokenManagement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,31 +15,36 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Service
-@Getter
-@Setter
 public class TokenLocalStorageManager {
     private Map<User , TokenPairObject>userAndHisTokensPair = new HashMap<>();
+    private ReadWriteLock reaaReadWriteLock = new ReentrantReadWriteLock();
 
-    @Autowired private JwtService jwtService;
-    @Autowired private RTService refreshTokenService;
+    
+    @Getter
+    @Setter
+    @Autowired 
+    private JwtService jwtService;
 
 
-    /*
-     * Блокирует поток пока не будет произведена вставка в карту. Сделано 
-     * для того что бы поддерживать актуальность данных , однако может вызвать проблемы 
-     * с временем выполнения. Таким образом проверка токенов в фильтре при чтений 
-     * информации может быть значительно замедленна так как поток будет заблокирован 
-     */
-    public synchronized TokenPairObject addTokenPairForUser(User user){
+    @Getter
+    @Setter
+    @Autowired 
+    private RTService refreshTokenService;
 
-        if(user == null ){
-            throw new NullPointerException("Object user is null");
 
+    public  TokenPairObject addTokenPairForUser(User user){
+
+
+        this.reaaReadWriteLock.writeLock().lock();
+        try{
+            TokenPairObject tokenPairUser = new TokenPairObject(this.jwtService.createToken(new UserCustomDetails(user)), this.refreshTokenService.createToken());
+            this.userAndHisTokensPair.put(user, tokenPairUser);
+            return tokenPairUser;
+        }finally{
+            this.reaaReadWriteLock.writeLock().unlock();
         }
-        TokenPairObject tokenPairUser = new TokenPairObject(this.jwtService.createToken(new UserCustomDetails(user)), this.refreshTokenService.createToken());
-        this.userAndHisTokensPair.put(user, tokenPairUser);
         
-        return tokenPairUser;
+
     }
 
     public boolean isRefreshTokenBelongsThisUser(User user , String refresh){
@@ -125,6 +132,40 @@ public class TokenLocalStorageManager {
 
         return this.refreshTokenService.validateToken(refreshString);
     }
+
+    public TokenPairObject getTokenPairInUser(User user){
+        
+        TokenPairObject tokenPairObject = this.userAndHisTokensPair.get(user);
+        
+
+        return tokenPairObject;
+        
+
+    }
+
+
+
+
+    public  Map<User, TokenPairObject> getUserAndHisTokensPair() {
+     
+        try{
+            this.reaaReadWriteLock.readLock().lock();
+            Map<User , TokenPairObject>returnedMap = this.userAndHisTokensPair;
+            return returnedMap;
+        }finally{
+            reaaReadWriteLock.readLock().unlock();
+        }
+
+    }
+
+    public void setUserAndHisTokensPair(Map<User, TokenPairObject> userAndHisTokensPair) {
+        this.userAndHisTokensPair = userAndHisTokensPair;
+    }
+
+    
+
+
+    
 
     
 
