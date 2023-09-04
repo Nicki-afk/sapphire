@@ -3,6 +3,7 @@ package gyber.websocket.security.authenticate.tokenManagement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.ArgumentMatchers.refEq;
@@ -83,6 +84,10 @@ public class TokenLocalStorageManagerTest {
         this.tokenLocalStorageManagerTest.isRefreshTokenBelongsThisUser(null, "null");
     }
 
+
+
+
+
     @Test
     public void testGetUserByRefresh(){
         User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
@@ -105,6 +110,25 @@ public class TokenLocalStorageManagerTest {
 
     }
 
+
+    @Test
+    public void testDeleteTokenPairByUser(){
+        User putUser = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
+        TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(putUser);
+        this.tokenLocalStorageManagerTest.deleteTokenPairUser(putUser);
+        TokenPairObject nullTokenPairObject = this.tokenLocalStorageManagerTest.getTokenPairInUser(putUser);
+        assertNull(nullTokenPairObject);
+
+    }
+
+    @Test
+    public void testDeleteTokenPairByTokenPair(){
+        User putUser = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
+        TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(putUser);
+        this.tokenLocalStorageManagerTest.deleteTokenPairUser(tokenPairObject);
+        TokenPairObject nullTokenPairObject = this.tokenLocalStorageManagerTest.getTokenPairInUser(putUser);
+        assertNull(nullTokenPairObject);
+    }
 
 
 
