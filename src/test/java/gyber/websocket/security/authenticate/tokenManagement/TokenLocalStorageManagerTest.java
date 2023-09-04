@@ -81,7 +81,24 @@ public class TokenLocalStorageManagerTest {
 
     @Test(expected = NullPointerException.class)
     public void testIsRefreshTokenBelongsThisUserByNull(){
-        this.tokenLocalStorageManagerTest.isRefreshTokenBelongsThisUser(null, "null");
+       this.tokenLocalStorageManagerTest.isRefreshTokenBelongsThisUser(2L, null);
+        
+    }
+
+    @Test
+    public void testIsRefreshTokenBelongsThisUserInUserIdByTrue(){
+        User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
+        TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(user);
+        boolean result = this.tokenLocalStorageManagerTest.isRefreshTokenBelongsThisUser(2L, tokenPairObject.getRefreshToken());
+        assertTrue(result);
+    }
+
+    @Test
+    public void testIsRefreshTokenBelongsThisUserInUserIdByFalse(){
+        User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
+        TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(user);
+        boolean result = this.tokenLocalStorageManagerTest.isRefreshTokenBelongsThisUser(4L, tokenPairObject.getRefreshToken());
+        assertFalse(result);
     }
 
 
