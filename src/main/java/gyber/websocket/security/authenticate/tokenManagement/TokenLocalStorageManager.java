@@ -69,11 +69,15 @@ public class TokenLocalStorageManager {
         }
     }
 
-     /*
-     * TODO : Дописать 
-     */
-    public boolean isRefreshTokenBelongsThisUser(Long userId){
-        return false;
+    
+    public boolean isRefreshTokenBelongsThisUser(Long userId , String refreshToken){
+        THREAD_READ_WRITE_MANAGER.readLock().lock();
+        try{
+
+            return this.userAndHisTokensPair.entrySet().stream().anyMatch(entry -> entry.getKey().getId() == userId && entry.getValue().getRefreshToken().equals(refreshToken));
+        }finally{
+            THREAD_READ_WRITE_MANAGER.readLock().unlock();
+        }
     }
 
     public void updateTokenPairUser(User user){
