@@ -15,14 +15,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-/*
- * TODO : Добавить удаление токенов пользователя
- *        Отредактировать свойство ReadWriteLock -> сделать статичным и сделать константой
- */
 @Service
 public class TokenLocalStorageManager {
     private Map<User , TokenPairObject>userAndHisTokensPair = new HashMap<>();
-    private ReadWriteLock reaaReadWriteLock = new ReentrantReadWriteLock();
+    private static final ReadWriteLock THREAD_READ_WRITE_MANAGER = new ReentrantReadWriteLock();
 
     
     @Getter
@@ -40,13 +36,13 @@ public class TokenLocalStorageManager {
     public  TokenPairObject addTokenPairForUser(User user){
 
 
-        this.reaaReadWriteLock.writeLock().lock();
+        this.THREAD_READ_WRITE_MANAGER.writeLock().lock();
         try{
             TokenPairObject tokenPairUser = new TokenPairObject(this.jwtService.createToken(new UserCustomDetails(user)), this.refreshTokenService.createToken());
             this.userAndHisTokensPair.put(user, tokenPairUser);
             return tokenPairUser;
         }finally{
-            this.reaaReadWriteLock.writeLock().unlock();
+            this.THREAD_READ_WRITE_MANAGER.writeLock().unlock();
         }
         
 
@@ -58,7 +54,7 @@ public class TokenLocalStorageManager {
      */
     public boolean isRefreshTokenBelongsThisUser(User user , String refresh){
 
-        this.reaaReadWriteLock.readLock().lock();
+        this.THREAD_READ_WRITE_MANAGER.readLock().lock();
 
         try{
             if(user == null || refresh.isEmpty() || refresh == null){
@@ -73,7 +69,7 @@ public class TokenLocalStorageManager {
             return false;
 
         }finally{
-            this.reaaReadWriteLock.readLock().unlock();
+            this.THREAD_READ_WRITE_MANAGER.readLock().unlock();
         }
     }
 
@@ -86,7 +82,7 @@ public class TokenLocalStorageManager {
 
     public void updateTokenPairUser(User user){
 
-        this.reaaReadWriteLock.writeLock().lock();
+        this.THREAD_READ_WRITE_MANAGER.writeLock().lock();
 
         try{
             UserCustomDetails userCustomDetails = new UserCustomDetails(user);
@@ -94,42 +90,42 @@ public class TokenLocalStorageManager {
             this.userAndHisTokensPair.replace(user, this.userAndHisTokensPair.get(user), newTokenPairObject);
             
         }finally{
-            this.reaaReadWriteLock.writeLock().unlock();
+            this.THREAD_READ_WRITE_MANAGER.writeLock().unlock();
         }
     }
 
     public boolean exisistRefresh(String refresh){
 
-        this.reaaReadWriteLock.readLock().lock();
+        this.THREAD_READ_WRITE_MANAGER.readLock().lock();
         try{
             return this.userAndHisTokensPair.entrySet().stream()
                 .anyMatch(entry -> entry.getValue().getRefreshToken().equals(refresh));
         }finally{
-            this.reaaReadWriteLock.readLock().unlock();
+            this.THREAD_READ_WRITE_MANAGER.readLock().unlock();
         }    
     }
 
     public User getUserByRefresh(String refresh){
 
      
-        this.reaaReadWriteLock.readLock().lock();
+        this.THREAD_READ_WRITE_MANAGER.readLock().lock();
         try{
             return this.userAndHisTokensPair.entrySet().stream().filter(entry -> entry.getValue().getRefreshToken().equals(refresh)).findFirst().get().getKey();
 
         }finally{
-            this.reaaReadWriteLock.readLock().unlock();
+            this.THREAD_READ_WRITE_MANAGER.readLock().unlock();
         }
          
     }
 
     public User getUserByJwt(String jwt){
 
-        this.reaaReadWriteLock.readLock().lock();
+        this.THREAD_READ_WRITE_MANAGER.readLock().lock();
         try{
             return this.userAndHisTokensPair.entrySet().stream().filter(entry -> entry.getValue().getJwtToken().equals(jwt)).findFirst().get().getKey();
 
         }finally{
-            this.reaaReadWriteLock.readLock().unlock();
+            this.THREAD_READ_WRITE_MANAGER.readLock().unlock();
         }
 
     }
@@ -137,13 +133,13 @@ public class TokenLocalStorageManager {
 
     public boolean existTokenPair(TokenPairObject tokenPairObject){
     
-        this.reaaReadWriteLock.readLock().lock();
+        this.THREAD_READ_WRITE_MANAGER.readLock().lock();
 
         try{
 
             return this.userAndHisTokensPair.containsValue(tokenPairObject);
         }finally{
-            this.reaaReadWriteLock.readLock().unlock();
+            this.THREAD_READ_WRITE_MANAGER.readLock().unlock();
         }
     }
 
@@ -159,7 +155,7 @@ public class TokenLocalStorageManager {
 
     public TokenPairObject getTokenPairInUser(User user){
 
-        this.reaaReadWriteLock.readLock().lock();
+        this.THREAD_READ_WRITE_MANAGER.readLock().lock();
         
         try{
             TokenPairObject tokenPairObject = this.userAndHisTokensPair.get(user);
@@ -167,7 +163,7 @@ public class TokenLocalStorageManager {
 
         }finally{
 
-            this.reaaReadWriteLock.readLock().unlock();
+            this.THREAD_READ_WRITE_MANAGER.readLock().unlock();
         }
 
         
@@ -176,17 +172,46 @@ public class TokenLocalStorageManager {
     }
 
 
+    public void deleteTokenPairUser(User userToDelete){
+        this.THREAD_READ_WRITE_MANAGER.writeLock().lock();
+
+        try{
+            this.userAndHisTokensPair.remove(userToDelete);
+
+
+        }finally{
+            this.THREAD_READ_WRITE_MANAGER.writeLock().unlock();
+        }
+
+    }
+
+    public void deleteTokenPairUser(TokenPairObject tokenPairObject){
+
+        THREAD_READ_WRITE_MANAGER.writeLock().lock();
+
+        try{
+
+            this.userAndHisTokensPair.entrySet().removeIf(entry -> entry.getValue().equals(tokenPairObject));
+        
+
+        }finally{
+            THREAD_READ_WRITE_MANAGER.writeLock().unlock();
+        }
+
+    }
+
+
 
 
     public  Map<User, TokenPairObject> getUserAndHisTokensPair() {
      
-        this.reaaReadWriteLock.readLock().lock();
+        this.THREAD_READ_WRITE_MANAGER.readLock().lock();
 
         try{
             Map<User , TokenPairObject>returnedMap = this.userAndHisTokensPair;
             return returnedMap;
         }finally{
-            reaaReadWriteLock.readLock().unlock();
+            THREAD_READ_WRITE_MANAGER.readLock().unlock();
         }
 
     }
