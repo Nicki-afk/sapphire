@@ -49,9 +49,7 @@ public class TokenLocalStorageManager {
     }
 
 
-    /*
-     * TODO : Оптимизировать под Stream<>
-     */
+   
     public boolean isRefreshTokenBelongsThisUser(User user , String refresh){
 
         this.THREAD_READ_WRITE_MANAGER.readLock().lock();
@@ -62,11 +60,9 @@ public class TokenLocalStorageManager {
 
             }
 
-            if(this.userAndHisTokensPair.containsKey(user)){
-                return this.userAndHisTokensPair.get(user).getRefreshToken().equals(refresh);
-            }
 
-            return false;
+            return this.userAndHisTokensPair.entrySet().stream().anyMatch(entry -> entry.getKey().equals(user) && entry.getValue().getRefreshToken().equals(refresh));
+
 
         }finally{
             this.THREAD_READ_WRITE_MANAGER.readLock().unlock();
