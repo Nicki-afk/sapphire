@@ -218,5 +218,27 @@ public class TokenLocalStorageManager {
 
     }
 
+    /*
+     * @nic_ko : Временное решение. В будущем подключить валидацию Spring 
+     */
+    private boolean objectUserIsValid(User user){
+        return user == null || user.getUserName().isEmpty() || user.getUserName() == null ||   
+                    user.getCryptoWalletAddress().isEmpty() || user.getCryptoWalletAddress() == null || 
+                                            user.getHashUserFile().isEmpty() || user.getHashUserFile() == null ? false : true;
+    }
+
+
+
+     /*
+     * @nic_ko : Временное решение. В будущем подключить валидацию Spring 
+     */
+    private boolean objectTokenPairIsValid(TokenPairObject tokenPairObject){
+        return tokenPairObject == null || tokenPairObject.getJwtToken().isEmpty() || tokenPairObject.getJwtToken() == null ||   
+                        tokenPairObject.getRefreshToken().isEmpty() || tokenPairObject.getRefreshToken() == null ? false : true;
+                        
+    }
+
+
+
         
 }
