@@ -45,6 +45,15 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     }
 
 
+    
+    @ExceptionHandler(value = {Exception.class})
+    protected ResponseEntity<ErrorRestResponse> handleAnyException(Exception e , WebRequest webRequest){
+      ErrorRestResponse errorRestResponse = new ErrorRestResponse("An error occurred while executing the request on the server side", e);
+      return ResponseEntity.status(500).body(errorRestResponse);
+
+    }
+
+
 
     
 }
