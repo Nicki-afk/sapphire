@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
 import gyber.websocket.models.User;
 import gyber.websocket.models.UserCustomDetails;
 import lombok.Getter;
@@ -52,13 +53,16 @@ public class TokenLocalStorageManager {
 
 
    
-    public boolean isRefreshTokenBelongsThisUser(User user , String refresh){
+    public boolean isRefreshTokenBelongsThisUser(User user , String refresh) throws TokenLocalStorageException{
 
         this.THREAD_READ_WRITE_MANAGER.readLock().lock();
 
         try{
-            if(user == null || refresh.isEmpty() || refresh == null){
-                throw new NullPointerException("User , or token is empty or null");
+            if(refresh.isEmpty() || refresh == null){
+                throw new TokenLocalStorageException("Error mapping user data, mapping unit == refresh token is empty or null" , new NullPointerException("User refresh is null or empty"));
+
+            }else if (!objectUserIsValid(user)){
+                throw new TokenLocalStorageException("Error mapping user data, mapping unit == { User object } is null" , new NullPointerException("User object is null"));
 
             }
 
@@ -72,7 +76,13 @@ public class TokenLocalStorageManager {
     }
 
     
-    public boolean isRefreshTokenBelongsThisUser(Long userId , String refreshToken){
+    public boolean isRefreshTokenBelongsThisUser(Long userId , String refreshToken) throws TokenLocalStorageException{
+
+        if(userId == 0 || userId == null || userId < 0){
+             throw new TokenLocalStorageException("Error mapping user data, mapping unit == user id { id < 0 || id == null || id == 0 } " , new IllegalArgumentException("Invalid user ID value"));
+
+        }
+
         THREAD_READ_WRITE_MANAGER.readLock().lock();
         try{
 
@@ -82,7 +92,11 @@ public class TokenLocalStorageManager {
         }
     }
 
-    public void updateTokenPairUser(User user){
+    public void updateTokenPairUser(User user) throws TokenLocalStorageException{
+
+        if(!objectUserIsValid(user)){
+            throw new TokenLocalStorageException("Unable to refresh user token because user object is null" , new NullPointerException("User object is null"));
+        }
 
         this.THREAD_READ_WRITE_MANAGER.writeLock().lock();
 
@@ -96,7 +110,12 @@ public class TokenLocalStorageManager {
         }
     }
 
-    public boolean exisistRefresh(String refresh){
+    public boolean exisistRefresh(String refresh) throws TokenLocalStorageException{
+
+        if(refresh.isEmpty() || refresh == null){
+            throw new TokenLocalStorageException("Error mapping user data, mapping unit == refresh token is empty or null" , new NullPointerException("User refresh is null or empty"));
+
+        }
 
         this.THREAD_READ_WRITE_MANAGER.readLock().lock();
         try{
@@ -107,7 +126,12 @@ public class TokenLocalStorageManager {
         }    
     }
 
-    public User getUserByRefresh(String refresh){
+    public User getUserByRefresh(String refresh) throws TokenLocalStorageException{
+
+        if(refresh.isEmpty() || refresh == null){
+            throw new TokenLocalStorageException("Error mapping user data, mapping unit == refresh token is empty or null" , new NullPointerException("User refresh is null or empty"));
+
+        }
 
      
         this.THREAD_READ_WRITE_MANAGER.readLock().lock();
@@ -120,7 +144,12 @@ public class TokenLocalStorageManager {
          
     }
 
-    public User getUserByJwt(String jwt){
+    public User getUserByJwt(String jwt) throws TokenLocalStorageException{
+
+        if(jwt.isEmpty() || jwt == null){
+            throw new TokenLocalStorageException("Error mapping user data, mapping unit == jwt token is empty or null" , new NullPointerException("User jwt is null or empty"));
+
+        }
 
         this.THREAD_READ_WRITE_MANAGER.readLock().lock();
         try{
@@ -133,7 +162,12 @@ public class TokenLocalStorageManager {
     }
 
 
-    public boolean existTokenPair(TokenPairObject tokenPairObject){
+    public boolean existTokenPair(TokenPairObject tokenPairObject) throws TokenLocalStorageException{
+
+        if(!objectTokenPairIsValid(tokenPairObject)){
+            throw new TokenLocalStorageException("The pair of tokens passed for processing cannot be correctly processed because it is empty" , new NullPointerException("TokenPairObject is null"));
+            
+        }
     
         this.THREAD_READ_WRITE_MANAGER.readLock().lock();
 
@@ -146,17 +180,27 @@ public class TokenLocalStorageManager {
     }
 
 
+    /*
+     * @nic_ko : Добавить проверку 
+     */
     public boolean jwtTokenIsValid(String jwtString){
         return this.jwtService.validateToken(jwtString);
     }
 
+    /*
+     * @nic_ko : Добавить проверку 
+     */
     public boolean refreshTokenIsValid(String refreshString){
 
         return this.refreshTokenService.validateToken(refreshString);
     }
 
-    public TokenPairObject getTokenPairInUser(User user){
+    public TokenPairObject getTokenPairInUser(User user) throws TokenLocalStorageException{
 
+            if (!objectUserIsValid(user)){
+                throw new TokenLocalStorageException("Error mapping user data, mapping unit == { User object } is null" , new NullPointerException("User object is null"));
+
+            }
         this.THREAD_READ_WRITE_MANAGER.readLock().lock();
         
         try{
