@@ -12,35 +12,36 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
+import io.jsonwebtoken.JwtException;
 import gyber.websocket.controllers.exceptions.ErrorRestResponse;
 
 @ControllerAdvice
 public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler{
 
-    // @ExceptionHandler(value 
-    //   = { IllegalArgumentException.class, IllegalStateException.class })
-    // protected ResponseEntity<Object> handaleConflict(RuntimeException ex, WebRequest request){
-    //     String errorMessage = "Error ";
-    //      return handleExceptionInternal(ex, errorMessage, 
-    //          new HttpHeaders(), HttpStatus.CONFLICT, request);
 
-    // }
-
-
-    @ExceptionHandler(value = {TokenLocalStorageException.class})
+    @ExceptionHandler(value = {TokenLocalStorageException.class , JwtException.class})
     protected ResponseEntity<Object> handleTokenException(TokenLocalStorageException exception , WebRequest webRequest){
    
      ErrorRestResponse response = new ErrorRestResponse();
      response
-     .addPrimaryErrorData("error_time", LocalDateTime.now())
-     .addPrimaryErrorData("status_code", 400)
-     .addPrimaryErrorData("error_message", "The error occurred as a result of working with tokens in the local storage of the server, see the error presented in the exceptions")
+     .simpleErrorPrimaryData("The error occurred as a result of working with tokens in the local storage of the server, see the error presented in the exceptions")
      .addErrorDataLink("short_stack_trace" , Arrays.copyOf(exception.getStackTrace(), 1))
      .addErrorDataLink("token_pair_exception_argument", exception.getTokenPairObject())
      .addErrorDataLink("user_exception_argument", exception.getUser());
 
       return ResponseEntity.badRequest().body(response);
 
+
+    }
+
+    @ExceptionHandler(value = {NullPointerException.class})
+    protected ResponseEntity<ErrorRestResponse> handleNullPointerException(NullPointerException exception , WebRequest webRequest){
+      ErrorRestResponse errorRestResponse = new ErrorRestResponse();
+      errorRestResponse
+      .simpleErrorPrimaryData("The server received invalid data. The data received by the server contains a null field, which is not allowed")
+      .simpleErrorDataLink(exception);
+
+      return ResponseEntity.badRequest().body(errorRestResponse);
 
     }
 

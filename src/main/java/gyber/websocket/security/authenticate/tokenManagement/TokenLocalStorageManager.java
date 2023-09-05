@@ -38,6 +38,8 @@ public class TokenLocalStorageManager {
 
         this.THREAD_READ_WRITE_MANAGER.writeLock().lock();
         try{
+
+
             TokenPairObject tokenPairUser = new TokenPairObject(this.jwtService.createToken(new UserCustomDetails(user)), this.refreshTokenService.createToken());
             this.userAndHisTokensPair.put(user, tokenPairUser);
             return tokenPairUser;
