@@ -40,11 +40,19 @@ public class JwtFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
        
+        /*
+         * @nic_ko : Вынести в отдельный метод 
+         */
         if(request.getRequestURI().equals("/register") | request.getRequestURI().equals("/auth")){
             filterChain.doFilter(request, response);
             return;
 
         }
+
+
+        /*
+         * @nic_ko : Вынести в отдельный метод 
+         */
 
        String headerData =  request.getHeader("Authorization");
        String token = "";
@@ -54,6 +62,9 @@ public class JwtFilter extends OncePerRequestFilter{
 
             if(!jwtService.validateToken(token)){
 
+                /*
+                    * @nic_ko : Вынести в отдельный метод 
+                */
                 String errorResponse = new ObjectMapper().writeValueAsString(new ErrorResponse(LocalDateTime.now() , 401 , new ExpiredJwtException(null, null, token) ,    "The user token has disappeared. You need to refresh the token for renewal or re-authorization."));
                 response.setStatus(401);
                 response.setContentType("application/json");
@@ -77,7 +88,9 @@ public class JwtFilter extends OncePerRequestFilter{
 
         }else{
 
-            // TODO : Вынести в отдельный метод 
+            /*
+                 * @nic_ko : Вынести в отдельный метод 
+             */
             ObjectMapper objectMapper = new ObjectMapper();
             String errorMessage = objectMapper.writeValueAsString(
                 Map.of("time" , new Date() , "code" , 401 , "message" , "User tokens JWT/RT Not found. Try to contact the address /auth for authorization")
