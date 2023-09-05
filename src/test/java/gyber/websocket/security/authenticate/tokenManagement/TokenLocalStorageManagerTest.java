@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
 import gyber.websocket.models.NetStatus;
 import gyber.websocket.models.User;
 
@@ -42,20 +43,20 @@ public class TokenLocalStorageManagerTest {
 
     
     @Test
-    public void testAddTokenPairForUser() {
+    public void testAddTokenPairForUser() throws TokenLocalStorageException {
         User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
         assertNotNull(" Test not passed. Return object is null ", this.tokenLocalStorageManagerTest.addTokenPairForUser(user));
         assertTrue("Test not passed. Map size is 0", this.tokenLocalStorageManagerTest.getUserAndHisTokensPair().size() > 0);
 
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testForNullAddTokenPairForObject(){
+    @Test(expected = TokenLocalStorageException.class)
+    public void testForNullAddTokenPairForObject() throws TokenLocalStorageException{
         this.tokenLocalStorageManagerTest.addTokenPairForUser(null);
     }
 
     @Test
-    public void testExistTokenPair() {
+    public void testExistTokenPair() throws TokenLocalStorageException {
         User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
         TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(user);
         assertTrue("Test not passed. Token pair not exist" , this.tokenLocalStorageManagerTest.existTokenPair(tokenPairObject));
@@ -66,7 +67,7 @@ public class TokenLocalStorageManagerTest {
     /* isRefreshTokenBelongsThisUser()  */
 
     @Test
-    public void testIsRefreshTokenBelongsThisUserByTue() {
+    public void testIsRefreshTokenBelongsThisUserByTue() throws TokenLocalStorageException {
         User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
         TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(user);
         assertTrue("Test not passed. Is token ...", this.tokenLocalStorageManagerTest.isRefreshTokenBelongsThisUser(user, tokenPairObject.getRefreshToken()));
@@ -74,19 +75,19 @@ public class TokenLocalStorageManagerTest {
     }
 
     @Test
-    public void testIsRefreshTokenBelongsThisUserByFalse(){
+    public void testIsRefreshTokenBelongsThisUserByFalse() throws TokenLocalStorageException{
         User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
         assertFalse("Test not passed. Is token ...", this.tokenLocalStorageManagerTest.isRefreshTokenBelongsThisUser(user, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w"));
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testIsRefreshTokenBelongsThisUserByNull(){
+    @Test(expected = TokenLocalStorageException.class)
+    public void testIsRefreshTokenBelongsThisUserByNull() throws TokenLocalStorageException{
        this.tokenLocalStorageManagerTest.isRefreshTokenBelongsThisUser(2L, null);
         
     }
 
     @Test
-    public void testIsRefreshTokenBelongsThisUserInUserIdByTrue(){
+    public void testIsRefreshTokenBelongsThisUserInUserIdByTrue() throws TokenLocalStorageException{
         User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
         TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(user);
         boolean result = this.tokenLocalStorageManagerTest.isRefreshTokenBelongsThisUser(2L, tokenPairObject.getRefreshToken());
@@ -94,7 +95,7 @@ public class TokenLocalStorageManagerTest {
     }
 
     @Test
-    public void testIsRefreshTokenBelongsThisUserInUserIdByFalse(){
+    public void testIsRefreshTokenBelongsThisUserInUserIdByFalse() throws TokenLocalStorageException{
         User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
         TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(user);
         boolean result = this.tokenLocalStorageManagerTest.isRefreshTokenBelongsThisUser(4L, tokenPairObject.getRefreshToken());
@@ -106,7 +107,7 @@ public class TokenLocalStorageManagerTest {
 
 
     @Test
-    public void testGetUserByRefresh(){
+    public void testGetUserByRefresh() throws TokenLocalStorageException{
         User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
         TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(user);
         User returnedUser = this.tokenLocalStorageManagerTest.getUserByRefresh(tokenPairObject.getRefreshToken());
@@ -117,7 +118,7 @@ public class TokenLocalStorageManagerTest {
     }
 
     @Test
-    public void testGetUserByJwt(){
+    public void testGetUserByJwt() throws TokenLocalStorageException{
         User putUser = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
         TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(putUser);
         User returnUser = this.tokenLocalStorageManagerTest.getUserByJwt(tokenPairObject.getJwtToken());
@@ -129,7 +130,7 @@ public class TokenLocalStorageManagerTest {
 
 
     @Test
-    public void testDeleteTokenPairByUser(){
+    public void testDeleteTokenPairByUser() throws TokenLocalStorageException{
         User putUser = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
         TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(putUser);
         this.tokenLocalStorageManagerTest.deleteTokenPairUser(putUser);
@@ -139,7 +140,7 @@ public class TokenLocalStorageManagerTest {
     }
 
     @Test
-    public void testDeleteTokenPairByTokenPair(){
+    public void testDeleteTokenPairByTokenPair() throws TokenLocalStorageException{
         User putUser = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
         TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(putUser);
         this.tokenLocalStorageManagerTest.deleteTokenPairUser(tokenPairObject);
@@ -150,7 +151,7 @@ public class TokenLocalStorageManagerTest {
 
 
     @Test
-    public void testUpdateTokenPairUser() {
+    public void testUpdateTokenPairUser() throws TokenLocalStorageException {
         User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
         TokenPairObject tokenPairObject = this.tokenLocalStorageManagerTest.addTokenPairForUser(user);
         String oldRefresh = tokenPairObject.getRefreshToken();

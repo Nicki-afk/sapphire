@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
 import gyber.websocket.security.authenticate.tokenManagement.TokenLocalStorageManager;
 
 public class RefreshFilter extends OncePerRequestFilter{
@@ -31,14 +32,19 @@ public class RefreshFilter extends OncePerRequestFilter{
         }else{
 
         
-            if(!tokenLocalStorageManager.exisistRefresh(refreshHeader)){
-                response.setStatus(401);
-                return;
+            try {
+                if(!tokenLocalStorageManager.exisistRefresh(refreshHeader)){
+                    response.setStatus(401);
+                    return;
 
-            }else if(!tokenLocalStorageManager.refreshTokenIsValid(refreshHeader)){
-                
-                
+                }else if(!tokenLocalStorageManager.refreshTokenIsValid(refreshHeader)){
+                    
+                    
 
+                }
+            } catch (TokenLocalStorageException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
 
             response.setStatus(200);

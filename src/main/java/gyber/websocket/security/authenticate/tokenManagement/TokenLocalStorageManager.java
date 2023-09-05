@@ -34,7 +34,12 @@ public class TokenLocalStorageManager {
     private RTService refreshTokenService;
 
 
-    public  TokenPairObject addTokenPairForUser(User user){
+    public  TokenPairObject addTokenPairForUser(User user) throws TokenLocalStorageException{
+
+        if(!objectUserIsValid(user)){
+            throw new TokenLocalStorageException("Error mapping user data, mapping unit == { User object } is null" , new NullPointerException("User object is null"));
+
+        }
 
 
         this.THREAD_READ_WRITE_MANAGER.writeLock().lock();
@@ -80,6 +85,9 @@ public class TokenLocalStorageManager {
 
         if(userId == 0 || userId == null || userId < 0){
              throw new TokenLocalStorageException("Error mapping user data, mapping unit == user id { id < 0 || id == null || id == 0 } " , new IllegalArgumentException("Invalid user ID value"));
+
+        }else if(refreshToken.isEmpty() || refreshToken == null){
+            throw new TokenLocalStorageException("Error mapping user data, mapping unit == refresh token is empty or null" , new NullPointerException("User refresh is null or empty"));
 
         }
 

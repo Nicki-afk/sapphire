@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
 import gyber.websocket.models.User;
 import gyber.websocket.models.UserCustomDetails;
 import gyber.websocket.models.repo.UserRepository;
@@ -38,7 +39,7 @@ public class LogInSingUpController {
 
 
     @PostMapping
-    public ResponseEntity postUser(@RequestBody User user){
+    public ResponseEntity postUser(@RequestBody User user) throws TokenLocalStorageException{
 
         this.userRepository.save(user);
         
@@ -58,7 +59,7 @@ public class LogInSingUpController {
 
 
 
-    public TokenPairObject authenticate(User user){
+    public TokenPairObject authenticate(User user) throws TokenLocalStorageException{
         UserCustomDetails userCustomDetails = new UserCustomDetails(user);
         UsernamePasswordAuthenticationToken userPrincipal = new UsernamePasswordAuthenticationToken(userCustomDetails.getUsername(), null, userCustomDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(userPrincipal);
