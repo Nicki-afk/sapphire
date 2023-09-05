@@ -19,6 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import gyber.websocket.models.UserCustomDetailsService;
 import gyber.websocket.security.authenticate.tokenManagement.JwtService;
+import gyber.websocket.security.authenticate.tokenManagement.TokenPairObject;
+import io.jsonwebtoken.JwtException;
+import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
+import gyber.websocket.controllers.exceptions.ErrorRestResponse;
+import gyber.websocket.models.NetStatus;
+import gyber.websocket.models.User;
 import gyber.websocket.models.UserCustomDetails;
 
 
@@ -60,8 +66,12 @@ public class AuthenticateController {
     }
 
     @GetMapping
-    public ResponseEntity simpleResponse(){
-        return ResponseEntity.ok("HI");
+    public ResponseEntity simpleResponse() throws TokenLocalStorageException {
+        User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
+        throw new TokenLocalStorageException("Jwt Validation not passed" , new Exception() , user , new TokenPairObject());
+       // return ResponseEntity.ok("HI");
     }
+
+    
     
 }
