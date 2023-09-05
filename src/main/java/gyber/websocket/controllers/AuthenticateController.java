@@ -65,12 +65,7 @@ public class AuthenticateController {
 
     }
 
-    @GetMapping
-    public ResponseEntity simpleResponse() throws TokenLocalStorageException {
-        User user = new User(2L, "@nic_ko", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w", NetStatus.ONLINE, "GpVlRPpkMY5e0IuMFrt00g3ioZFi1QKlMtKTtZPso0Jx2I1w0w");
-        throw new TokenLocalStorageException("Jwt Validation not passed" , new Exception() , user , new TokenPairObject());
-       // return ResponseEntity.ok("HI");
-    }
+
 
     
     
