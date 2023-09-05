@@ -44,6 +44,25 @@ public class ErrorRestResponse  {
     }
 
 
+    public ErrorRestResponse(String message , Map<String , Object> errorDataLink , int statusCode){
+        this.primapyErrorData.put("error_time", LocalDateTime.now());
+        this.primapyErrorData.put("status_code", statusCode);
+        this.primapyErrorData.put("discribe_message" , message);
+
+        this.errorDataLink = errorDataLink;
+
+    }
+
+    public ErrorRestResponse(String message , Exception exception){
+        internalServerError();
+
+        this.errorDataLink.put("short_stack_trace" , Arrays.copyOf(exception.getStackTrace() , 2));
+        this.errorDataLink.put("local_message", exception.getLocalizedMessage());
+        
+
+    }
+
+
     public ErrorRestResponse addPrimaryErrorData(String nameProperty , Object valueProperty){
         this.primapyErrorData.put(nameProperty, valueProperty);
         return this;
@@ -53,6 +72,13 @@ public class ErrorRestResponse  {
         this.errorDataLink.put(nameProperty , valueProperty);
         return this;
     
+    }
+
+    public ErrorRestResponse internalServerError(){
+        this.primapyErrorData.put("error_time", LocalDateTime.now());
+        this.primapyErrorData.put("status_code", 500);
+        this.primapyErrorData.put("discribe_message" , "An error occurred while executing the request on the server side");
+        return this;
     }
 
 
