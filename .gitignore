@@ -30,3 +30,4 @@ Thumbs.db
 
 # Props files
 *.properties
+!maven-wrapper.properties
