@@ -81,6 +81,20 @@ public class ErrorRestResponse  {
         return this;
     }
 
+    public ErrorRestResponse simpleErrorPrimaryData(String shortMessage){
+        addPrimaryErrorData("discribe_message", shortMessage)
+        .addPrimaryErrorData("error_time", LocalDateTime.now())
+        .addPrimaryErrorData("status_code", 400);
+
+        return this;
+    }
+
+    public ErrorRestResponse simpleErrorDataLink(Exception e){
+        addErrorDataLink("short_stack_trace", Arrays.copyOf(e.getStackTrace() , 2));
+        addErrorDataLink("local_message", e.getLocalizedMessage());
+        return this;
+
+    }
 
 
     
