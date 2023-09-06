@@ -178,9 +178,11 @@ public class TokenLocalStorageManager {
      */
     public User getUserByJwt(String jwt) throws TokenLocalStorageException{
 
-        if(jwt.isEmpty() || jwt == null){
+        if(jwt.isEmpty() || jwt == null ){
             throw new TokenLocalStorageException("Error mapping user data, mapping unit == jwt token is empty or null" , new NullPointerException("User jwt is null or empty"));
 
+        }else if(!this.userAndHisTokensPair.entrySet().stream().anyMatch(entry -> entry.getValue().getJwtToken().equals(jwt))){
+            throw new TokenLocalStorageException("Error mapping user data, mapping unit == jwt token is not found" , new NullPointerException("User jwt is null or empty"));
         }
 
         this.THREAD_READ_WRITE_MANAGER.readLock().lock();
