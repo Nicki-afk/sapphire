@@ -20,7 +20,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtService implements TokenAuthenticate {
 
 
-   private Date expirationDate = Date.from(LocalDateTime.now().plusHours(4).atZone(ZoneId.systemDefault()).toInstant());
+   private Date expirationDate ;
    @Value("${jwt.token.sign}")  private String singature;
    
 
@@ -46,6 +46,8 @@ public class JwtService implements TokenAuthenticate {
         Map<String , Object>payload = new HashMap<>();
         payload.put("userId", userDetails.getId());
         payload.put("username", userDetails.getUsername());
+
+        this.expirationDate = Date.from(LocalDateTime.now().plusHours(4).atZone(ZoneId.systemDefault()).toInstant());
 
        return   Jwts.
                          builder()
@@ -77,7 +79,7 @@ public class JwtService implements TokenAuthenticate {
               return true;
         
         } catch (JwtException | IllegalArgumentException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }   
 
         return false;
