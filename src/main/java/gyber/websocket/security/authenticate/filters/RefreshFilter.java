@@ -23,6 +23,12 @@ import gyber.websocket.security.authenticate.tokenManagement.TokenLocalStorageMa
 import gyber.websocket.security.authenticate.tokenManagement.TokenPairObject;
 
 
+/*
+ * @nic_ko : Подумать над идей общего интерфейса в котором будут реализованны 
+ *           методы для построения ошибок , и их ответов. Таким образом мы разгрузим 
+ *           и сократим фильтр удалив лишнюю логику за которую фильтр не должен отвечать
+ */
+
 public class RefreshFilter extends OncePerRequestFilter{
 
 
@@ -44,17 +50,15 @@ public class RefreshFilter extends OncePerRequestFilter{
 
         }else{
 
-        /*
-         * @nic_ko : Дописать  
-         */
+
             try {
                 if(!tokenLocalStorageManager.exisistRefresh(refreshHeader)){
                     constructErrorResponse(response, "Refresh token does not exist, please login to get tokens");
-                    return;
+                    
 
                 }else if(tokenLocalStorageManager.exisistRefresh(refreshHeader) && !tokenLocalStorageManager.refreshTokenIsValid(refreshHeader)){
                     constructErrorResponse(response, "The refresh token has expired, please re-authorize");
-                    return;
+                    
                     
                 }
 
@@ -64,10 +68,9 @@ public class RefreshFilter extends OncePerRequestFilter{
 
             } catch (TokenLocalStorageException e) {
                constructErrorResponse(response, "An error occurred while processing the token", e);
-               return;
+            
             } catch (Exception e){
                 constructErrorResponse(response, "A critical error occurred while processing the token by the filter", e);
-                return;
             }
 
     
@@ -91,7 +94,7 @@ public class RefreshFilter extends OncePerRequestFilter{
             response.getWriter().write(objectMapper.writeValueAsString(errorRestResponse));
         } catch (IOException e) {
           
-            e.printStackTrace();
+          constructErrorResponse(response, "An exception was thrown while processing and building the error response. Unable to submit error data. See the exception for detailed localization of the exception", e);
         }
 
         return;
@@ -116,7 +119,8 @@ public class RefreshFilter extends OncePerRequestFilter{
             response.getWriter().write(objectMapper.writeValueAsString(errorRestResponse));
         } catch (IOException ioException) {
             // TODO Auto-generated catch block
-            ioException.printStackTrace();
+             ioException.printStackTrace();
+        
         }
 
         return;
