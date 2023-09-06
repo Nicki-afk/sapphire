@@ -6,6 +6,7 @@
 
 # IntelliJ IDEA files
 .idea/
+.vscode
 
 # Eclipse files
 .classpath
