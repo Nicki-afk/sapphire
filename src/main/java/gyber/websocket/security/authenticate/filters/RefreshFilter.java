@@ -2,20 +2,14 @@ package gyber.websocket.security.authenticate.filters;
 
 import java.io.IOException;
 import java.util.Arrays;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import gyber.websocket.controllers.exceptions.ErrorRestResponse;
 import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
 import gyber.websocket.models.User;
