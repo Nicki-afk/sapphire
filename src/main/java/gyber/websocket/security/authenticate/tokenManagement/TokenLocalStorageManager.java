@@ -15,6 +15,12 @@ import gyber.websocket.models.UserCustomDetails;
 import lombok.Getter;
 import lombok.Setter;
 
+/*
+ * Добавить : 
+ * - Поиск пары токенов по refresh 
+ * - Поиск пары токенов по jwt 
+ * - existJwt()
+ */
 
 @Service
 public class TokenLocalStorageManager {
@@ -57,6 +63,9 @@ public class TokenLocalStorageManager {
     }
 
 
+    /*
+     * @nic_ko : Добавить проверку existRefreshToken() перед выполнением основного тела метода 
+     */
    
     public boolean isRefreshTokenBelongsThisUser(User user , String refresh) throws TokenLocalStorageException{
 
@@ -80,13 +89,16 @@ public class TokenLocalStorageManager {
         }
     }
 
-    
+     /*
+     * @nic_ko : Добавить проверку existRefreshToken() перед выполнением основного тела метода 
+     *           Также добавить проверку через метод validateRefresh()
+     */
     public boolean isRefreshTokenBelongsThisUser(Long userId , String refreshToken) throws TokenLocalStorageException{
 
         if(userId == 0 || userId == null || userId < 0){
              throw new TokenLocalStorageException("Error mapping user data, mapping unit == user id { id < 0 || id == null || id == 0 } " , new IllegalArgumentException("Invalid user ID value"));
 
-        }else if(refreshToken.isEmpty() || refreshToken == null){
+        }else if(refreshToken == null || refreshToken.isEmpty()){
             throw new TokenLocalStorageException("Error mapping user data, mapping unit == refresh token is empty or null" , new NullPointerException("User refresh is null or empty"));
 
         }
@@ -117,7 +129,9 @@ public class TokenLocalStorageManager {
             this.THREAD_READ_WRITE_MANAGER.writeLock().unlock();
         }
     }
-
+    /*
+     * @nic_ko : добавить проверку через метод validateRefresh()
+     */
     public boolean exisistRefresh(String refresh) throws TokenLocalStorageException{
 
         if(refresh.isEmpty() || refresh == null){
@@ -134,6 +148,11 @@ public class TokenLocalStorageManager {
         }    
     }
 
+
+     /*
+     * @nic_ko : Добавить проверку existRefreshToken() перед выполнением основного тела метода 
+     *           Также добавить проверку через метод validateRefresh()
+     */
     public User getUserByRefresh(String refresh) throws TokenLocalStorageException{
 
         if(refresh.isEmpty() || refresh == null){
@@ -152,6 +171,10 @@ public class TokenLocalStorageManager {
          
     }
 
+
+    /*
+     * @nic_ko : Добавить проверку existJwt() перед выполнением основного тела метода 
+     */
     public User getUserByJwt(String jwt) throws TokenLocalStorageException{
 
         if(jwt.isEmpty() || jwt == null){
@@ -226,6 +249,9 @@ public class TokenLocalStorageManager {
     }
 
 
+    /*
+     * @nic_ko : Добавить проверку 
+     */
     public void deleteTokenPairUser(User userToDelete){
         this.THREAD_READ_WRITE_MANAGER.writeLock().lock();
 
@@ -239,6 +265,9 @@ public class TokenLocalStorageManager {
 
     }
 
+     /*
+     * @nic_ko : Добавить проверку 
+     */
     public void deleteTokenPairUser(TokenPairObject tokenPairObject){
 
         THREAD_READ_WRITE_MANAGER.writeLock().lock();

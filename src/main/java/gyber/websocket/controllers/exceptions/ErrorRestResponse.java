@@ -1,6 +1,7 @@
 package gyber.websocket.controllers.exceptions;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +63,13 @@ public class ErrorRestResponse  {
 
     }
 
+    public ErrorRestResponse(String message , int statusCode){
+        addPrimaryErrorData("status_code",statusCode);
+        addPrimaryErrorData("discribe_message", message);
+        addPrimaryErrorData("error_time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss-dd:MM:yyyy")));
+
+    }
+
 
     public ErrorRestResponse addPrimaryErrorData(String nameProperty , Object valueProperty){
         this.primapyErrorData.put(nameProperty, valueProperty);
@@ -93,6 +101,15 @@ public class ErrorRestResponse  {
         addErrorDataLink("short_stack_trace", Arrays.copyOf(e.getStackTrace() , 2));
         addErrorDataLink("local_message", e.getLocalizedMessage());
         return this;
+
+    }
+
+    public ErrorRestResponse simple401Unauthorized(){
+             addPrimaryErrorData("discribe_message", "the refresh token has expired please refresh a couple of tokens");
+             addPrimaryErrorData("error_time", LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE));
+             addPrimaryErrorData("status_code", 401);
+
+             return this;
 
     }
 

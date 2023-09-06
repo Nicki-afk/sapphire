@@ -149,7 +149,7 @@ public class TokenLocalStorageManagerParameterTest {
                             e.printStackTrace();
                         }
                         assertNotNull(tokenPairObject);
-                        System.out.println("User Read successful !");
+                       
                         writeCountDownLatch.countDown();
                     });
             }
@@ -235,7 +235,6 @@ public class TokenLocalStorageManagerParameterTest {
                             e.printStackTrace();
                         }
                         assertNotNull(tokenPairObject);
-                        System.out.println("User Read successful !");
                         writeCountDownLatch.countDown();
                     });
             }
