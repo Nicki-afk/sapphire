@@ -64,9 +64,6 @@ public class LogInSingUpController {
         UsernamePasswordAuthenticationToken userPrincipal = new UsernamePasswordAuthenticationToken(userCustomDetails.getUsername(), null, userCustomDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(userPrincipal);
 
-        // for test 
-        this.tokenLocalStorageManager.getRefreshTokenService().setExpirationDate(120);
-
         return this.tokenLocalStorageManager.addTokenPairForUser(user);
     }
 }
