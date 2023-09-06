@@ -20,7 +20,9 @@ import gyber.websocket.security.authenticate.tokenManagement.TokenPairObject;
 /*
  * @nic_ko : Подумать над идей общего интерфейса в котором будут реализованны 
  *           методы для построения ошибок , и их ответов. Таким образом мы разгрузим 
- *           и сократим фильтр удалив лишнюю логику за которую фильтр не должен отвечать
+ *           и сократим фильтр удалив лишнюю логику за которую фильтр не должен отвечать.
+ *           Также в интерфейс можно будет определить список URL по которым можно попасть
+ *           без авторизации 
  */
 
 public class RefreshFilter extends OncePerRequestFilter{
@@ -48,16 +50,18 @@ public class RefreshFilter extends OncePerRequestFilter{
             try {
                 if(!tokenLocalStorageManager.exisistRefresh(refreshHeader)){
                     constructErrorResponse(response, "Refresh token does not exist, please login to get tokens");
+                    return;
                     
 
                 }else if(tokenLocalStorageManager.exisistRefresh(refreshHeader) && !tokenLocalStorageManager.refreshTokenIsValid(refreshHeader)){
                     constructErrorResponse(response, "The refresh token has expired, please re-authorize");
-                    
+                    return;
                     
                 }
 
 
                 constructTheOkResponse(response, refreshHeader);
+                return;
 
 
             } catch (TokenLocalStorageException e) {
