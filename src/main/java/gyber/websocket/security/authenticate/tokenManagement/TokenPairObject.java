@@ -1,6 +1,8 @@
 package gyber.websocket.security.authenticate.tokenManagement;
 
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
@@ -17,6 +19,7 @@ import lombok.Setter;
 public class TokenPairObject {
 
     @JsonProperty(value = "time_to_create")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private  final LocalDateTime timeToCreateTokenPair = LocalDateTime.now();
     @JsonProperty(value = "jwt")
     private String jwtToken;

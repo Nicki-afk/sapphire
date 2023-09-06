@@ -66,7 +66,7 @@ public class ErrorRestResponse  {
     public ErrorRestResponse(String message , int statusCode){
         addPrimaryErrorData("status_code",statusCode);
         addPrimaryErrorData("discribe_message", message);
-        addPrimaryErrorData("error_time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss-dd:MM:yyyy")));
+        addPrimaryErrorData("error_time", LocalDateTime.now());
 
     }
 

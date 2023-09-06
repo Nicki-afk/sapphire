@@ -20,6 +20,7 @@ import lombok.Setter;
  * - Поиск пары токенов по refresh 
  * - Поиск пары токенов по jwt 
  * - existJwt()
+ * - Сделать так что при обновлений токенов возвращался новый TokenPairObject
  */
 
 @Service
