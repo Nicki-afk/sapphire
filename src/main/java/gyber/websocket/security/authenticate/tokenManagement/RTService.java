@@ -20,11 +20,13 @@ public class RTService implements TokenAuthenticate{
 
 
     private String randomTokenString =  new RandomString(128).nextString();
-    private Date expirDate = Date.from(LocalDateTime.now().plusDays(2).atZone(ZoneId.systemDefault()).toInstant());
+    private Date expirDate;
 
 
     @Override
     public String createToken() {
+
+        this.expirDate = Date.from(LocalDateTime.now().plusDays(2).atZone(ZoneId.systemDefault()).toInstant());
      
        String refreshTokenString =  new StringBuilder()
                                         .append(randomTokenString)
@@ -37,6 +39,26 @@ public class RTService implements TokenAuthenticate{
         String refreshTokenBase64 = Base64.getEncoder().encodeToString(refreshTokenString.getBytes());
 
         return refreshTokenBase64;
+    }
+
+
+    // for test case
+    public String testCreateToken(long seconds){
+        this.expirDate = Date.from(LocalDateTime.now().plusSeconds(seconds).atZone(ZoneId.systemDefault()).toInstant());
+     
+       String refreshTokenString =  new StringBuilder()
+                                        .append(randomTokenString)
+                                        .append("_")
+                                        .append(LocalDateTime.now())
+                                        .append("_")
+                                        .append(this.expirDate.getTime())
+                                        .toString();
+
+        String refreshTokenBase64 = Base64.getEncoder().encodeToString(refreshTokenString.getBytes());
+
+        return refreshTokenBase64;
+
+
     }
 
     @Override
@@ -64,12 +86,12 @@ public class RTService implements TokenAuthenticate{
     
     }
 
-    public RTService setExpirationDate(long seconds){
-        this.expirDate = Date.from(LocalDateTime.now().plusSeconds(seconds).atZone(ZoneId.systemDefault()).toInstant());
+    // public RTService setExpirationDate(long seconds){
+    //     this.expirDate = Date.from(LocalDateTime.now().plusSeconds(seconds).atZone(ZoneId.systemDefault()).toInstant());
 
-        return this;
+    //     return this;
 
-    }
+    // }
 
     public RTService setSecretRandomString(String randomString){
         this.randomTokenString = randomString;
