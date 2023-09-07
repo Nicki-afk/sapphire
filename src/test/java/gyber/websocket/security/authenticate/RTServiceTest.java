@@ -42,13 +42,13 @@ public class RTServiceTest {
 
     @Test
     public void testRTWithOverdueDate(){
-        this.rtService.setExpirationDate(30);
+       // this.rtService.setExpirationDate(30);
 
-        String token = this.rtService.createToken();
+        String token = this.rtService.testCreateToken(60);
 
         try{
             while(true){
-                Thread.sleep(40000);
+                Thread.sleep(61000);
                 break;
             }
             
@@ -64,12 +64,12 @@ public class RTServiceTest {
 
     @Test
     public void testRTWithVaildDate(){
-        this.rtService.setExpirationDate(20);
-        String token = this.rtService.createToken();
+       // this.rtService.setExpirationDate(20);
+        String token = this.rtService.testCreateToken(60);
 
         try{
             while(true){
-                Thread.sleep(19000);
+                Thread.sleep(59000);
                 break;
 
             }

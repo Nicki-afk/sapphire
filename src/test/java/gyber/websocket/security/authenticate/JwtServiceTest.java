@@ -78,11 +78,11 @@ public class JwtServiceTest {
     public void testJwtTokenIsValidToTime(){
         try{
 
-            this.jwtService.setExpirationDate(60);
-            String tokeString = this.jwtService.createToken(new UserCustomDetails(2L, "@nic_ko", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
+            
+            String tokeString = this.jwtService.testCreateJwt(new UserCustomDetails(2L, "@nic_ko", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9") , 60);
 
             while(true){
-                Thread.sleep(30000);
+                Thread.sleep(59000);
                 break;
 
             }
@@ -101,11 +101,10 @@ public class JwtServiceTest {
     public void testJwtTokenIsInvalidToTime(){
         try{
 
-            this.jwtService.setExpirationDate(30);
-            String tokeString = this.jwtService.createToken(new UserCustomDetails(2L, "@nic_ko", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9"));
+            String tokeString = this.jwtService.testCreateJwt(new UserCustomDetails(2L, "@nic_ko", "JzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwibGFzdG5hbWUiOiJEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9") , 60);
 
             while(true){
-                Thread.sleep(40000); // 40 sec
+                Thread.sleep(61000); // 61 sec
                 break;
 
             }
