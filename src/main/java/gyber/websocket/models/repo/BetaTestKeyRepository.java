@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import gyber.websocket.security.beta.BetaTestKey;
 
 @Repository
-public interface BetaTestKeyRepository extends JpaRepository<Long , BetaTestKey> {
+public interface BetaTestKeyRepository extends JpaRepository<BetaTestKey , BetaTestKey> {
 
     
 }
