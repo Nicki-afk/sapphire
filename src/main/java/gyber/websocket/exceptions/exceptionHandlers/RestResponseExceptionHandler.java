@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import gyber.websocket.exceptions.BetaTestKeyException;
 import gyber.websocket.exceptions.ErrorRestResponse;
 import gyber.websocket.exceptions.TokenLocalStorageException;
 import io.jsonwebtoken.JwtException;
@@ -42,6 +43,27 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
       .simpleErrorDataLink(exception);
 
       return ResponseEntity.badRequest().body(errorRestResponse);
+
+    }
+
+    public ResponseEntity<ErrorRestResponse> handleBetaTestKeyException(BetaTestKeyException betaTestKeyException , WebRequest webRequest){
+      if(betaTestKeyException.getBetaTestKey() == null){
+
+        ErrorRestResponse errorRestResponse = new ErrorRestResponse("Error when checking beta test key, read the exception for detailed error localization" , 401);
+        errorRestResponse.addErrorDataLink("short_stack_trace", Arrays.copyOf(betaTestKeyException.getStackTrace(), 2));
+        errorRestResponse.addErrorDataLink("local_message", betaTestKeyException.getLocalizedMessage());
+        return ResponseEntity.status(401).body(errorRestResponse);
+
+      
+      }
+
+      ErrorRestResponse errorRestResponse = new ErrorRestResponse("Error when checking beta test key, read the exception for detailed error localization" , 401);
+      errorRestResponse.addErrorDataLink("short_stack_trace", Arrays.copyOf(betaTestKeyException.getStackTrace(), 2));
+      errorRestResponse.addErrorDataLink("key_data", betaTestKeyException.getBetaTestKey());
+      errorRestResponse.addErrorDataLink("local_message", betaTestKeyException.getLocalizedMessage());
+      return ResponseEntity.status(401).body(errorRestResponse);
+
+
 
     }
 
