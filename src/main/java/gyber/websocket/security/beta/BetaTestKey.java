@@ -28,7 +28,8 @@ public class BetaTestKey {
     @Column(name = "expiration_date")  private LocalDateTime expirationDate;
     @Column(name = "key_is_active")    private boolean isActive;
 
-    @Column(name = "beta_key")         private String key;
+    @Column(name = "beta_key")               private String key;
+    @OneToOne(mappedBy = "betaTestKey")      private User user;
 
     public BetaTestKey(String key) {
         this.key = key;
