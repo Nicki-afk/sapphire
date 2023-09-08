@@ -1,4 +1,4 @@
-package gyber.websocket.controllers.exceptions;
+package gyber.websocket.exceptions;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

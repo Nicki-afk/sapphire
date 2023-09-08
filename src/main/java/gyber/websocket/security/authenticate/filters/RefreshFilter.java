@@ -10,8 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gyber.websocket.controllers.exceptions.ErrorRestResponse;
-import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
+
+import gyber.websocket.exceptions.ErrorRestResponse;
+import gyber.websocket.exceptions.TokenLocalStorageException;
 import gyber.websocket.models.User;
 import gyber.websocket.security.authenticate.tokenManagement.TokenLocalStorageManager;
 import gyber.websocket.security.authenticate.tokenManagement.TokenPairObject;

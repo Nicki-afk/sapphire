@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
+import gyber.websocket.exceptions.TokenLocalStorageException;
 import gyber.websocket.models.NetStatus;
 import gyber.websocket.models.User;
 

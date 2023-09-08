@@ -1,4 +1,4 @@
-package gyber.websocket.controllers.exceptions;
+package gyber.websocket.exceptions;
 
 import gyber.websocket.models.User;
 import gyber.websocket.security.authenticate.tokenManagement.TokenPairObject;

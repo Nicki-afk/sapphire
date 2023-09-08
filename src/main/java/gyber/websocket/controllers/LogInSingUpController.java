@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
+import gyber.websocket.exceptions.TokenLocalStorageException;
 import gyber.websocket.models.User;
 import gyber.websocket.models.UserCustomDetails;
 import gyber.websocket.models.repo.UserRepository;

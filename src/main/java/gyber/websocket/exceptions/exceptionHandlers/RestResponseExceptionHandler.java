@@ -1,4 +1,4 @@
-package gyber.websocket.controllers.exceptions.exceptionHandlers;
+package gyber.websocket.exceptions.exceptionHandlers;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
+import gyber.websocket.exceptions.ErrorRestResponse;
+import gyber.websocket.exceptions.TokenLocalStorageException;
 import io.jsonwebtoken.JwtException;
-import gyber.websocket.controllers.exceptions.ErrorRestResponse;
 
 @ControllerAdvice
 public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler{
 
 
-    @ExceptionHandler(value = {TokenLocalStorageException.class , JwtException.class})
+    @ExceptionHandler(value = {TokenLocalStorageException.class })
     protected ResponseEntity<Object> handleTokenException(TokenLocalStorageException exception , WebRequest webRequest){
    
      ErrorRestResponse response = new ErrorRestResponse();

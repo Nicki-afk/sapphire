@@ -22,8 +22,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import gyber.websocket.controllers.exceptions.ErrorRestResponse;
-import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
+import gyber.websocket.exceptions.ErrorRestResponse;
+import gyber.websocket.exceptions.TokenLocalStorageException;
 import gyber.websocket.models.ErrorResponse;
 import gyber.websocket.models.UserCustomDetails;
 import gyber.websocket.models.UserCustomDetailsService;

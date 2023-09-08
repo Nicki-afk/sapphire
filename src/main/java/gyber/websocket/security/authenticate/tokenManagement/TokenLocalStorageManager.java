@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import gyber.websocket.controllers.exceptions.TokenLocalStorageException;
+import gyber.websocket.exceptions.TokenLocalStorageException;
 import gyber.websocket.models.User;
 import gyber.websocket.models.UserCustomDetails;
 import lombok.Getter;
