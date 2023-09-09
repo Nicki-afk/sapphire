@@ -19,13 +19,19 @@ sudo bash ./startup.sh
 ```
 <br>
 
-### Warning ⚠️
+### Alternative option
 
-I strongly recommend that you use the manual start for Windows. It is a little longer, but for that, the server is more likely to start. Functionally, everything also needs to run only one command 
+If for some reason you are unable to run the application through the statrtup.sh file, you can use the following command. **However, before this you must have [Java 17](https://www.techspot.com/downloads/7440-java-se-17.html) installed**
 
-```batch
+```cmd
 ./mvnw.cmd install spring-boot:run
 ```
+Or if you are on Linux
+
+```bash
+./mvnw install spring-boot:run
+```
+
 
 After that the server will be successfully started
 
