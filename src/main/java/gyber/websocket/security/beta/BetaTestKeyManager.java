@@ -37,11 +37,19 @@ public class BetaTestKeyManager {
     }
 
 
-    public boolean isBetaKeyIsValid(BetaTestKey betaTestKey) throws BetaTestKeyException{
-        if(!existKey(betaTestKey) || !isExpiried(betaTestKey)){
-            throw new BetaTestKeyException("The given key does not exist or is not valid. Perhaps the key is expired" , betaTestKey);
-            
+    public boolean isBetaKeyIsValid(String key) throws BetaTestKeyException{
+        if(!existKey(key)){
+            throw new BetaTestKeyException("The given key does not exist " , null);
+
         }
+
+        BetaTestKey extractedKey = this.repository.findByKey(key).orElse(null);
+
+        if(!isExpiried(extractedKey)){
+            throw new BetaTestKeyException("The key has expired, this key can no longer be used" , extractedKey);
+        }
+
+
 
         return true;
     }
@@ -58,7 +66,7 @@ public class BetaTestKeyManager {
     }
 
     private boolean existKey(String key) throws BetaTestKeyException{
-        return this.repository.findByKey(key).isPresent();
+        return this.repository.existByKey(key);
     }
 
 
