@@ -9,9 +9,13 @@ import org.springframework.stereotype.Service;
 import gyber.websocket.exceptions.BetaTestKeyException;
 import gyber.websocket.models.User;
 import gyber.websocket.models.repo.BetaTestKeyRepository;
+import lombok.Getter;
+import lombok.Setter;
 import net.bytebuddy.utility.RandomString;
 
 @Service
+@Getter
+@Setter
 public class BetaTestKeyManager {
 
     @Autowired
@@ -46,6 +50,11 @@ public class BetaTestKeyManager {
            throw new BetaTestKeyException("Your king tsar-does not exist. This key is not the tsar-key", null);
         }
 
+        if(quantity <= 0 || tsarKey.isEmpty() || tsarKey == null){
+            throw new IllegalArgumentException("it is impossible to generate keys because the generation parameters are not valid");
+
+        }
+
         BetaTestKey[]moreKeys = new BetaTestKey[quantity];
         for(int x = 0; x < moreKeys.length; x++){
             String key = new RandomString(128).nextString();
@@ -57,7 +66,7 @@ public class BetaTestKeyManager {
 
 
     public boolean isBetaKeyIsValid(String key) throws BetaTestKeyException{
-        if(!existKey(key)){
+        if(!existsKey(key)){
             throw new BetaTestKeyException("The given key does not exist " , null);
 
         }
@@ -84,8 +93,8 @@ public class BetaTestKeyManager {
 
     }
 
-    private boolean existKey(String key) throws BetaTestKeyException{
-        return this.repository.existByKey(key);
+    private boolean existsKey(String key) throws BetaTestKeyException{
+        return this.repository.existsByKey(key);
     }
 
 
