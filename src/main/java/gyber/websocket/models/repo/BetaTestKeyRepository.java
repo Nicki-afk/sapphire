@@ -11,6 +11,7 @@ import gyber.websocket.security.beta.BetaTestKey;
 public interface BetaTestKeyRepository extends JpaRepository<BetaTestKey , Long> {
 
     Optional<BetaTestKey> findById(Long id);
+    Optional<BetaTestKey> findByKey(String key);
 
     
 }
