@@ -12,7 +12,7 @@ public interface BetaTestKeyRepository extends JpaRepository<BetaTestKey , Long>
 
     Optional<BetaTestKey> findById(Long id);
     Optional<BetaTestKey> findByKey(String key);
-    boolean existByKey(String key);
+    boolean existsByKey(String key);
 
     
 }
