@@ -37,6 +37,25 @@ public class BetaTestKeyManager {
     }
 
 
+    /*
+     * For test : src/test/java/gyber/websocket/security/beta/BetaTestKeyManagerTest.java
+     */
+    public BetaTestKey[] testGenerateMoreKeys(int quantity , String tsarKey) throws BetaTestKeyException{
+
+        if(!TSAR_KEY.equals(tsarKey)){
+           throw new BetaTestKeyException("Your king tsar-does not exist. This key is not the tsar-key", null);
+        }
+
+        BetaTestKey[]moreKeys = new BetaTestKey[quantity];
+        for(int x = 0; x < moreKeys.length; x++){
+            String key = new RandomString(128).nextString();
+            moreKeys[x] = new BetaTestKey((LocalDateTime.now()), (LocalDateTime.now().plusMinutes(2)), false, key);
+        }
+
+        return moreKeys;
+    }
+
+
     public boolean isBetaKeyIsValid(String key) throws BetaTestKeyException{
         if(!existKey(key)){
             throw new BetaTestKeyException("The given key does not exist " , null);
