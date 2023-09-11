@@ -57,9 +57,8 @@ public class BetaTestKeyManager {
 
     }
 
-    private boolean existKey(BetaTestKey betaTestKey) throws BetaTestKeyException{
-        BetaTestKey findKey = repository.findById(betaTestKey.getId()).orElseThrow(() -> new BetaTestKeyException("The key was not found for this id. Try another key", null));
-        return true;
+    private boolean existKey(String key) throws BetaTestKeyException{
+        return this.repository.findByKey(key).isPresent();
     }
 
 
