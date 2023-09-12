@@ -65,6 +65,29 @@ public class BetaTestKeyManagerTest {
         BetaTestKey[]arrKeys = this.betaTestKeyManager.testGenerateMoreKeys(30, null);
     }
 
+    @Test
+    public void testIsBetaKeyIsValidTestExpirationValid() {
+    
+
+        try{
+            BetaTestKey[]arrKeys = this.betaTestKeyManager.testGenerateMoreKeys(30, this.betaTestKeyManager.getTSAR_KEY());
+            Thread.sleep(59000);
+
+            int x = 0;
+            while(x < arrKeys.length){
+
+               // assertTrue("null", this.betaTestKeyManager.);
+                x++;
+            }
+
+        }catch(Exception  e){
+            e.printStackTrace();
+
+        }
+
+
+    }
+
 
     
 }
