@@ -28,7 +28,7 @@ public class BetaTestKeyManager {
     public BetaTestKey[] generateMoreKeys(int quantity , String tsarKey) throws BetaTestKeyException{
 
         if(!TSAR_KEY.equals(tsarKey)){
-           throw new BetaTestKeyException("Your king tsar-does not exist. This key is not the tsar-key", null);
+           throw new BetaTestKeyException("Your king tsar-does not exist. This key is not the tsar-key");
         }
 
         BetaTestKey[]moreKeys = new BetaTestKey[quantity];
@@ -47,7 +47,7 @@ public class BetaTestKeyManager {
     public BetaTestKey[] testGenerateMoreKeys(int quantity , String tsarKey) throws BetaTestKeyException{
 
         if(!TSAR_KEY.equals(tsarKey)){
-           throw new BetaTestKeyException("Your king tsar-does not exist. This key is not the tsar-key", null);
+           throw new BetaTestKeyException("Your king tsar-does not exist. This key is not the tsar-key");
         }
 
         if(quantity <= 0 || tsarKey.isEmpty() || tsarKey == null){
@@ -58,16 +58,30 @@ public class BetaTestKeyManager {
         BetaTestKey[]moreKeys = new BetaTestKey[quantity];
         for(int x = 0; x < moreKeys.length; x++){
             String key = new RandomString(128).nextString();
-            moreKeys[x] = new BetaTestKey((LocalDateTime.now()), (LocalDateTime.now().plusMinutes(2)), false, key);
+            moreKeys[x] = new BetaTestKey((LocalDateTime.now()), (LocalDateTime.now().plusMinutes(1)), false, key);
         }
 
         return moreKeys;
     }
 
+    public void saveMoreKeys(BetaTestKey[]arrBetaTestKey ) throws BetaTestKeyException{
+        for(int x = 0; x < arrBetaTestKey.length; x++){
+
+            if((this.repository.save(arrBetaTestKey[x])) == null ){
+                throw new BetaTestKeyException("The key could not be saved for an unknown reason. Try examining the stack trace of the error to localize the problem."
+                     , new NullPointerException("An error occurred while trying to save the key to the database. The return value should be a key but it is null"));
+                     
+            }
+            
+            
+        }
+
+    }
+
 
     public boolean isBetaKeyIsValid(String key) throws BetaTestKeyException{
         if(!existsKey(key)){
-            throw new BetaTestKeyException("The given key does not exist " , null);
+            throw new BetaTestKeyException("The given key does not exist ");
 
         }
 
