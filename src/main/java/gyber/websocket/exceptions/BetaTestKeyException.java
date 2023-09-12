@@ -17,5 +17,15 @@ public class BetaTestKeyException extends Exception {
         this.betaTestKey = betaTestKey;
 
     }
+
+    public BetaTestKeyException(String msg){
+        super(msg);
+
+    }
     
+
+    public BetaTestKeyException(String message , Throwable th){
+        super(message , th);
+
+    }
 }
