@@ -2,11 +2,8 @@ package gyber.websocket.security.authenticate.filters;
 
 import java.io.IOException;
 import java.util.Arrays;
-
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -21,9 +18,6 @@ public abstract class CustomAbstractPerRequestFilter extends OncePerRequestFilte
 
     public boolean thisURLCanBeUsedWithoutAFilter(String url){
 
-        // if(url.startsWith("/register") || url.startsWith("/auth") || url.startsWith("/pub")){
-
-        // }
         return url.startsWith("/register") || url.startsWith("/auth") || url.startsWith("/pub");
     }
 
@@ -61,5 +55,8 @@ public abstract class CustomAbstractPerRequestFilter extends OncePerRequestFilte
 
         return;
     }
+
+
+
     
 }
