@@ -22,7 +22,7 @@ public class BetaTestKeyManager {
     private BetaTestKeyRepository repository;
 
 
-    @Value("${tsar.key}}")
+    @Value("${tsar.key}")
     private String TSAR_KEY;
 
     public BetaTestKey[] generateMoreKeys(int quantity , String tsarKey) throws BetaTestKeyException{
