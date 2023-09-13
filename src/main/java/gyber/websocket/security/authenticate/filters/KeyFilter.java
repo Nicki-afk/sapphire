@@ -46,7 +46,7 @@ public class KeyFilter extends CustomAbstractPerRequestFilter{
                 
        
 
-           String headerKeyParam = request.getHeader("Beta key");
+           String headerKeyParam = request.getHeader("Beta-key");
 
             if(headerKeyParam == null || headerKeyParam.isEmpty()){
                 constructErrorResponse(
