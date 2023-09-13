@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import gyber.websocket.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,8 +26,8 @@ public class BetaTestKey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "time_to_create")   private LocalDateTime timeToCreate;
-    @Column(name = "expiration_date")  private LocalDateTime expirationDate;
+    @Column(name = "time_to_create")  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")   private LocalDateTime timeToCreate;
+    @Column(name = "expiration_date")  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")  private LocalDateTime expirationDate;
     @Column(name = "key_is_active")    private boolean isActive;
 
     @Column(name = "beta_key")               private String key;
