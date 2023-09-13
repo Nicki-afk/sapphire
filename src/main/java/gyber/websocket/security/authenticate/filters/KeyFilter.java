@@ -24,7 +24,7 @@ import gyber.websocket.security.beta.BetaTestKeyManager;
 
 
 @Service
-public class KeyFilter extends OncePerRequestFilter{
+public class KeyFilter extends CustomAbstractPerRequestFilter{
 
 
     @Autowired
@@ -37,6 +37,11 @@ public class KeyFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+            if(thisURLCanBeUsedWithoutAFilter((request.getRequestURI()))){
+                filterChain.doFilter(request, response);
+                return;
+            }
 
                 
        
@@ -75,46 +80,6 @@ public class KeyFilter extends OncePerRequestFilter{
     }
 
 
-    public void constructErrorResponse(HttpServletResponse response , String message , Exception e ){
-
-
-        int statusResponse = e instanceof BetaTestKeyException ? 401 : 500;
-        ErrorRestResponse errorRestResponse = new ErrorRestResponse(message , statusResponse);
-        errorRestResponse
-        .addErrorDataLink("short_stack_trace" , Arrays.copyOf(e.getStackTrace(), 2))
-        .addErrorDataLink("local_message", e.getLocalizedMessage());
-
-        
-
-        response.setStatus(statusResponse);
-        response.setContentType("application/json");
-        
-        try {
-            
-            response.getWriter().write(objMapper.writeValueAsString(errorRestResponse));
-        } catch (IOException ioException) {
-            // TODO Auto-generated catch block
-             ioException.printStackTrace();
-        
-        }
-
-        return;
-    }
-
-    // public void constructTheOkResponse(HttpServletResponse response , String betaKey) throws TokenLocalStorageException, JsonProcessingException, IOException{
-
-    
-    //     // User user = this.tokenLocalStorageManager.getUserByRefresh(refreshHeader);
-    //     // this.tokenLocalStorageManager.updateTokenPairUser(user);
-    //     // TokenPairObject tokenPairObject = this.tokenLocalStorageManager.getTokenPairInUser(user);
-    //     String jsonResponse = this.objMapper.writeValueAsString(betaKey);
-
-
-    //     // response.setStatus(200);
-    //     // response.setContentType("application/json");
-    //     // response.getWriter().write(objectMapper.writeValueAsString(tokenPairObject));
-    //     return;
-
-    // }
+  
     
 }
