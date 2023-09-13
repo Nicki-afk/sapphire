@@ -51,8 +51,7 @@ public class BetaTestKeyManager {
         }
 
         if(quantity <= 0 || tsarKey.isEmpty() || tsarKey == null){
-            throw new IllegalArgumentException("it is impossible to generate keys because the generation parameters are not valid");
-
+            throw new BetaTestKeyException("it is impossible to generate keys because the generation parameters are not valid");
         }
 
         BetaTestKey[]moreKeys = new BetaTestKey[quantity];
