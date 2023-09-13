@@ -18,15 +18,8 @@ import gyber.websocket.security.authenticate.tokenManagement.TokenLocalStorageMa
 import gyber.websocket.security.authenticate.tokenManagement.TokenPairObject;
 
 
-/*
- * @nic_ko : Подумать над идей общего интерфейса в котором будут реализованны 
- *           методы для построения ошибок , и их ответов. Таким образом мы разгрузим 
- *           и сократим фильтр удалив лишнюю логику за которую фильтр не должен отвечать.
- *           Также в интерфейс можно будет определить список URL по которым можно попасть
- *           без авторизации 
- */
 
-public class RefreshFilter extends OncePerRequestFilter{
+public class RefreshFilter extends CustomAbstractPerRequestFilter{
 
 
 
@@ -39,23 +32,31 @@ public class RefreshFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+
+        if(thisURLCanBeUsedWithoutAFilter((request.getRequestURI()))){
+            filterChain.doFilter(request, response);
+            return;
+
+        }        
         
         String refreshHeader = request.getHeader("Refresh");
 
-        if(refreshHeader == null ){
+        if(refreshHeader == null || refreshHeader.isEmpty()){
             filterChain.doFilter(request, response); // Передаем на JwtFilter   
+            return;
 
         }else{
 
 
             try {
                 if(!tokenLocalStorageManager.exisistRefresh(refreshHeader)){
-                    constructErrorResponse(response, "Refresh token does not exist, please login to get tokens");
+                    constructErrorResponse(response, "Refresh token does not exist, please login to get tokens" , new TokenLocalStorageException("Token not found"));
                     return;
                     
 
                 }else if(tokenLocalStorageManager.exisistRefresh(refreshHeader) && !tokenLocalStorageManager.refreshTokenIsValid(refreshHeader)){
-                    constructErrorResponse(response, "The refresh token has expired, please re-authorize");
+                    constructErrorResponse(response, "The refresh token has expired, please re-authorize" , new TokenLocalStorageException("Token is expired"));
                     return;
                     
                 }
@@ -81,49 +82,7 @@ public class RefreshFilter extends OncePerRequestFilter{
     }
     
 
-    public void constructErrorResponse(HttpServletResponse response , String message ){
-        ErrorRestResponse errorRestResponse = new ErrorRestResponse(message , 401);
-        
-
-        response.setStatus(401);
-        response.setContentType("application/json");
-        
-        try {
-            
-            response.getWriter().write(objectMapper.writeValueAsString(errorRestResponse));
-        } catch (IOException e) {
-          
-          constructErrorResponse(response, "An exception was thrown while processing and building the error response. Unable to submit error data. See the exception for detailed localization of the exception", e);
-        }
-
-        return;
-    }
-
-    public void constructErrorResponse(HttpServletResponse response , String message , Exception e ){
-
-
-        int statusResponse = e instanceof TokenLocalStorageException ? 401 : 500;
-        ErrorRestResponse errorRestResponse = new ErrorRestResponse(message , statusResponse);
-        errorRestResponse
-        .addErrorDataLink("short_stack_trace" , Arrays.copyOf(e.getStackTrace(), 2))
-        .addErrorDataLink("local_message", e.getLocalizedMessage());
-
-        
-
-        response.setStatus(statusResponse);
-        response.setContentType("application/json");
-        
-        try {
-            
-            response.getWriter().write(objectMapper.writeValueAsString(errorRestResponse));
-        } catch (IOException ioException) {
-            // TODO Auto-generated catch block
-             ioException.printStackTrace();
-        
-        }
-
-        return;
-    }
+    
 
     public void constructTheOkResponse(HttpServletResponse response , String refreshHeader) throws TokenLocalStorageException, JsonProcessingException, IOException{
 

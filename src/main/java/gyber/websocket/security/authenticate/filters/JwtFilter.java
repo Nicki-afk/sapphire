@@ -32,7 +32,7 @@ import gyber.websocket.security.authenticate.tokenManagement.TokenLocalStorageMa
 import io.jsonwebtoken.ExpiredJwtException;
 
 @Service
-public class JwtFilter extends OncePerRequestFilter{
+public class JwtFilter extends CustomAbstractPerRequestFilter{
 
     @Autowired
     private JwtService jwtService;
@@ -41,24 +41,15 @@ public class JwtFilter extends OncePerRequestFilter{
     private UserCustomDetailsService userIPFSCustomDetailsService;
 
     @Autowired private TokenLocalStorageManager tokenManager;
-    @Autowired private ObjectMapper objectMapper;
-    
+
 
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
        
-        /*
-         * @nic_ko : Вынести в отдельный метод 
-         */
-        // if(request.getRequestURI().equals("/register") | request.getRequestURI().equals("/auth")){
-        //     filterChain.doFilter(request, response);
-        //     return;
 
-        // }
-
-        if(skipTheRequestToThisAddressIfItIsInTheExceptions(request.getRequestURI())){
+        if(thisURLCanBeUsedWithoutAFilter((request.getRequestURI()))){
             filterChain.doFilter(request, response);
             return;
         }
@@ -76,14 +67,14 @@ public class JwtFilter extends OncePerRequestFilter{
             try {
               if(this.tokenManager.getUserByJwt(token) == null){
 
-                constructErrorResponse(response, "An exception error occurred while processing the jwt token, your token was not found");
+                constructErrorResponse(response, "An exception error occurred while processing the jwt token, your token was not found" , new TokenLocalStorageException( "This user's token was not found"));
                 return;
              }
 
 
 
              if(!this.tokenManager.jwtTokenIsValid(token)){
-                constructErrorResponse(response, "Your jwt token is expired, refresh token pair for further work");
+                constructErrorResponse(response, "Your jwt token is expired, refresh token pair for further work" , new TokenLocalStorageException("User token has expired"));
                 return;
              }
 
@@ -112,55 +103,5 @@ public class JwtFilter extends OncePerRequestFilter{
     }
 
 
-    public boolean skipTheRequestToThisAddressIfItIsInTheExceptions(String uri ) {
-
-
-        return uri.equals("/register") || uri.equals("/auth");
-
-
-    }
-
-    public void constructErrorResponse(HttpServletResponse response , String message ){
-        ErrorRestResponse errorRestResponse = new ErrorRestResponse(message , 401);
-        
-
-        response.setStatus(401);
-        response.setContentType("application/json");
-        
-        try {
-            
-            response.getWriter().write(objectMapper.writeValueAsString(errorRestResponse));
-        } catch (IOException e) {
-          
-          constructErrorResponse(response, "An exception was thrown while processing and building the error response. Unable to submit error data. See the exception for detailed localization of the exception", e);
-        }
-
-        return;
-    }
-
-    public void constructErrorResponse(HttpServletResponse response , String message , Exception e ){
-
-
-        int statusResponse = e instanceof TokenLocalStorageException ? 401 : 500;
-        ErrorRestResponse errorRestResponse = new ErrorRestResponse(message , statusResponse);
-        errorRestResponse
-        .addErrorDataLink("short_stack_trace" , Arrays.copyOf(e.getStackTrace(), 2))
-        .addErrorDataLink("local_message", e.getLocalizedMessage());
-
-        
-
-        response.setStatus(statusResponse);
-        response.setContentType("application/json");
-        
-        try {
-            
-            response.getWriter().write(objectMapper.writeValueAsString(errorRestResponse));
-        } catch (IOException ioException) {
-             ioException.printStackTrace();
-        
-        }
-
-        return;
-    }
     
 }
