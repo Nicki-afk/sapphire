@@ -18,7 +18,7 @@ public abstract class CustomAbstractPerRequestFilter extends OncePerRequestFilte
 
     public boolean thisURLCanBeUsedWithoutAFilter(String url){
 
-        return url.startsWith("/register") || url.startsWith("/auth") || url.startsWith("/pub");
+        return url.startsWith("/register") || url.startsWith("/auth") || url.startsWith("/pub") || url.startsWith("/system");
     }
 
 
