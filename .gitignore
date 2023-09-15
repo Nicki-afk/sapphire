@@ -33,3 +33,4 @@ Thumbs.db
 *.properties
 !maven-wrapper.properties
 !application.properties
+!test-source.properties
