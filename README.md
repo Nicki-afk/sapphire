@@ -63,6 +63,23 @@ bash ./mvnw clean package spring-boot:repackage -DskipTests
 
 <br>
 
+### Beta key Note 
+As stated in the version notes, beta test keys were added, accordingly, access to the server is carried out using beta test keys. Without them, it will be impossible to access the server in this version. And so, to get keys for testing the server, you can send the following request and get a certain number of keys
+
+```bash 
+curl -X GET http://localhost:8081/system/keys?tsar=a9rn6pbWPmI8GkwC8QiwSuHgFKRqkynqutNonZ2KS8wdcsxLsGa9rn6pbWPmI8GkwC8QiwSuHgFKRqkynqutNonZ2KS8wdcsxLsG&qu=10
+```
+
+In this case, the `tsar` parameter passes the king key for generating a certain number of keys. The `qu` parameter indicates the number of keys that need to be generated, in this case 10. Next, to gain access to the server, you must specify a key in the `HTTP` headers called `Beta-key` for each request
+
+**ATTENTION ! When using or modifying the server code, do not forget to mark the necessary parameters such as :**
+
+- key used to generate most beta testing keys. Parameter name in applicaion.properties `tsar.key`
+- Also don't forget to change the signatures for generating JWT and Refresh authorization `tokens jwt.token.sign` and `rt.token.sign`
+
+These actions are necessary to ensure server security
+
+
 
 
 
