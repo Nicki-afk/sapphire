@@ -23,6 +23,14 @@ In the new version of the server under the extension **0.0.5-alphaS** I plan to 
 
 This block will provide the result of the analysis of previous versions of the server. Errors, bugs and shortcomings of previous versions will be described here.
 
+- Extra imports. In many application classes, unnecessary imports were found that are not needed or used
+- Folder structure in the project. There are a lot of folders in the project that do not correspond to their names. It is not clear what is contained in which folder
+- Not advanced enough test script. Test scenarios do not cover all possible scenarios. Also, the test scripts are not optimized from a code point of view, which impairs their readability
+- Lack of any code formatting.
+- Failure to comply with SOLID principles
+- No use of any patterns
+- Bad code designs. Some code is terribly readable, not following coding standards
+
 
 
 ### Warning ⚠️
