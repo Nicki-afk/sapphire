@@ -49,13 +49,6 @@ public class LogInSingUpController {
     }
 
 
-    @GetMapping("/get")
-    public ResponseEntity getUser(@RequestParam("username") String username){
-
-        User userIPFSModel = this.userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-        return ResponseEntity.ok(userIPFSModel);
-
-    }
 
 
 
