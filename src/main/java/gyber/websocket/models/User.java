@@ -21,7 +21,9 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 /*
- * @nic_ko : Добавить обязательно поле Chat 
+ * @nic_ko : Поля Chats / Messages хрантся в IPFS
+ * 
+ * - Добавить поле для хранения ссылок  чатов в IPFS
  */
 public class User {
 
@@ -43,9 +45,7 @@ public class User {
     @Column(name = "hash_data")
     private String hashUserFile;
 
-    // Chats
-    // Messages
-
+   
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "beta_test_key", referencedColumnName = "id")
     private BetaTestKey betaTestKey;
