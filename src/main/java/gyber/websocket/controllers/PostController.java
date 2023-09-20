@@ -26,8 +26,8 @@ import gyber.websocket.security.authenticate.tokenManagement.TokenLocalStorageMa
 import gyber.websocket.security.authenticate.tokenManagement.TokenPairObject;
 
 @Controller
-@RequestMapping("/register")
-public class LogInSingUpController {
+@RequestMapping("/post")
+public class PostController {
 
 
     @Autowired
@@ -38,7 +38,7 @@ public class LogInSingUpController {
     
 
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity postUser(@RequestBody User user) throws TokenLocalStorageException{
 
         this.userRepository.save(user);
@@ -51,7 +51,6 @@ public class LogInSingUpController {
 
 
 
-
     public TokenPairObject authenticate(User user) throws TokenLocalStorageException{
         UserCustomDetails userCustomDetails = new UserCustomDetails(user);
         UsernamePasswordAuthenticationToken userPrincipal = new UsernamePasswordAuthenticationToken(userCustomDetails.getUsername(), null, userCustomDetails.getAuthorities());
@@ -60,3 +59,4 @@ public class LogInSingUpController {
         return this.tokenLocalStorageManager.addTokenPairForUser(user);
     }
 }
+
