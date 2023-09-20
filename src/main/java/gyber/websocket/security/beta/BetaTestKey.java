@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import gyber.websocket.models.User;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -45,16 +44,6 @@ public class BetaTestKey {
         this.isActive = isActive;
         this.key = key;
     }
-
-
-    
-
-
-    
-
-    // @OneToOne
-    // private User user;
-
 
     
 }
