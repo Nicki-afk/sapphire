@@ -1,5 +1,13 @@
 package gyber.websocket.security.authenticate.signature;
 
+import java.security.InvalidKeyException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.security.SignatureException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -23,7 +31,33 @@ public class SignatureChecker {
 
 
 
-    public boolean verifySignature(String base64AuthenticateData){
+    public boolean verifySignature(String base64AuthenticateData , String message) {
+
+        byte[] publicKeyBytes = obtainPublicKey(base64AuthenticateData);
+        byte[] signatureBytes = obtainSignature(base64AuthenticateData);
+
+
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(publicKeyBytes);
+        KeyFactory keyFactory;
+        try {
+            keyFactory = KeyFactory.getInstance("EC");
+            PublicKey publicKey = keyFactory.generatePublic(spec);
+
+
+            Signature signature = Signature.getInstance(algorithm); 
+            signature.initVerify(publicKey);
+            signature.update(message.getBytes("UTF-8"));
+
+            return signature.verify(signatureBytes);
+
+        } catch (Exception e) {
+           
+            e.printStackTrace();
+
+        }
+       
+
+
         return false;
     }
 
