@@ -1,5 +1,8 @@
 package gyber.websocket.security.authenticate.signature;
 
+import java.util.Arrays;
+import java.util.Base64;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
@@ -25,20 +28,35 @@ public class SignatureChecker {
     }
 
 
+    /*
+     * обработать ошибки  
+     * ArrayIndexOf ... 
+     */
     public byte[] obtainSignature(String decodeBase64String){
 
-        return new byte[]{};
+ 
+        
+        return
+        (new String(Base64.getDecoder().decode(decodeBase64String))
+        .split(":")[2]
+        .getBytes());
 
     }
 
     public byte[] obtainPublicKey(String decodeBase64String){
 
-        return new byte[]{};
+          return
+        (new String(Base64.getDecoder().decode(decodeBase64String))
+        .split(":")[0]
+        .getBytes());
     }
 
     public byte[] obtainWallet(String decodeBase64String){
         
-        return new byte[]{};
+          return
+        (new String(Base64.getDecoder().decode(decodeBase64String))
+        .split(":")[1]
+        .getBytes());
     }
     
 }
