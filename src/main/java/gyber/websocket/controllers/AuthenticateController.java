@@ -41,7 +41,7 @@ import gyber.websocket.models.UserCustomDetails;
 public class AuthenticateController {
 
     @Autowired
-    private UserCustomDetailsService userIPFSCustomDetailsService;
+    private UserCustomDetailsService userCustomDetailsService;
 
     @Autowired
     private UserRepository repository;
@@ -62,7 +62,7 @@ public class AuthenticateController {
 
 
         User user = this.repository.findByCryptoWalletAddress(arr[1]).orElse(null);
-        UserCustomDetails userDetails = this.userIPFSCustomDetailsService.loadUserByCryptowalletAddress(arr[1]);
+        UserCustomDetails userDetails = this.userCustomDetailsService.loadUserByCryptowalletAddress(arr[1]);
 
         UsernamePasswordAuthenticationToken userCredentalsData = new UsernamePasswordAuthenticationToken(
                 userDetails.getUsername(), null);
