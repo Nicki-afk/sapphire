@@ -13,7 +13,7 @@ import gyber.websocket.models.repo.UserRepository;
 
 @Controller
 @RequestMapping("/get")
-public class GetDataController {
+public class GetController {
 
     @Autowired
     private UserRepository userRepository;
