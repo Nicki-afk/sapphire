@@ -46,11 +46,12 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
 
     }
 
+    @ExceptionHandler(value = {BetaTestKeyException.class})
     public ResponseEntity<ErrorRestResponse> handleBetaTestKeyException(BetaTestKeyException betaTestKeyException , WebRequest webRequest){
       if(betaTestKeyException.getBetaTestKey() == null){
 
         ErrorRestResponse errorRestResponse = new ErrorRestResponse("Error when checking beta test key, read the exception for detailed error localization" , 401);
-        errorRestResponse.addErrorDataLink("short_stack_trace", Arrays.copyOf(betaTestKeyException.getStackTrace(), 2));
+        errorRestResponse.addErrorDataLink("short_stack_trace", Arrays.copyOf(betaTestKeyException.getStackTrace(), 3));
         errorRestResponse.addErrorDataLink("local_message", betaTestKeyException.getLocalizedMessage());
         return ResponseEntity.status(401).body(errorRestResponse);
 
@@ -58,7 +59,7 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
       }
 
       ErrorRestResponse errorRestResponse = new ErrorRestResponse("Error when checking beta test key, read the exception for detailed error localization" , 401);
-      errorRestResponse.addErrorDataLink("short_stack_trace", Arrays.copyOf(betaTestKeyException.getStackTrace(), 2));
+      errorRestResponse.addErrorDataLink("short_stack_trace", Arrays.copyOf(betaTestKeyException.getStackTrace(), 3));
       errorRestResponse.addErrorDataLink("key_data", betaTestKeyException.getBetaTestKey());
       errorRestResponse.addErrorDataLink("local_message", betaTestKeyException.getLocalizedMessage());
       return ResponseEntity.status(401).body(errorRestResponse);
