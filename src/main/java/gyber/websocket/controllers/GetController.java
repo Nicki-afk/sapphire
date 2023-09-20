@@ -22,8 +22,8 @@ public class GetController {
     @GetMapping("/us")
     public ResponseEntity getUser(@RequestParam("username") String username){
 
-        User userIPFSModel = this.userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-        return ResponseEntity.ok(userIPFSModel);
+        User user = this.userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        return ResponseEntity.ok(user);
 
     }
 
