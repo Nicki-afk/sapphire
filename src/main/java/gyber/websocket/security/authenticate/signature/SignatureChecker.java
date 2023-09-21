@@ -19,23 +19,12 @@ import org.web3j.crypto.Keys;
 import org.web3j.crypto.Sign;
 import org.web3j.utils.Numeric;
 
-@Service
 public class SignatureChecker {
 
 
-    private String algorithm = "SHA256withECDSA";
-
-    
-    @PostConstruct
-    public void initComponent(){
-        /// ... 
-    }
 
 
-
-
-
-    public boolean verifySignature(String address , String signature , String base64MessageHash) {
+    public static boolean verifySignature(String address , String signature , String base64MessageHash) {
 
         try{
         byte[] signatureBytes = Numeric.hexStringToByteArray(signature);
@@ -46,8 +35,7 @@ public class SignatureChecker {
 
         String decodeMsg = new String(Base64.getDecoder().decode(base64MessageHash));
 
-        System.out.println("decode : " + decodeMsg);
-
+    
         // Копируем байты в соответствующие массивы
         System.arraycopy(signatureBytes, 0, r, 0, 32);
         System.arraycopy(signatureBytes, 32, s, 0, 32);
@@ -76,35 +64,5 @@ public class SignatureChecker {
     }
 
 
-    /*
-     * обработать ошибки  
-     * ArrayIndexOf ... 
-     */
-    public byte[] obtainSignature(String decodeBase64String){
 
- 
-        
-        return
-        (new String(Base64.getDecoder().decode(decodeBase64String))
-        .split(":")[2]
-        .getBytes());
-
-    }
-
-    public byte[] obtainPublicKey(String decodeBase64String){
-
-          return
-        (new String(Base64.getDecoder().decode(decodeBase64String))
-        .split(":")[0]
-        .getBytes());
-    }
-
-    public byte[] obtainWallet(String decodeBase64String){
-        
-          return
-        (new String(Base64.getDecoder().decode(decodeBase64String))
-        .split(":")[1]
-        .getBytes());
-    }
-    
 }
