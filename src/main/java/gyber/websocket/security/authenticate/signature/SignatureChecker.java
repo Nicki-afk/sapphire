@@ -1,5 +1,6 @@
 package gyber.websocket.security.authenticate.signature;
 
+import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -14,6 +15,9 @@ import java.util.Base64;
 import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
+import org.web3j.crypto.Keys;
+import org.web3j.crypto.Sign;
+import org.web3j.utils.Numeric;
 
 @Service
 public class SignatureChecker {
@@ -31,30 +35,40 @@ public class SignatureChecker {
 
 
 
-    public boolean verifySignature(String base64AuthenticateData , String message) {
+    public boolean verifySignature(String address , String signature , String base64MessageHash) {
 
-        byte[] publicKeyBytes = obtainPublicKey(base64AuthenticateData);
-        byte[] signatureBytes = obtainSignature(base64AuthenticateData);
+        try{
+        byte[] signatureBytes = Numeric.hexStringToByteArray(signature);
+        byte[] r = new byte[32];
+        byte[] s = new byte[32];
+        byte v = signatureBytes[64];
+        
+
+        String decodeMsg = new String(Base64.getDecoder().decode(base64MessageHash));
+
+        System.out.println("decode : " + decodeMsg);
+
+        // Копируем байты в соответствующие массивы
+        System.arraycopy(signatureBytes, 0, r, 0, 32);
+        System.arraycopy(signatureBytes, 32, s, 0, 32);
+
+         Sign.SignatureData signatureData = new Sign.SignatureData(v, r, s);
+
+            BigInteger pubKey = Sign.signedMessageToKey(decodeMsg.getBytes(), signatureData);
+
+            String computedAddress = "0x" + Keys.getAddress(pubKey);
+            if (computedAddress.equalsIgnoreCase(address)) {
+                return true;
+            } else {
+                return false;
+            }
 
 
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(publicKeyBytes);
-        KeyFactory keyFactory;
-        try {
-            keyFactory = KeyFactory.getInstance("EC");
-            PublicKey publicKey = keyFactory.generatePublic(spec);
-
-
-            Signature signature = Signature.getInstance(algorithm); 
-            signature.initVerify(publicKey);
-            signature.update(message.getBytes("UTF-8"));
-
-            return signature.verify(signatureBytes);
-
-        } catch (Exception e) {
-           
+        }catch(Exception e){
             e.printStackTrace();
 
         }
+       
        
 
 
