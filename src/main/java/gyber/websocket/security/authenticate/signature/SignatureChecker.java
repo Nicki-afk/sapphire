@@ -21,6 +21,26 @@ import org.web3j.utils.Numeric;
 
 public class SignatureChecker {
 
+    private static String address;
+    private static String signature;
+    private static String base64MessageHash;
+
+
+
+    public SignatureChecker authorizationBase64EncodeData(String base64Data){
+
+        String[] arrData = base64Data.split(":");
+
+        address = arrData[2];
+        signature = arrData[1];
+        base64MessageHash = arrData[0];
+
+
+
+        return this;
+    }
+     
+
 
 
 
@@ -66,6 +86,59 @@ public class SignatureChecker {
 
 
         return false;
+    }
+
+
+
+    private class SignatureCheckerBuilder{
+
+        private SignatureChecker signatureChecker = new SignatureChecker();
+
+        public SignatureCheckerBuilder setBase64Signature(){
+            return this;
+        }
+
+        public SignatureCheckerBuilder setBase64Message(){
+
+            return this;
+        }
+
+        public SignatureCheckerBuilder setBase64WalletAddress(){
+
+            return this;
+        }
+
+        public SignatureCheckerBuilder copyBytes(){
+
+            return this; 
+        }
+
+
+        public SignatureCheckerBuilder createSignatureObject(){
+
+            return this;
+        }
+
+
+        public SignatureCheckerBuilder recoveryPublicKey(){
+
+            return this;
+        }
+
+        public SignatureCheckerBuilder recoveryWalletAddress(){
+
+            return this;
+        }
+
+        public SignatureChecker verify(){
+             
+
+        }
+
+
+
+
+
     }
 
 
