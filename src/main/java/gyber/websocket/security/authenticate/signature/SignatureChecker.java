@@ -19,27 +19,31 @@ import org.web3j.crypto.Keys;
 import org.web3j.crypto.Sign;
 import org.web3j.utils.Numeric;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+
+@NoArgsConstructor
+@Getter
+@Setter
 public class SignatureChecker {
 
-    private static String address;
-    private static String signature;
-    private static String base64MessageHash;
+    // private static String address;
+    // private static String signature;
+    // private static String message;
+    private byte[]singBytes;
+    private byte[]R;
+    private byte[]S;
+    private byte[]V;
+    private Signature signature;
+    private BigInteger publicKey;
+    private String walletAddress;
+ 
 
 
 
-    public SignatureChecker authorizationBase64EncodeData(String base64Data){
 
-        String[] arrData = base64Data.split(":");
-
-        address = arrData[2];
-        signature = arrData[1];
-        base64MessageHash = arrData[0];
-
-
-
-        return this;
-    }
-     
 
 
 
@@ -88,22 +92,39 @@ public class SignatureChecker {
         return false;
     }
 
+    public boolean verifySignature(){
+
+        return false;
+    }
+
+    public static SignatureCheckerBuilder builder(){
+
+        return new SignatureCheckerBuilder();
+
+    }
 
 
-    private class SignatureCheckerBuilder{
+
+
+
+
+
+    private static class SignatureCheckerBuilder{
 
         private SignatureChecker signatureChecker = new SignatureChecker();
 
-        public SignatureCheckerBuilder setBase64Signature(){
+        public SignatureCheckerBuilder setBase64Signature(String signatureBase64){
+            
+            
             return this;
         }
 
-        public SignatureCheckerBuilder setBase64Message(){
+        public SignatureCheckerBuilder setBase64Message(String message){
 
             return this;
         }
 
-        public SignatureCheckerBuilder setBase64WalletAddress(){
+        public SignatureCheckerBuilder setBase64WalletAddress(String wallet){
 
             return this;
         }
@@ -132,6 +153,7 @@ public class SignatureChecker {
 
         public SignatureChecker verify(){
              
+            return this.signatureChecker;
 
         }
 
