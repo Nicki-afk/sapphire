@@ -29,14 +29,22 @@ import lombok.Setter;
 @Setter
 public class SignatureChecker {
 
-    // private static String address;
-    // private static String signature;
-    // private static String message;
+    private  String inputAddress;
+    private  String inputSignature;
+    private  String inputMessage;
+
+
+
+
+
     private byte[]singBytes;
     private byte[]R;
     private byte[]S;
-    private byte[]V;
-    private Signature signature;
+    private byte V;
+
+
+    private String message;
+    private Sign.SignatureData signatureData;
     private BigInteger publicKey;
     private String walletAddress;
  
@@ -94,7 +102,7 @@ public class SignatureChecker {
 
     public boolean verifySignature(){
 
-        return false;
+      return walletAddress.equalsIgnoreCase(inputAddress);
     }
 
     public static SignatureCheckerBuilder builder(){
@@ -113,23 +121,35 @@ public class SignatureChecker {
 
         private SignatureChecker signatureChecker = new SignatureChecker();
 
-        public SignatureCheckerBuilder setBase64Signature(String signatureBase64){
-            
+        public SignatureCheckerBuilder setInputBase64Signature(String signatureBase64){
+
+            String decode = decode(signatureBase64);
+            this.signatureChecker.setInputAddress(decode);
+            this.signatureChecker.setSingBytes((Numeric.hexStringToByteArray(decode)));
+        
             
             return this;
         }
 
-        public SignatureCheckerBuilder setBase64Message(String message){
+        public SignatureCheckerBuilder setInputBase64Message(String message){
+
+            this.signatureChecker.setInputMessage(decode(message));
 
             return this;
         }
 
-        public SignatureCheckerBuilder setBase64WalletAddress(String wallet){
+        public SignatureCheckerBuilder setInputBase64WalletAddress(String wallet){
+
+            this.signatureChecker.setInputAddress(decode(wallet));
 
             return this;
         }
 
         public SignatureCheckerBuilder copyBytes(){
+            this.signatureChecker.setR(new byte[32]);
+            this.signatureChecker.setS(new byte[32]);
+            this.signatureChecker.setV((this.signatureChecker.getSingBytes()[64]));
+            //this.signatureChecker.setSingBytes(new byte[64]);
 
             return this; 
         }
@@ -137,16 +157,37 @@ public class SignatureChecker {
 
         public SignatureCheckerBuilder createSignatureObject(){
 
+
+            Sign.SignatureData sign = new Sign.SignatureData(this.signatureChecker.getV(), this.signatureChecker.getR(), signatureChecker.getS()); 
+            this.signatureChecker.setSignatureData(sign);
+
             return this;
         }
 
 
         public SignatureCheckerBuilder recoveryPublicKey(){
 
+            try {
+
+                BigInteger pubKey = Sign.signedMessageToKey(this.signatureChecker.getMessage().getBytes() , this.signatureChecker.getSignatureData());
+                this.signatureChecker.setPublicKey(pubKey);
+
+            } catch (SignatureException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            
+         
+
             return this;
         }
 
         public SignatureCheckerBuilder recoveryWalletAddress(){
+
+             String computedAddress = "0x" + Keys.getAddress(this.signatureChecker.getPublicKey());
+             this.signatureChecker.setWalletAddress(computedAddress);
+        
 
             return this;
         }
@@ -154,6 +195,12 @@ public class SignatureChecker {
         public SignatureChecker verify(){
              
             return this.signatureChecker;
+
+        }
+
+        private String decode(String base64Data){
+
+            return new String(Base64.getDecoder().decode(base64Data));
 
         }
 
