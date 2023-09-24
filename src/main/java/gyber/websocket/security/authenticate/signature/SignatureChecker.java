@@ -46,7 +46,7 @@ public class SignatureChecker {
     private byte V;
 
 
-    private String message;
+   // private String message;
     private Sign.SignatureData signatureData;
     private BigInteger publicKey;
     private String walletAddress;
@@ -97,16 +97,11 @@ public class SignatureChecker {
 
         }
        
-       
-
 
         return false;
     }
 
     public boolean verifySignature(){
-
-        System.out.println("wll : " + walletAddress);
-        System.out.println("in : " + inputAddress);
 
       return walletAddress.equalsIgnoreCase(inputAddress);
     }
@@ -123,6 +118,10 @@ public class SignatureChecker {
 
 
 
+    // TODO: Community Discussion Required
+    // The Builder pattern is used here, but there's a question whether it is the most appropriate choice.
+    // Would chaining be a better alternative for this use case?
+    // Open for community input to weigh pros and cons.
     public  static class SignatureCheckerBuilder{
 
         private SignatureChecker signatureChecker = new SignatureChecker();
@@ -139,9 +138,7 @@ public class SignatureChecker {
 
         public SignatureCheckerBuilder setInputBase64Message(String message) throws UnsupportedEncodingException{
 
-            System.out.println("message to set : " + message);
             this.signatureChecker.setInputMessage(decode(message));
-            System.out.println("message after : " + this.signatureChecker.getInputMessage() );
 
             return this;
         }
@@ -155,7 +152,6 @@ public class SignatureChecker {
 
         public SignatureCheckerBuilder copyBytes(){
 
-            System.out.println("\n lenght : " + signatureChecker.getSingBytes().length);
             this.signatureChecker.setR(new byte[32]);
             this.signatureChecker.setS(new byte[32]);
             this.signatureChecker.setV((this.signatureChecker.getSingBytes()[64]));
@@ -165,8 +161,6 @@ public class SignatureChecker {
             System.arraycopy(this.signatureChecker.getSingBytes() , 32, this.signatureChecker.getS() , 0, 32);
  
 
- 
-            //this.signatureChecker.setSingBytes(new byte[64]);
 
             return this; 
         }
@@ -194,8 +188,6 @@ public class SignatureChecker {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
 
-
-                System.out.println(this.signatureChecker.toString());
             }
 
             
