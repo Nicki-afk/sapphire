@@ -25,7 +25,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
+/*
+ * TODO : Добавить валидацию на все методы касающихся подписи 
+ * 
+ * - Проверка на длину байтов , она должна быть строго верна 65
+ * - Проверка на декодирование Base64 , корректна ли выходная строка 
+ * - Прочие проверки ...  
+ * 
+ */
 @NoArgsConstructor
 @Getter
 @Setter
