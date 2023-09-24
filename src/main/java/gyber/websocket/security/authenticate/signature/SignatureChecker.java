@@ -1,5 +1,6 @@
 package gyber.websocket.security.authenticate.signature;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -22,11 +23,13 @@ import org.web3j.utils.Numeric;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class SignatureChecker {
 
     private  String inputAddress;
@@ -102,6 +105,9 @@ public class SignatureChecker {
 
     public boolean verifySignature(){
 
+        System.out.println("wll : " + walletAddress);
+        System.out.println("in : " + inputAddress);
+
       return walletAddress.equalsIgnoreCase(inputAddress);
     }
 
@@ -117,28 +123,30 @@ public class SignatureChecker {
 
 
 
-    private static class SignatureCheckerBuilder{
+    public  static class SignatureCheckerBuilder{
 
         private SignatureChecker signatureChecker = new SignatureChecker();
 
-        public SignatureCheckerBuilder setInputBase64Signature(String signatureBase64){
+        public SignatureCheckerBuilder setInputBase64Signature(String signatureBase64) throws UnsupportedEncodingException{
 
             String decode = decode(signatureBase64);
-            this.signatureChecker.setInputAddress(decode);
+            this.signatureChecker.setInputSignature(decode);
             this.signatureChecker.setSingBytes((Numeric.hexStringToByteArray(decode)));
         
             
             return this;
         }
 
-        public SignatureCheckerBuilder setInputBase64Message(String message){
+        public SignatureCheckerBuilder setInputBase64Message(String message) throws UnsupportedEncodingException{
 
+            System.out.println("message to set : " + message);
             this.signatureChecker.setInputMessage(decode(message));
+            System.out.println("message after : " + this.signatureChecker.getInputMessage() );
 
             return this;
         }
 
-        public SignatureCheckerBuilder setInputBase64WalletAddress(String wallet){
+        public SignatureCheckerBuilder setInputBase64WalletAddress(String wallet) throws UnsupportedEncodingException{
 
             this.signatureChecker.setInputAddress(decode(wallet));
 
@@ -146,9 +154,18 @@ public class SignatureChecker {
         }
 
         public SignatureCheckerBuilder copyBytes(){
+
+            System.out.println("\n lenght : " + signatureChecker.getSingBytes().length);
             this.signatureChecker.setR(new byte[32]);
             this.signatureChecker.setS(new byte[32]);
             this.signatureChecker.setV((this.signatureChecker.getSingBytes()[64]));
+
+
+            System.arraycopy(this.signatureChecker.getSingBytes(), 0, this.signatureChecker.getR(), 0, 32);
+            System.arraycopy(this.signatureChecker.getSingBytes() , 32, this.signatureChecker.getS() , 0, 32);
+ 
+
+ 
             //this.signatureChecker.setSingBytes(new byte[64]);
 
             return this; 
@@ -158,7 +175,7 @@ public class SignatureChecker {
         public SignatureCheckerBuilder createSignatureObject(){
 
 
-            Sign.SignatureData sign = new Sign.SignatureData(this.signatureChecker.getV(), this.signatureChecker.getR(), signatureChecker.getS()); 
+            Sign.SignatureData sign = new Sign.SignatureData(this.signatureChecker.getV(), this.signatureChecker.getR(), this.signatureChecker.getS()); 
             this.signatureChecker.setSignatureData(sign);
 
             return this;
@@ -169,12 +186,16 @@ public class SignatureChecker {
 
             try {
 
-                BigInteger pubKey = Sign.signedMessageToKey(this.signatureChecker.getMessage().getBytes() , this.signatureChecker.getSignatureData());
+           
+                BigInteger pubKey = Sign.signedMessageToKey((this.signatureChecker.getInputMessage().getBytes()) , this.signatureChecker.getSignatureData());
                 this.signatureChecker.setPublicKey(pubKey);
 
             } catch (SignatureException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+
+
+                System.out.println(this.signatureChecker.toString());
             }
 
             
@@ -192,15 +213,15 @@ public class SignatureChecker {
             return this;
         }
 
-        public SignatureChecker verify(){
+        public SignatureChecker build(){
              
             return this.signatureChecker;
 
         }
 
-        private String decode(String base64Data){
+        private String decode(String base64Data) throws UnsupportedEncodingException{
 
-            return new String(Base64.getDecoder().decode(base64Data));
+            return new String(Base64.getDecoder().decode(base64Data.getBytes("UTF-8")));
 
         }
 
