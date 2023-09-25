@@ -107,6 +107,18 @@ public class SignatureCheckerTest {
 
     }
 
+    
+    @Test
+    public void testVerifySignatureInInvalidMessage(){
+
+    }
+
+    @Test
+    public void testVerifySignatureInInvalidWalletAddress(){
+
+        
+    }
+
 
     // FIXME : Разобраться с этим методом и понять почему вылетает Exception 
     @Disabled(value = "For some unknown reason it crashes ParameterResolutionException")
