@@ -1,5 +1,6 @@
 package gyber.websocket.controllers;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Map;
@@ -26,6 +27,7 @@ import com.fasterxml.jackson.databind.JsonSerializable.Base;
 
 import gyber.websocket.models.UserCustomDetailsService;
 import gyber.websocket.models.repo.UserRepository;
+import gyber.websocket.security.authenticate.signature.SignatureChecker;
 import gyber.websocket.security.authenticate.tokenManagement.JwtService;
 import gyber.websocket.security.authenticate.tokenManagement.TokenLocalStorageManager;
 import gyber.websocket.security.authenticate.tokenManagement.TokenPairObject;
@@ -82,10 +84,51 @@ public class AuthenticateController {
         @RequestHeader("Wallet") String base64WalletAddress ,
         @RequestHeader("Signature") String base64Signature , 
         @RequestHeader("Authenticate-Message") String base64Message  
-    ){
+    ) throws UnsupportedEncodingException, TokenLocalStorageException{
 
 
-        return ResponseEntity.ok().build();
+        String decodeWalletAddress = new String( Base64.getDecoder().decode((base64WalletAddress.getBytes())));
+
+      
+        boolean signatureConfirmed = SignatureChecker
+                                        .builder()
+                                        .setInputBase64Signature(base64Signature)
+                                        .setInputBase64Message(base64Message)
+                                        .setInputBase64WalletAddress(base64WalletAddress)
+                                        .copyBytes()
+                                        .createSignatureObject()
+                                        .recoveryPublicKey()
+                                        .recoveryWalletAddress()
+                                        .build()
+                                        .verifySignature();
+
+
+        if(!this.repository.findByCryptoWalletAddress(decodeWalletAddress).isPresent()){
+           return ResponseEntity
+                       .status(401)
+                       .header("X-Auth-Failure-Reason", "des=\"User not found at this wallet address\"")
+                       .build();
+        }else if(!signatureConfirmed){
+                return ResponseEntity
+                       .status(401)
+                       .header("X-Auth-Failure-Reason", "des=\"The user failed signature verification\"")
+                       .build();
+
+        }
+
+        UserCustomDetails userDetails = this.userCustomDetailsService.loadUserByCryptowalletAddress(decodeWalletAddress);
+
+
+        UsernamePasswordAuthenticationToken userCredentalsData = new UsernamePasswordAuthenticationToken(
+        userDetails.getUsername(), null);
+
+        SecurityContextHolder.getContext().setAuthentication(userCredentalsData);
+
+        
+        TokenPairObject tokenPairObject = this.tokenManager.addTokenPairForUser((this.repository.findByCryptoWalletAddress(decodeWalletAddress).get()));
+
+        return ResponseEntity.ok().body(tokenPairObject);
+
     }
 
     @GetMapping
