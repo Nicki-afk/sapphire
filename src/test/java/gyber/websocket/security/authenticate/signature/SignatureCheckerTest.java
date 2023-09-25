@@ -2,6 +2,7 @@ package gyber.websocket.security.authenticate.signature;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.refEq;
 
 import java.io.UnsupportedEncodingException;
@@ -15,6 +16,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import gyber.websocket.security.authenticate.signature.SignatureChecker.SignatureCheckerBuilder;
 
 
 public class SignatureCheckerTest {
@@ -141,5 +144,49 @@ public class SignatureCheckerTest {
 
         assertTrue(result);                        
         
+    }
+
+
+
+    // Builder tests 
+
+  @Test
+    public void testSetInputBase64Signature() throws UnsupportedEncodingException {
+        
+    }
+
+    @Test
+    public void testSetInputBase64Message() throws UnsupportedEncodingException {
+       
+    }
+
+    @Test
+    public void testSetInputBase64WalletAddress() throws UnsupportedEncodingException {
+      
+    }
+
+    @Test
+    public void testCopyBytes() {
+      
+    }
+
+    @Test
+    public void testCreateSignatureObject() {
+        
+    }
+
+    @Test
+    public void testRecoveryPublicKey() {
+      
+    }
+
+    @Test
+    public void testRecoveryWalletAddress() {
+    
+    }
+
+    @Test
+    public void testBuild() {
+   
     }
 }
