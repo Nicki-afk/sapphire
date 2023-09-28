@@ -23,9 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import gyber.websocket.exceptions.TokenLocalStorageException;
-import gyber.websocket.models.NetStatus;
-import gyber.websocket.models.User;
+import gyber.sapphire.entities.NetStatus;
+import gyber.sapphire.entities.User;
+import gyber.sapphire.exceptions.TokenLocalStorageException;
+import gyber.sapphire.security.authenticate.tokenManagement.JwtService;
+import gyber.sapphire.security.authenticate.tokenManagement.RTService;
+import gyber.sapphire.security.authenticate.tokenManagement.TokenLocalStorageManager;
+import gyber.sapphire.security.authenticate.tokenManagement.TokenPairObject;
 
 /*
  * TODO : Усложнить тест. Добавить метод который генерирует множество параметров User

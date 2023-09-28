@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import gyber.websocket.models.UserCustomDetails;
-import gyber.websocket.security.authenticate.tokenManagement.JwtService;
+import gyber.sapphire.entities.UserCustomDetails;
+import gyber.sapphire.security.authenticate.tokenManagement.JwtService;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 
