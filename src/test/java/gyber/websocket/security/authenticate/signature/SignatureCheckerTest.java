@@ -107,7 +107,19 @@ public class SignatureCheckerTest {
 
 
     @Test
-    public void testVerifySignatureInInvalidSignature(){
+    public void testVerifySignatureInInvalidSignature() throws UnsupportedEncodingException{
+
+        String invalidSignature = "MHhlY2FmZmNlMjliMGM4MjFlOTRmNDkzNzgxODk4MYyNzI3ZmE2Mzg0OTMwNTI2NTFmMzk4YzZkMzEzMWI0NjZjODUxMmQxYmYwZWVkNDFmOTg3OGRlMDJmZjM0YmYzNmMwMTRmZTRjZmNmNzAyZTIwNjUyZTRiMDg2MzIxODFj";
+        String message = "\u0019Ethereum Signed Message:\n" + "Hello World".length() + "Hello World";
+        String base64Message = Base64.getEncoder().encodeToString(message.getBytes("UTF-8"));
+
+
+
+
+
+
+        
+
 
     }
 
@@ -122,6 +134,23 @@ public class SignatureCheckerTest {
 
         
     }
+
+
+    @Test
+    public void testVerifySignatureInNonBase64Arguments(){
+
+    }
+
+
+    /*
+     * Пояснение : Метод ниже проверяет параметр V. Он должен быть
+     * всегда 64 байта 
+     */
+    @Test
+    public void testVerifySignatureInInvalidSignatureVArgument(){
+
+    }
+
 
 
     // FIXME : Разобраться с этим методом и понять почему вылетает Exception 
@@ -190,4 +219,45 @@ public class SignatureCheckerTest {
     public void testBuild() {
    
     }
+
+
+
+
+    // decode() test
+
+    @Test 
+    public void testDecodeInValidArguments(){
+
+    }
+
+
+    @Test
+    public void testDecodeInArgumentNonBase64String(){
+
+    }
+
+
+    @Test
+    public void testDecodeInNullArgument(){
+
+    }
+
+    @Test
+    public void testDecodeInEmptyStringArgument(){
+
+    }
+
+
+    /*
+     * Пояснения : Проверяет что будет если передать 
+     * байты с другой кодировкой 
+     */
+    @Test
+    public void testDecodeInNonUTF8Encoding(){
+
+    }
+
+
+
+
 }
