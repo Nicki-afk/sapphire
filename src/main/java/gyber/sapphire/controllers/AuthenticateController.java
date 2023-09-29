@@ -6,6 +6,10 @@ import java.util.Base64;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +43,7 @@ import gyber.sapphire.security.authenticate.tokenManagement.TokenLocalStorageMan
 import gyber.sapphire.security.authenticate.tokenManagement.TokenPairObject;
 import io.jsonwebtoken.JwtException;
 
+@Validated
 @Controller
 @RequestMapping("/auth")
 public class AuthenticateController {
@@ -81,9 +87,9 @@ public class AuthenticateController {
     
     @PostMapping
     public ResponseEntity authenticateUser(
-        @RequestHeader("Wallet") String base64WalletAddress ,
-        @RequestHeader("Signature") String base64Signature , 
-        @RequestHeader("Authenticate-Message") String base64Message  
+        @RequestHeader("Wallet") @NotBlank String base64WalletAddress ,
+        @RequestHeader("Signature") @NotBlank String base64Signature , 
+        @RequestHeader("Authenticate-Message") @NotBlank String base64Message  
     ) throws UnsupportedEncodingException, TokenLocalStorageException{
 
 
