@@ -135,6 +135,10 @@ public class SignatureChecker {
 
         public SignatureCheckerBuilder setInputBase64Signature(String signatureBase64) throws UnsupportedEncodingException{
 
+            if(signatureBase64.isEmpty() || signatureBase64 == null){
+                throw new NullPointerException("signature is null or empty");
+            }
+
             String decode = decode(signatureBase64);
             this.signatureChecker.setInputSignature(decode);
             this.signatureChecker.setSingBytes((Numeric.hexStringToByteArray(decode)));
@@ -144,6 +148,7 @@ public class SignatureChecker {
         }
 
         public SignatureCheckerBuilder setInputBase64Message(String message) throws UnsupportedEncodingException{
+
 
             this.signatureChecker.setInputMessage(decode(message));
 
