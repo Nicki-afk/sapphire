@@ -3,9 +3,13 @@ package gyber.sapphire.exceptions.exceptionHandlers;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -74,6 +78,15 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     protected ResponseEntity<ErrorRestResponse> handleAnyException(Exception e , WebRequest webRequest){
       ErrorRestResponse errorRestResponse = new ErrorRestResponse("An error occurred while executing the request on the server side", e);
       return ResponseEntity.status(500).body(errorRestResponse);
+
+    }
+
+
+    @ExceptionHandler(value = {ValidationException.class})
+    public ResponseEntity<ErrorRestResponse> handleValidationException(ConstraintViolationException exception ,  WebRequest webRequest){
+      ErrorRestResponse errorRestResponse = new ErrorRestResponse("An error occurred during data verification, check the data you entered and try again" , 400);
+      errorRestResponse.addErrorDataLink("short_stack_trace", Arrays.copyOf(exception.getStackTrace(), 3));
+      return ResponseEntity.status(400).body(errorRestResponse);
 
     }
 
