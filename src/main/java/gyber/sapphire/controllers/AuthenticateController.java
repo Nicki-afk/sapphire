@@ -60,30 +60,12 @@ public class AuthenticateController {
 
 
 
-//     @PostMapping
-//     public ResponseEntity authenticateUser(
-//             @RequestHeader("Authorization") String authenticateData) throws TokenLocalStorageException {
+        
 
-//         String decodeBase64String = new String(Base64.getDecoder()
-//                 .decode((authenticateData.substring(authenticateData.indexOf(" "))).trim().getBytes()));
-//         String[] arr = decodeBase64String.split(":");
-
-
-//         User user = this.repository.findByCryptoWalletAddress(arr[1]).orElse(null);
-//         UserCustomDetails userDetails = this.userCustomDetailsService.loadUserByCryptowalletAddress(arr[1]);
-
-//         UsernamePasswordAuthenticationToken userCredentalsData = new UsernamePasswordAuthenticationToken(
-//                 userDetails.getUsername(), null);
-//         SecurityContextHolder.getContext().setAuthentication(userCredentalsData);
-
-//         TokenPairObject tokenPairObject = this.tokenManager.addTokenPairForUser(user);
-
-//         return ResponseEntity.ok(
-//                 Map.of("pair_object" , tokenPairObject ,  "time", LocalDateTime.now()));
-
-//     }
-
-
+    /*
+     * FIXME : Понять почему не работает spring validation и его аннотаций 
+     * На данный момент аннотации для валидации используются из пакета javax.validation 
+     */
     
     @PostMapping
     public ResponseEntity authenticateUser(
