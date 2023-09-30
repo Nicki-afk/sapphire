@@ -1,11 +1,16 @@
 package gyber.sapphire.controllers;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@Validated
 @Controller
 @RequestMapping("/del")
 public class DeleteController {
@@ -14,6 +19,8 @@ public class DeleteController {
 
     @DeleteMapping("/usr")
     public ResponseEntity deleteUser(
+        @NotNull
+        @Min(1)
         @RequestParam("id") Long id 
     ){
         // ... 
@@ -29,7 +36,9 @@ class DeleteChatController{
 
     @DeleteMapping
     public ResponseEntity deleteChat(
-        @RequestParam("chatId") Long chatId  
+        @RequestParam("chatId") 
+        @NotNull
+        @Min(1) Long chatId  
      ){
         // ... 
         return ResponseEntity.ok().build();
@@ -44,9 +53,9 @@ class DeleteChatController{
      */
     @DeleteMapping("/usr")
     public ResponseEntity deleteUserInChat(
-        @RequestParam("chatId") Long chatId , 
-        @RequestParam("delId") Long deleteUserId , 
-        @RequestParam("admin") Long adminId
+        @RequestParam("chatId") @NotNull @Min(1) Long chatId , 
+        @RequestParam("delId") @NotNull @Min(1) Long deleteUserId , 
+        @RequestParam("admin") @NotNull @Min(1) Long adminId
     ){
         // ... 
 
