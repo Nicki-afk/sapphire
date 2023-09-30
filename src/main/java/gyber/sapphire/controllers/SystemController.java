@@ -4,9 +4,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +23,7 @@ import gyber.sapphire.exceptions.BetaTestKeyException;
 import gyber.sapphire.security.beta.BetaTestKey;
 import gyber.sapphire.security.beta.BetaTestKeyManager;
 
+@Validated
 @Controller
 @RequestMapping("/system")
 public class SystemController {
@@ -25,8 +33,8 @@ public class SystemController {
 
     @GetMapping("/keys")
     public ResponseEntity getMoreKeys(
-        @RequestParam(name = "tsar") String tsarKey , 
-        @RequestParam(name = "qu") Integer quantity
+        @RequestParam(name = "tsar") @NotBlank @Size(min = 100  , max = 100) String tsarKey , 
+        @RequestParam(name = "qu") @NotNull @Min(1) @Max(30) Integer quantity
         ) throws BetaTestKeyException{
         
         BetaTestKey[] arrKeys = this.keyManager.generateMoreKeys(quantity, tsarKey);
@@ -43,8 +51,8 @@ public class SystemController {
 
     @DeleteMapping("/key/del")
     public ResponseEntity deleteKey(
-        @RequestParam("tsar") String tsarKey , 
-        @RequestParam("keyId") Long keyId 
+        @RequestParam("tsar") @NotBlank @Size(min = 100 , max = 100) String tsarKey , 
+        @RequestParam("keyId") @NotNull @Min(1)  Long keyId 
     ){
 
         // ... 
@@ -60,8 +68,8 @@ public class SystemController {
      */
     @DeleteMapping("/key/del/date")
     public ResponseEntity deleteKeyByDate(
-        @RequestParam("tsar") String tsarKey , 
-        @RequestParam("date") String date 
+        @RequestParam("tsar") @NotBlank @Size(min = 100 , max = 100) String tsarKey , 
+        @RequestParam("date") @NotBlank  String date 
     ){
 
         // ... 
@@ -72,7 +80,7 @@ public class SystemController {
 
     @DeleteMapping("/key/del/all")
     public ResponseEntity deleteAllKeys(
-        @RequestParam("tsar") String tsarKey
+        @RequestParam("tsar") @NotBlank @Size(min = 100 , max = 100) String tsarKey
     ){
 
         /// ... 

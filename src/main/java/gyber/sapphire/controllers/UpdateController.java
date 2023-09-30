@@ -1,5 +1,9 @@
 package gyber.sapphire.controllers;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -83,8 +87,8 @@ class UpdateChatController{
      */
     @PutMapping("/name")
     public ResponseEntity updateChatName(
-        @RequestParam("id") Long id , 
-        @RequestParam("new") String newChatName
+        @RequestParam("id") @NotNull @Min(1) Long id , 
+        @RequestParam("new") @NotNull @Size(min = 6 , max = 8) String newChatName
     ){
         // ... 
         return ResponseEntity.ok().build();

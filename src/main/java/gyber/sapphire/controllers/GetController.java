@@ -1,9 +1,14 @@
 package gyber.sapphire.controllers;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import gyber.sapphire.entities.User;
 import gyber.sapphire.entities.repositories.UserRepository;
 
+@Validated
 @Controller
 @RequestMapping("/get")
 public class GetController {
@@ -20,7 +26,7 @@ public class GetController {
 
 
     @GetMapping("/us")
-    public ResponseEntity getUser(@RequestParam("username") String username){
+    public ResponseEntity getUser(@RequestParam("username") @NotBlank  String username){
 
         User user = this.userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         return ResponseEntity.ok(user);
@@ -28,14 +34,14 @@ public class GetController {
     }
 
     @GetMapping("/id")
-    public ResponseEntity getUserById(@RequestParam("id") Long id){
+    public ResponseEntity getUserById(@RequestParam("id") @Min(1) @NotNull  Long id){
         // ... 
         return ResponseEntity.ok().build();
 
     }
 
     @GetMapping("/crypto")
-    public ResponseEntity getUserByCrypto(@RequestParam("wallet") String wallet){
+    public ResponseEntity getUserByCrypto(@RequestParam("wallet") @NotBlank String wallet){
 
         // ...
         
@@ -44,7 +50,7 @@ public class GetController {
     }
 
     @GetMapping("/stat")
-    public ResponseEntity getStatusById(@RequestParam("id") Long id){
+    public ResponseEntity getStatusById(@RequestParam("id") @NotNull @Min(1) Long id){
         /// ...
         return ResponseEntity.ok().build();
     }
@@ -54,7 +60,7 @@ public class GetController {
      * окно чатов вниз 
      */
     @GetMapping("/ochat")
-    public ResponseEntity getOtherChats(@RequestParam("id") Long id){
+    public ResponseEntity getOtherChats(@RequestParam("id") @NotNull @Min(1) Long id){
         // ... 
 
         return ResponseEntity.ok().build();
@@ -65,7 +71,7 @@ public class GetController {
      * свайпает переписку наверх  
      */
     @GetMapping("/omessages")
-    public ResponseEntity getMessagesByChatId(@RequestParam("chatId") Long chatId){ 
+    public ResponseEntity getMessagesByChatId(@RequestParam("chatId") @NotNull @Min(1) Long chatId){ 
         // ...
         return ResponseEntity.ok().build();
     }
