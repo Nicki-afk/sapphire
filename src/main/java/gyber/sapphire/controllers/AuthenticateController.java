@@ -62,11 +62,7 @@ public class AuthenticateController {
 
         
 
-    /*
-     * FIXME : Понять почему не работает spring validation и его аннотаций 
-     * На данный момент аннотации для валидации используются из пакета javax.validation 
-     */
-    
+ 
     @PostMapping
     public ResponseEntity authenticateUser(
         @RequestHeader("Wallet") @NotBlank String base64WalletAddress ,
