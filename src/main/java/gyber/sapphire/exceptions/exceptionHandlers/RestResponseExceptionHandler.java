@@ -85,7 +85,9 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler(value = {ValidationException.class})
     public ResponseEntity<ErrorRestResponse> handleValidationException(ConstraintViolationException exception ,  WebRequest webRequest){
       ErrorRestResponse errorRestResponse = new ErrorRestResponse("An error occurred during data verification, check the data you entered and try again" , 400);
-      errorRestResponse.addErrorDataLink("short_stack_trace", Arrays.copyOf(exception.getStackTrace(), 3));
+      errorRestResponse
+      .addErrorDataLink("short_stack_trace", Arrays.copyOf(exception.getStackTrace(), 3))
+      .addErrorDataLink("local_message", exception.getLocalizedMessage());
       return ResponseEntity.status(400).body(errorRestResponse);
 
     }
