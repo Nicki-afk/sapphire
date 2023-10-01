@@ -1,16 +1,19 @@
 package gyber.sapphire.controllers;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@Validated
 @Controller
 @RequestMapping("/up")
 public class UpdateController {
@@ -18,8 +21,8 @@ public class UpdateController {
 
     @PutMapping("/username")
     public ResponseEntity updateUsernameById(
-        @RequestParam("id") Long id , 
-        @RequestParam("new") String newUsername 
+        @RequestParam("id") @NotNull @Min(1) Long id , 
+        @RequestParam("new") @NotBlank @Size(min = 6 , max = 8) String newUsername 
         ){
         // ... 
         return ResponseEntity.ok().build();
@@ -28,8 +31,8 @@ public class UpdateController {
 
     @PutMapping("/hash")
     public ResponseEntity updateHashUserFileById(
-        @RequestParam("id") Long id , 
-        @RequestParam("new") String hashFile
+        @RequestParam("id") @NotNull @Min(1) Long id , 
+        @RequestParam("new") @NotBlank  String hashFile
     ){
 
         // ... 
@@ -39,8 +42,8 @@ public class UpdateController {
 
     @PutMapping("/stat")
     public ResponseEntity updateUserNetStatus(
-        @RequestParam("id") Long id , 
-        @RequestParam("status") String status 
+        @RequestParam("id") @NotNull @Min(1) Long id , 
+        @RequestParam("status") @NotBlank String status 
         
         ){
 
@@ -54,11 +57,11 @@ public class UpdateController {
      */
     @PutMapping("/wallet")
     public ResponseEntity updateUserWalletAddres(
-        @RequestParam("id") Long id ,
-        @RequestParam("new") String newWalletAddress  , 
-        @RequestHeader("Public-key") String base64PublicKey  ,
-        @RequestHeader("Wallet-address") String base64WalletAddress  ,
-        @RequestHeader("Signature") String base64UserSignature
+        @RequestParam("id") @NotNull @Min(1) Long id ,
+        @RequestParam("new") @NotBlank String newWalletAddress  , 
+        @RequestHeader("Public-key") @NotBlank String base64PublicKey  ,
+        @RequestHeader("Wallet-address") @NotBlank String base64WalletAddress  ,
+        @RequestHeader("Signature") @NotBlank String base64UserSignature
     
     ){
 
@@ -76,6 +79,7 @@ public class UpdateController {
     
 }
 
+@Validated
 @Controller
 @RequestMapping("/chat/up")
 class UpdateChatController{
@@ -102,8 +106,8 @@ class UpdateChatController{
      */
     @PutMapping("/logo")
     public ResponseEntity updateChatLogoById(
-        @RequestParam("id") Long id ,
-        @RequestParam("hash") String hashImageLogo 
+        @RequestParam("id") @NotBlank @Min(1) Long id ,
+        @RequestParam("hash") @NotBlank String hashImageLogo 
 
     ){
 
@@ -112,10 +116,15 @@ class UpdateChatController{
 
     }
 
+    /*
+     * Добавление новых участников. Передается 
+     * id того кто добавляет , и id того кого 
+     * добавляют 
+     */
     @PutMapping("/part")
     public ResponseEntity updateParticipantsInChatById(
-        @RequestParam("id") Long id , 
-        @RequestParam("plus") Integer plusPart
+        @RequestParam("id") @NotBlank @Min(1) Long id , 
+        @RequestParam("plus") @NotBlank @Min(1) Integer plusPart
     ){
         // ...
 
