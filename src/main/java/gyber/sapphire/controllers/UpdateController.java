@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import gyber.sapphire.validation.IsBase64;
+
 @Validated
 @Controller
 @RequestMapping("/up")
@@ -59,9 +61,9 @@ public class UpdateController {
     public ResponseEntity updateUserWalletAddres(
         @RequestParam("id") @NotNull @Min(1) Long id ,
         @RequestParam("new") @NotBlank String newWalletAddress  , 
-        @RequestHeader("Public-key") @NotBlank String base64PublicKey  ,
-        @RequestHeader("Wallet-address") @NotBlank String base64WalletAddress  ,
-        @RequestHeader("Signature") @NotBlank String base64UserSignature
+        @RequestHeader("Update-Message") @NotBlank @IsBase64 String base64UpdateMessage  ,
+        @RequestHeader("Wallet-address") @NotBlank @IsBase64  String base64WalletAddress  ,
+        @RequestHeader("Signature") @NotBlank @IsBase64 String base64UserSignature
     
     ){
 
