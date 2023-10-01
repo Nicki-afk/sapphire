@@ -41,6 +41,7 @@ import gyber.sapphire.security.authenticate.signature.SignatureChecker;
 import gyber.sapphire.security.authenticate.tokenManagement.JwtService;
 import gyber.sapphire.security.authenticate.tokenManagement.TokenLocalStorageManager;
 import gyber.sapphire.security.authenticate.tokenManagement.TokenPairObject;
+import gyber.sapphire.validation.IsBase64;
 import io.jsonwebtoken.JwtException;
 
 @Validated
@@ -65,9 +66,9 @@ public class AuthenticateController {
  
     @PostMapping
     public ResponseEntity authenticateUser(
-        @RequestHeader("Wallet") @NotBlank String base64WalletAddress ,
-        @RequestHeader("Signature") @NotBlank String base64Signature , 
-        @RequestHeader("Authenticate-Message") @NotBlank String base64Message  
+        @RequestHeader("Wallet") @NotBlank @IsBase64 String base64WalletAddress ,
+        @RequestHeader("Signature") @NotBlank @IsBase64 String base64Signature , 
+        @RequestHeader("Authenticate-Message") @NotBlank @IsBase64 String base64Message  
     ) throws UnsupportedEncodingException, TokenLocalStorageException{
 
 
