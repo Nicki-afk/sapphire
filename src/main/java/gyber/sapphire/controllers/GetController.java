@@ -3,6 +3,7 @@ package gyber.sapphire.controllers;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class GetController {
 
 
     @GetMapping("/us")
-    public ResponseEntity getUser(@RequestParam("username") @NotBlank  String username){
+    public ResponseEntity getUser(@RequestParam("username") @NotBlank @Size(min = 6 , max = 8)  String username){
 
         User user = this.userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         return ResponseEntity.ok(user);
