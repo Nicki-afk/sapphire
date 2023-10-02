@@ -1,6 +1,7 @@
 package gyber.sapphire.controllers;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
@@ -36,9 +37,8 @@ class DeleteChatController{
 
     @DeleteMapping
     public ResponseEntity deleteChat(
-        @RequestParam("chatId") 
-        @NotNull
-        @Min(1) Long chatId  
+        @RequestParam("chatId")  @NotNull @Min(1) Long chatId  , 
+        @RequestParam("adminId") @NotBlank Long adminId
      ){
         // ... 
         return ResponseEntity.ok().build();
