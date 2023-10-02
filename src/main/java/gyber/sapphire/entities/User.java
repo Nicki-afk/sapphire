@@ -32,8 +32,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotBlank
-    @Min(1)
     private Long id;
 
     @Column(name = "username") @Size(min = 6 , max = 8) @NotBlank  private String userName;
