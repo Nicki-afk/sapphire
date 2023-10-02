@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -69,7 +70,7 @@ public class SystemController {
     @DeleteMapping("/key/del/date")
     public ResponseEntity deleteKeyByDate(
         @RequestParam("tsar") @NotBlank @Size(min = 100 , max = 100) String tsarKey , 
-        @RequestParam("date") @NotBlank  String date 
+        @RequestHeader("Date-Key-Argument") @NotBlank   String date 
     ){
 
         // ... 
