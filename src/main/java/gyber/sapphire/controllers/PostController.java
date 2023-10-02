@@ -3,6 +3,8 @@ package gyber.sapphire.controllers;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +44,7 @@ public class PostController {
 
 
     @PostMapping("/save")
-    public ResponseEntity postUser(@RequestBody User user) throws TokenLocalStorageException{
+    public ResponseEntity postUser(@RequestBody @Valid User user) throws TokenLocalStorageException{
 
         this.userRepository.save(user);
         
@@ -52,7 +54,7 @@ public class PostController {
     }
 
     @PostMapping("/chatnew")
-    public ResponseEntity postNewUserChat(Chat chat){
+    public ResponseEntity postNewUserChat(@RequestBody  @Valid Chat chat){
     
         // ... 
 
