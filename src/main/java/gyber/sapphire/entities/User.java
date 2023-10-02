@@ -3,6 +3,9 @@ package gyber.sapphire.entities;
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import gyber.sapphire.security.beta.BetaTestKey;
 import lombok.AllArgsConstructor;
@@ -29,20 +32,19 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotBlank
+    @Min(1)
     private Long id;
 
-    @Column(name = "username")
-    private String userName;
-    @Column(name = "crypto_wallet")
-    private String cryptoWalletAddress;
-    @Column(name = "pub_key")
-    private String publicUserKey;
+    @Size(min = 6 , max = 8) @NotBlank @Column(name = "username") private String userName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "net_status")
-    private NetStatus onlineNetStatus;
+    @Column(name = "crypto_wallet") @NotBlank  private String cryptoWalletAddress;
+    @Column(name = "pub_key") @NotBlank private String publicUserKey;
+
+    @Enumerated(EnumType.STRING) @Column(name = "net_status")  private NetStatus onlineNetStatus;
 
     @Column(name = "hash_data")
+    @NotBlank 
     private String hashUserFile;
 
    
