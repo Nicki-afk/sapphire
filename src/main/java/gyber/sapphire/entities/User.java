@@ -36,7 +36,7 @@ public class User {
     @Min(1)
     private Long id;
 
-    @Size(min = 6 , max = 8) @NotBlank @Column(name = "username") private String userName;
+    @Column(name = "username") @Size(min = 6 , max = 8) @NotBlank  private String userName;
 
     @Column(name = "crypto_wallet") @NotBlank  private String cryptoWalletAddress;
     @Column(name = "pub_key") @NotBlank private String publicUserKey;
