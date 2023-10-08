@@ -7,21 +7,17 @@ import org.springframework.context.annotation.Bean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import gyber.sapphire.config.SpringConfig;
 
-@SpringBootApplication
+
 public class MainClass {
 
     public static void main(String[] args) {
-        SpringApplication.run(MainClass.class , args);
+        SpringApplication.run(SpringConfig.class , args);
 
         
     }
 
-    @Bean
-    public ObjectMapper objectMapper(){
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        return objectMapper;
-    }
+
     
 }
