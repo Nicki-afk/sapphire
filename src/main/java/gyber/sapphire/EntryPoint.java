@@ -9,7 +9,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import gyber.sapphire.config.SpringConfig;
 
-
+@SpringBootApplication
 public class EntryPoint {
 
     public static void main(String[] args) {
