@@ -5,6 +5,8 @@ import java.util.Base64;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import gyber.sapphire.validation.annotations.IsBase64;
+
 public class IsBase64Validator implements ConstraintValidator<IsBase64 , String>{
 
     @Override

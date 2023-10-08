@@ -41,7 +41,7 @@ import gyber.sapphire.profile.NetStatus;
 import gyber.sapphire.profile.User;
 import gyber.sapphire.profile.UserCustomDetails;
 import gyber.sapphire.profile.UserCustomDetailsService;
-import gyber.sapphire.validation.IsBase64;
+import gyber.sapphire.validation.annotations.IsBase64;
 import io.jsonwebtoken.JwtException;
 
 @Validated
