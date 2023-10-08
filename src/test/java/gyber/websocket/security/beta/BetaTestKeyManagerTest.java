@@ -14,10 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import gyber.sapphire.entities.repositories.BetaTestKeyRepository;
-import gyber.sapphire.exceptions.BetaTestKeyException;
-import gyber.sapphire.security.beta.BetaTestKey;
-import gyber.sapphire.security.beta.BetaTestKeyManager;
+import gyber.sapphire.beta.BetaTestKey;
+import gyber.sapphire.beta.BetaTestKeyManager;
+import gyber.sapphire.database.repositories.BetaTestKeyRepository;
+import gyber.sapphire.errors.BetaTestKeyException;
 
 
 @RunWith(SpringRunner.class)

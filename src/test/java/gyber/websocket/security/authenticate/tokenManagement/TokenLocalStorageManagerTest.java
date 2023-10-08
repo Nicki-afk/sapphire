@@ -23,13 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import gyber.sapphire.entities.NetStatus;
-import gyber.sapphire.entities.User;
-import gyber.sapphire.exceptions.TokenLocalStorageException;
-import gyber.sapphire.security.authenticate.tokenManagement.JwtService;
-import gyber.sapphire.security.authenticate.tokenManagement.RTService;
-import gyber.sapphire.security.authenticate.tokenManagement.TokenLocalStorageManager;
-import gyber.sapphire.security.authenticate.tokenManagement.TokenPairObject;
+import gyber.sapphire.authentication.tokens.JwtService;
+import gyber.sapphire.authentication.tokens.RTService;
+import gyber.sapphire.authentication.tokens.TokenLocalStorageManager;
+import gyber.sapphire.authentication.tokens.TokenPairObject;
+import gyber.sapphire.errors.TokenLocalStorageException;
+import gyber.sapphire.profile.NetStatus;
+import gyber.sapphire.profile.User;
 
 /*
  * TODO : Усложнить тест. Добавить метод который генерирует множество параметров User
