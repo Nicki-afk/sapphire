@@ -10,7 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import gyber.sapphire.config.SpringConfig;
 
 
-public class MainClass {
+public class EntryPoint {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringConfig.class , args);
