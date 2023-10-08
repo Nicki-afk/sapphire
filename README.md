@@ -1,6 +1,45 @@
-## Saphhire Messanger ( Server )
+ ## Sapphire - A Secure and Private Messaging Service Based on IPFS
 
-Sapphire Messenger is a partially decentralized messaging service. The fact is that Sapphire does not store your correspondence or all your data on servers. Sapphire emphasizes decentralization, so the server stores hashed links of your data and messages that are in IPFS. The server only manipulates a small part of your data for fast database mapping
+
+
+Sapphire is a modern messaging service, designed to ensure maximum security and user data privacy. Its unique feature is the use of the decentralized storage system, IPFS, to store message content, which ensures unparalleled censorship resilience and data protection.
+
+## Technology Stack
+
+**Java:** Sapphire  is developed in Java for several reasons:
+
+- Scalability: Java offers tools and libraries that allow for efficient scaling of applications, making it ideal for a global messaging service.
+
+- Security: Java has a multitude of security features and is regularly updated to address vulnerabilities.
+
+- Portability: Java code is portable across different platforms and clouds, simplifying deployment and maintenance.
+
+- Community: With a vast and active developer community, arising issues can be swiftly resolved, and access to a plethora of libraries accelerates development.
+
+
+
+**IPFS:** [IPFS](https://docs.ipfs.tech/) is used for storing all bulky data, such as avatars, documents, multimedia, and messages. This ensures that user data is not centralized and is protected against any external threats.
+
+## User Data
+
+In our messenger, user data security is paramount. We store the minimum amount of data required for identification and account operation:
+
+- User nickname
+- Cryptowallet email address
+- Registration date
+- User status
+- Profile signature
+- Nicknames and identifiers of interlocutors and chats
+- All other data, including avatars, profile descriptions,  and of course, messages, are stored in IPFS.
+
+## Authorship
+
+The idea and primary development belong to [gybernaty](https://github.com/TheMacroeconomicDao), and this project is a part of the [Gyber Social Platform](https://gyber.org/) community.
+
+## Conclusion
+
+Sapphire - is not just another messaging app. It represents a step forward in the messaging world where a user's privacy and security are paramount. Join us and become a part of this change!
+
 
 
 ## 🗒️ Version Plan 
