@@ -11,6 +11,8 @@ import gyber.sapphire.errors.BetaTestKeyException;
 import gyber.sapphire.profile.User;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.Date;
+
 import net.bytebuddy.utility.RandomString;
 
 @Service
@@ -108,6 +110,29 @@ public class BetaTestKeyManager {
 
     private boolean existsKey(String key) throws BetaTestKeyException{
         return this.repository.existsByKey(key);
+    }
+
+
+    public boolean deleteKeyById(Long keyId){
+
+        return false;
+    }
+
+    public boolean deleteKey(String keyString){
+
+        return false;
+
+    }
+
+    public boolean deleteKeyByDate(Date date){
+
+        return false;
+    }
+
+
+    public boolean deleteAll(){
+
+        return false;
     }
 
 
