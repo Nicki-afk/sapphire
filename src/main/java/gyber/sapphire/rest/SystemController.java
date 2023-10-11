@@ -2,6 +2,8 @@ package gyber.sapphire.rest;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.validation.constraints.Max;
@@ -41,9 +43,20 @@ public class SystemController {
         BetaTestKey[] arrKeys = this.keyManager.generateMoreKeys(quantity, tsarKey);
         this.keyManager.saveMoreKeys(arrKeys);
 
+
+        Map<String , Object >mapToResponse = new LinkedHashMap<>();
+        
+        mapToResponse.put("date_generate" ,LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss")) );
+        mapToResponse.put("tsar_key", tsarKey);
+        mapToResponse.put("quantity", quantity);
+        mapToResponse.put("keys", arrKeys);
+        
+        
+
         return ResponseEntity.ok(
             (
-                Map.of("date_generate" , LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss")) , "tsar_key" , tsarKey , "quantity" , quantity , "keys" , arrKeys)
+              mapToResponse
+               
             )
         );
 
