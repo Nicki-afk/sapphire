@@ -32,7 +32,7 @@ public class Chat {
     @Column(name = "companion_one") @NotBlank private String user1;
     @Column(name = "companion_two") @NotBlank private String user2;
 
-    @OneToMany(mappedBy = "message_list" , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "chat" ,  fetch = FetchType.LAZY)
     private Set<Message>messageList;
 
 

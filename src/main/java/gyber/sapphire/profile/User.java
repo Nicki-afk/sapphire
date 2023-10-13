@@ -1,5 +1,7 @@
 package gyber.sapphire.profile;
 
+import java.util.Set;
+
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -8,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import gyber.sapphire.beta.BetaTestKey;
+import gyber.sapphire.messaging.Chat;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,9 +27,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 /*
- * @nic_ko : Поля Chats / Messages хрантся в IPFS
- * 
- * - Добавить поле для хранения ссылок  чатов в IPFS
+ * TODO :  Добавить черный список для пользователей 
+ *         и написать соответвующие запросы 
  */
 public class User {
 
@@ -49,6 +51,11 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "beta_test_key", referencedColumnName = "id")
     private BetaTestKey betaTestKey;
+
+
+    @OneToMany(mappedBy = "userChats" )
+    private Set<Chat>userChats;
+    
 
     public User(Long id, String userName, String cryptoWalletAddress, String publicUserKey, NetStatus onlineNetStatus,
             String hashUserFile) {
