@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -28,10 +29,10 @@ public class Chat {
 
     @Column(name = "time_to_create") @NotNull private LocalDateTime dateAndTimeToCreateChat;
 
-    @Column(name = "companion_one") @NotNull @Min(1) private Long user1;
-    @Column(name = "companion_two") @NotNull @Min(1) private Long user2;
+    @Column(name = "companion_one") @NotBlank private String user1;
+    @Column(name = "companion_two") @NotBlank private String user2;
 
-    @OneToMany(mappedBy = "chat")
+    @OneToMany(mappedBy = "message_list" , fetch = FetchType.LAZY)
     private Set<Message>messageList;
 
 
