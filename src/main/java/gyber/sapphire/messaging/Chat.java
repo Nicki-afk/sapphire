@@ -10,6 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import gyber.sapphire.profile.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,14 +35,12 @@ public class Chat {
     private Set<Message>messageList;
 
 
+    @ManyToOne
+    @JoinColumn(name = "userchat" , nullable = false)
+    private User userChats;
 
-    // @ManyToOne @Valid private User userOne;
-    // @ManyToOne @Valid private User userTwo;
 
 
-    // private String nickNamePersonOne;
-    // private String nickNamePersonTwo;
-   // private Queue<Message> queueMessages;
 
     
 }
