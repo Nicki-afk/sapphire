@@ -50,9 +50,8 @@ public class User {
     @JoinColumn(name = "beta_test_key", referencedColumnName = "id")
     private BetaTestKey betaTestKey;
 
-    public User(Long id, String userName, String cryptoWalletAddress, String publicUserKey, NetStatus onlineNetStatus,
+    public User( String userName, String cryptoWalletAddress, String publicUserKey, NetStatus onlineNetStatus,
             String hashUserFile) {
-        this.id = id;
         this.userName = userName;
         this.cryptoWalletAddress = cryptoWalletAddress;
         this.publicUserKey = publicUserKey;
