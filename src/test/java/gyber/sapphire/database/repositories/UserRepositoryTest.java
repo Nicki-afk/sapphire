@@ -3,6 +3,10 @@ package gyber.sapphire.database.repositories;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,6 +32,9 @@ public class UserRepositoryTest {
     private  UserRepository userRepository;
 
 
+    private List<String>usersHash = new ArrayList<>();
+
+
 
 
     @BeforeEach
@@ -36,17 +43,24 @@ public class UserRepositoryTest {
 
         for(int x = 0; x < 2; x++ ){
 
-            this.userRepository
-            .save(
-                (
-                new User(
-                    ( "@" + new RandomString(5).nextString()) , 
-                    ("0x" + new RandomString(16).nextString()) , 
-                    (new RandomString(128).nextString()) , 
-                    NetStatus.ONLINE , 
-                    (new RandomString(200).nextString().toUpperCase())
-                ))
+
+         usersHash
+            .add(
+
+                this.userRepository
+                .save(
+                    (
+                    new User(
+                        ( "@" + new RandomString(5).nextString()) , 
+                        ("0x" + new RandomString(16).nextString()) , 
+                        (new RandomString(128).nextString()) , 
+                        NetStatus.ONLINE , 
+                        (new RandomString(200).nextString().toUpperCase())
+                    ))
+                ).getHashUserFile()
             );
+
+
             System.out.println("USER SAVE ");
 
 
@@ -68,6 +82,7 @@ public class UserRepositoryTest {
 
 
 
+
    
 
 
@@ -84,16 +99,19 @@ public class UserRepositoryTest {
 
     @Test
     void testFindByHashUserFile() {
+        for (int i = 0; i < this.usersHash.size(); i++) {
+
+            assertNotNull(
+               (this.userRepository.findByHashUserFile((this.usersHash.get(i))).get())
+
+            );
+            
+        }
 
     }
 
     @Test
-    void testFindById() {
-      //  moreUsers();
-        assertNotNull((userRepository.findById(1L).get()));
-
-    
-    }
+    void testFindById() {assertNotNull((userRepository.findById(1L).get()));}
 
     @Test
     void testFindByUserName() {
