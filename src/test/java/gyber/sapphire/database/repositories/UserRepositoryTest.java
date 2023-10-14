@@ -80,6 +80,28 @@ public class UserRepositoryTest {
     }
 
 
+    public String saveAndGetWallet(){
+       
+        User localUser = 
+                this.userRepository
+                .save(
+                    (
+                    new User(
+                        ( "@" + new RandomString(5).nextString()) , 
+                        ("0x" + new RandomString(16).nextString()) , 
+                        (new RandomString(128).nextString()) , 
+                        NetStatus.ONLINE , 
+                        (new RandomString(200).nextString().toUpperCase())
+                    ))
+                );
+
+        this.usersHash.add(localUser.getHashUserFile());
+        
+        return (localUser.getCryptoWalletAddress());
+        
+    }
+
+
 
 
 
@@ -94,6 +116,13 @@ public class UserRepositoryTest {
 
     @Test
     void testFindByCryptoWalletAddress() {
+        
+        assertNotNull(
+            (
+                this.userRepository
+                .findByCryptoWalletAddress( (saveAndGetWallet()) )
+            )
+        );
 
     }
 
