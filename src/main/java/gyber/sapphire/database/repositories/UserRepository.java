@@ -25,7 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("UPDATE User u SET u.hashUserFile = :hashFile WHERE u.id = :userId")
     void updateHashUserFile(Long userId, String hashFile);
 
-    @Query("UPDATE User u SET u.username = :newUserName WHERE u.id = :userId")
+    @Query("UPDATE User u SET u.userName = :newUserName WHERE u.id = :userId")
     void updateUserName(Long userId, String newUserName);
 
     @Query("UPDATE User u SET u.cryptoWalletAddress = :newCryptoWalletAddress WHERE u.id = :userId")
@@ -37,8 +37,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // DELETE
     void deleteById(Long id);
 
-    void deleteByUserName();
+    void deleteByUserName(String username);
 
-    void deleteByCryptoWalletAddress();
+    void deleteByCryptoWalletAddress(String cryptoWalletAddress);
 
 }
