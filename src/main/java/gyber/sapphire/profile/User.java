@@ -5,6 +5,7 @@ package gyber.sapphire.profile;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import gyber.sapphire.beta.BetaTestKey;
@@ -78,6 +79,21 @@ public class User {
         this.publicUserKey = publicUserKey;
         this.onlineNetStatus = onlineNetStatus;
         this.hashUserFile = hashUserFile;
+    }
+
+    /*
+     * For Tests
+     */
+    public User(@Size(min = 6, max = 8) @NotBlank String userName, @NotBlank String cryptoWalletAddress,
+            @NotBlank String publicUserKey, NetStatus onlineNetStatus, @NotBlank String hashUserFile,
+            @NotNull BetaTestKey betaKey) {
+
+        this.userName = userName;
+        this.cryptoWalletAddress = cryptoWalletAddress;
+        this.publicUserKey = publicUserKey;
+        this.onlineNetStatus = onlineNetStatus;
+        this.hashUserFile = hashUserFile;
+        this.betaTestKey = betaKey;
     }
 
 }
