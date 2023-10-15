@@ -11,6 +11,7 @@ import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,9 +20,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
+import gyber.sapphire.beta.BetaTestKey;
 import gyber.sapphire.profile.NetStatus;
 import gyber.sapphire.profile.User;
-
 
 @DataJpaTest
 @TestPropertySource("classpath:test-source.properties")
@@ -29,100 +30,87 @@ import gyber.sapphire.profile.User;
 public class UserRepositoryTest {
 
     @Autowired
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
 
-
-    private List<String>usersHash = new ArrayList<>();
-
-
-
+    private List<String> usersHash = new ArrayList<>() , usernames = new ArrayList<>();
 
     @BeforeEach
-    public void moreUsers(){
+    public void moreUsers() {
 
+        for (int x = 0; x < 2; x++) {
 
-        for(int x = 0; x < 2; x++ ){
+            usersHash
+                    .add(
 
-
-         usersHash
-            .add(
-
-                this.userRepository
-                .save(
-                    (
-                    new User(
-                        ( "@" + new RandomString(5).nextString()) , 
-                        ("0x" + new RandomString(16).nextString()) , 
-                        (new RandomString(128).nextString()) , 
-                        NetStatus.ONLINE , 
-                        (new RandomString(200).nextString().toUpperCase())
-                    ))
-                ).getHashUserFile()
-            );
-
+                            this.userRepository
+                                    .save(
+                                            (new User(
+                                                    ("@" + new RandomString(5).nextString()),
+                                                    ("0x" + new RandomString(16).nextString()),
+                                                    (new RandomString(128).nextString()),
+                                                    NetStatus.ONLINE,
+                                                    (new RandomString(200).nextString().toUpperCase()))))
+                                    .getHashUserFile());
 
             System.out.println("USER SAVE ");
-
-
 
         }
 
         System.out.println(
-            "\n\n\n\n Users Saved  : "
-            + 
-            (this.userRepository.count())
-            +
-            "\n\n\n\n"
-        );
+                "\n\n\n\n Users Saved  : "
+                        +
+                        (this.userRepository.count())
+                        +
+                        "\n\n\n\n");
 
-
-  
     }
 
+    public String saveAndGetWallet() {
 
-    public String saveAndGetWallet(){
-       
-        User localUser = 
-                this.userRepository
+        User localUser = this.userRepository
                 .save(
-                    (
-                    new User(
-                        ( "@" + new RandomString(5).nextString()) , 
-                        ("0x" + new RandomString(16).nextString()) , 
-                        (new RandomString(128).nextString()) , 
-                        NetStatus.ONLINE , 
-                        (new RandomString(200).nextString().toUpperCase())
-                    ))
-                );
+                        (new User(
+                                ("@" + new RandomString(5).nextString()),
+                                ("0x" + new RandomString(16).nextString()),
+                                (new RandomString(128).nextString()),
+                                NetStatus.ONLINE,
+                                (new RandomString(200).nextString().toUpperCase()))));
 
         this.usersHash.add(localUser.getHashUserFile());
-        
+
         return (localUser.getCryptoWalletAddress());
-        
+
     }
 
+    public String saveAndGetUserName() {
 
+        User localUser = this.userRepository
+                .save(
+                        (new User(
+                                ("@" + new RandomString(5).nextString()),
+                                ("0x" + new RandomString(16).nextString()),
+                                (new RandomString(128).nextString()),
+                                NetStatus.ONLINE,
+                                (new RandomString(200).nextString().toUpperCase()))));
 
+        this.usersHash.add(localUser.getHashUserFile());
 
+        return (localUser.getUserName());
 
-   
-
-
+    }
 
     @Test
+    @Disabled("The test is disabled because testing of the BetaTestKeyRepository  is required")
     void testFindByBetaTestKey() {
 
     }
 
     @Test
     void testFindByCryptoWalletAddress() {
-        
+
         assertNotNull(
-            (
-                this.userRepository
-                .findByCryptoWalletAddress( (saveAndGetWallet()) )
-            )
-        );
+                (this.userRepository
+                        .findByCryptoWalletAddress((saveAndGetWallet()))));
 
     }
 
@@ -131,20 +119,28 @@ public class UserRepositoryTest {
         for (int i = 0; i < this.usersHash.size(); i++) {
 
             assertNotNull(
-               (this.userRepository.findByHashUserFile((this.usersHash.get(i))).get())
+                    (this.userRepository.findByHashUserFile((this.usersHash.get(i))).get())
 
             );
-            
+
         }
 
     }
 
     @Test
-    void testFindById() {assertNotNull((userRepository.findById(1L).get()));}
+    void testFindById() {
+        assertNotNull((userRepository.findById(1L).get()));
+    }
 
     @Test
     void testFindByUserName() {
 
+        assertNotNull(
+                (this.userRepository
+                        .findByUserName(
+                                (saveAndGetUserName())))
+
+        );
+
     }
 }
-
