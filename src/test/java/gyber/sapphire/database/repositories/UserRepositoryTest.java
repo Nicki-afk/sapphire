@@ -76,8 +76,10 @@ public class UserRepositoryTest {
         return function.apply(localUser);
     }
 
-  
 
+
+
+    // READ
     @Test
     @Disabled("The test is disabled because testing of the BetaTestKeyRepository  is required")
     void testFindByBetaTestKey() {
@@ -179,4 +181,37 @@ public class UserRepositoryTest {
     void testFindByUserNameWithEmptyUsername(){
 
     }
+
+
+    // UPDATE
+    @Test
+    void testUpdateHashUserFile(){}
+
+
+    @Test
+    void testUpdateUsername(){}
+
+
+    @Test
+    void testUpdateCryptoWalletAddress(){}
+
+
+    @Test
+    void testUpdateNetStatus(){}
+
+
+
+
+    // DELETE
+    @Test
+    void testDeleteById(){}
+
+    @Test
+    void testDeleteByUserName(){}
+
+    @Test
+    void testDeleteByCryptoWalletAddress(){}
+
+
+
 }
