@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
@@ -34,23 +35,28 @@ public class UserRepositoryTest {
 
     private List<String> usersHash = new ArrayList<>() , usernames = new ArrayList<>();
 
+
+
+    private User generateRandomUser() {
+        return new User(
+            "@" + new RandomString(5).nextString(),
+            "0x" + new RandomString(16).nextString(),
+            new RandomString(128).nextString(),
+            NetStatus.ONLINE,
+            new RandomString(200).nextString().toUpperCase()
+        );
+    }
+
+
+
     @BeforeEach
     public void moreUsers() {
 
         for (int x = 0; x < 2; x++) {
 
-            usersHash
-                    .add(
 
-                            this.userRepository
-                                    .save(
-                                            (new User(
-                                                    ("@" + new RandomString(5).nextString()),
-                                                    ("0x" + new RandomString(16).nextString()),
-                                                    (new RandomString(128).nextString()),
-                                                    NetStatus.ONLINE,
-                                                    (new RandomString(200).nextString().toUpperCase()))))
-                                    .getHashUserFile());
+            this.userRepository
+            .save(generateRandomUser());
 
             System.out.println("USER SAVE ");
 
@@ -65,39 +71,12 @@ public class UserRepositoryTest {
 
     }
 
-    public String saveAndGetWallet() {
-
-        User localUser = this.userRepository
-                .save(
-                        (new User(
-                                ("@" + new RandomString(5).nextString()),
-                                ("0x" + new RandomString(16).nextString()),
-                                (new RandomString(128).nextString()),
-                                NetStatus.ONLINE,
-                                (new RandomString(200).nextString().toUpperCase()))));
-
-        this.usersHash.add(localUser.getHashUserFile());
-
-        return (localUser.getCryptoWalletAddress());
-
+    private String saveAndGetAttribute(Function<User, String> function) {
+        User localUser = userRepository.save(generateRandomUser());
+        return function.apply(localUser);
     }
 
-    public String saveAndGetUserName() {
-
-        User localUser = this.userRepository
-                .save(
-                        (new User(
-                                ("@" + new RandomString(5).nextString()),
-                                ("0x" + new RandomString(16).nextString()),
-                                (new RandomString(128).nextString()),
-                                NetStatus.ONLINE,
-                                (new RandomString(200).nextString().toUpperCase()))));
-
-        this.usersHash.add(localUser.getHashUserFile());
-
-        return (localUser.getUserName());
-
-    }
+  
 
     @Test
     @Disabled("The test is disabled because testing of the BetaTestKeyRepository  is required")
@@ -110,20 +89,51 @@ public class UserRepositoryTest {
 
         assertNotNull(
                 (this.userRepository
-                        .findByCryptoWalletAddress((saveAndGetWallet()))));
+                        .findByCryptoWalletAddress((saveAndGetAttribute(User::getCryptoWalletAddress)))));
+
+    }
+
+
+    @Test
+    void testFindByCryptoWalletAddressWithNullAddress(){
 
     }
 
     @Test
+    void testFindByCryptoWalletAddressWithAddressNotExist(){
+
+    }
+
+    @Test
+    void testFindByCryptoWalletAddressWithEmptyString(){
+
+    }
+
+
+
+    @Test
     void testFindByHashUserFile() {
-        for (int i = 0; i < this.usersHash.size(); i++) {
+        
+        assertNotNull(
+         (this.userRepository.findByHashUserFile((saveAndGetAttribute(User::getHashUserFile))))    
+        );
 
-            assertNotNull(
-                    (this.userRepository.findByHashUserFile((this.usersHash.get(i))).get())
+    }
 
-            );
 
-        }
+    @Test
+    void testFindByHashUserFileWithNull(){
+
+    }
+
+
+    @Test
+    void testFindByHashUserFileWithEmptyString(){
+
+    }
+
+    @Test
+    void testFindByHashUserFileWithHashFileNotExist(){
 
     }
 
@@ -132,15 +142,41 @@ public class UserRepositoryTest {
         assertNotNull((userRepository.findById(1L).get()));
     }
 
+
+    @Test
+    void testFindByIdWithInvalidId(){
+
+    }
+
     @Test
     void testFindByUserName() {
 
         assertNotNull(
                 (this.userRepository
                         .findByUserName(
-                                (saveAndGetUserName())))
+                                (saveAndGetAttribute(User::getUserName))))
 
         );
+
+    }
+
+    @Test
+    void testFindByUserNameWithUsernameIsNull(){
+
+    }
+
+    @Test
+    void testFindByUserNameWithUsernameNotExist(){
+
+    }
+
+    @Test
+    void testFindByUserNameWithNullUsername(){
+
+    }
+
+    @Test
+    void testFindByUserNameWithEmptyUsername(){
 
     }
 }
