@@ -1,11 +1,14 @@
 package gyber.sapphire.database.repositories;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
@@ -99,15 +102,25 @@ public class UserRepositoryTest {
     @Test
     void testFindByCryptoWalletAddressWithNullAddress(){
 
+        Exception exception = assertThrows(Exception.class, () -> this.userRepository.findByCryptoWalletAddress(null).orElse(new User()));
+        assertNotNull(exception);
+
+    
+
+       
     }
 
     @Test
     void testFindByCryptoWalletAddressWithAddressNotExist(){
 
+        assertFalse( (this.userRepository.findByCryptoWalletAddress("OIUcnwiuhcuih98h9hwf").isPresent()));
+
     }
 
     @Test
     void testFindByCryptoWalletAddressWithEmptyString(){
+
+        assertFalse( (this.userRepository.findByCryptoWalletAddress("").isPresent()));
 
     }
 
