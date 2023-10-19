@@ -17,6 +17,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Commit;
@@ -81,37 +85,64 @@ public class UserRepositoryTest {
 
 
 
-    private User[] saveAndGetUserEntity(int quantity){
-
-
-        User[] userArr = new User[quantity];
-        for(int x = 0 ; x < userArr.length; x++){
-            userArr[x] = 
-            (
-            this.userRepository.save(
-            new User(
+    public static Stream<Arguments> getMoreUserParameters(){
+        return Stream.of(
+            Arguments.of(
+                (
+                new User(
                 "@" + new RandomString(5).nextString(),
                 "0x" + new RandomString(16).nextString(),
                 new RandomString(128).nextString(),
                 NetStatus.ONLINE,
                 new RandomString(200).nextString().toUpperCase()
 
-            )));
+                 )
+                )
+            ) , 
 
+            Arguments.of(
+                (
+                    new User(
+                    "@" + new RandomString(5).nextString(),
+                    "0x" + new RandomString(16).nextString(),
+                    new RandomString(128).nextString(),
+                    NetStatus.ONLINE,
+                    new RandomString(200).nextString().toUpperCase()
 
-        }
+                    )
+                )
+            ) , 
 
+            Arguments.of(
+                (
+                    new User(
+                        "@" + new RandomString(5).nextString(),
+                        "0x" + new RandomString(16).nextString(),
+                        new RandomString(128).nextString(),
+                        NetStatus.ONLINE,
+                        new RandomString(200).nextString().toUpperCase()
 
-        return userArr;
+                    )
+                )
+            ) 
+
+        );
     }
 
 
     // SAVE
 
-    @Test
-    public void testSaveUser(){
-        User userToSaveTest = saveAndGetUserEntity(1)[0];
+    //@Test
+    @ParameterizedTest
+    @MethodSource("getMoreUserParameters")
+    public void testSaveUser(User user){
+ 
+        User userToSaveTest = this.userRepository.save(user);
+        assertNotNull( userToSaveTest);
+
         User userToGetTest = this.userRepository.findByUserName( (userToSaveTest.getUserName()) ).get();
+        assertNotNull(userToGetTest); 
+
 
         assertTrue(userToSaveTest.equals(userToGetTest));
         
@@ -133,8 +164,10 @@ public class UserRepositoryTest {
         assertNotNull(
                 (this.userRepository
                         .findByCryptoWalletAddress((saveAndGetAttribute(User::getCryptoWalletAddress)))));
-
+                        
     }
+
+
 
 
     @Test
