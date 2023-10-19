@@ -81,24 +81,28 @@ public class UserRepositoryTest {
 
 
 
-    private User saveAndGetUserEntity(){
-
-        User entity = 
-        new User(
-            "@" + new RandomString(5).nextString(),
-            "0x" + new RandomString(16).nextString(),
-            new RandomString(128).nextString(),
-            NetStatus.ONLINE,
-            new RandomString(200).nextString().toUpperCase()
-
-        );
-
-        this.userRepository.save(entity);
+    private User[] saveAndGetUserEntity(int quantity){
 
 
+        User[] userArr = new User[quantity];
+        for(int x = 0 ; x < userArr.length; x++){
+            userArr[x] = 
+            (
+            this.userRepository.save(
+            new User(
+                "@" + new RandomString(5).nextString(),
+                "0x" + new RandomString(16).nextString(),
+                new RandomString(128).nextString(),
+                NetStatus.ONLINE,
+                new RandomString(200).nextString().toUpperCase()
+
+            )));
 
 
-        return entity;
+        }
+
+
+        return userArr;
     }
 
 
