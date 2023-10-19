@@ -80,7 +80,7 @@ public class UserRepositoryTest {
     }
 
 
-    
+
     private User saveAndGetUserEntity(){
 
         User entity = 
@@ -99,6 +99,18 @@ public class UserRepositoryTest {
 
 
         return entity;
+    }
+
+
+    // SAVE
+
+    @Test
+    public void testSaveUser(){
+        User userToSaveTest = saveAndGetUserEntity();
+        User userToGetTest = this.userRepository.findByUserName( (userToSaveTest.getUserName()) ).get();
+
+        assertTrue(userToSaveTest.equals(userToGetTest));
+        
     }
 
 
