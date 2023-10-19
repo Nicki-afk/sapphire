@@ -110,7 +110,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testSaveUser(){
-        User userToSaveTest = saveAndGetUserEntity();
+        User userToSaveTest = saveAndGetUserEntity(1)[0];
         User userToGetTest = this.userRepository.findByUserName( (userToSaveTest.getUserName()) ).get();
 
         assertTrue(userToSaveTest.equals(userToGetTest));
