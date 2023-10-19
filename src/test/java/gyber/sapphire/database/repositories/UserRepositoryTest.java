@@ -80,6 +80,28 @@ public class UserRepositoryTest {
     }
 
 
+    
+    private User saveAndGetUserEntity(){
+
+        User entity = 
+        new User(
+            "@" + new RandomString(5).nextString(),
+            "0x" + new RandomString(16).nextString(),
+            new RandomString(128).nextString(),
+            NetStatus.ONLINE,
+            new RandomString(200).nextString().toUpperCase()
+
+        );
+
+        this.userRepository.save(entity);
+
+
+
+
+        return entity;
+    }
+
+
 
 
     // READ
