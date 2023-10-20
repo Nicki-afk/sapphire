@@ -179,29 +179,40 @@ public class UserRepositoryTest {
 
 
 
-    @Test
-    void testFindByHashUserFile() {
+    @ParameterizedTest 
+    @MethodSource("getMoreUserParameters")
+    void testFindByHashUserFile(User user) {
         
+        User userToSave = ( this.userRepository.save( user ) );
+        assertNotNull("User is null", userToSave);
+        assertNotNull("Saved User entity have a hash file  null" ,  (userToSave.getHashUserFile()) );
+
+        User userToGet = ( (this.userRepository.findByHashUserFile( (userToSave.getHashUserFile()))).orElse(null));
+        assertNotNull(userToGet);
+
+        assertTrue((userToSave.equals(userToGet)));
+        assertEquals(userToSave.getHashUserFile() , userToGet.getHashUserFile());
     
 
     }
 
 
-    @Test
-    void testFindByHashUserFileWithNull(){
+    @ParameterizedTest
+    @NullAndEmptySource
+    void testFindByHashUserFileWithNullOrEmptyInput(String hashUserFile){
+
+        User userToSave = ( this.userRepository.save( generateOnlyOneUser() ) );
+        assertNotNull("User is null", userToSave);
+        assertNotNull("Save User hash file is null " , (userToSave.getHashUserFile()));
+     
+        User userToGet = ( (this.userRepository.findByHashUserFile( hashUserFile)).orElse(null));
+        assertNull(userToGet);
+
 
     }
 
 
-    @Test
-    void testFindByHashUserFileWithEmptyString(){
-
-    }
-
-    @Test
-    void testFindByHashUserFileWithHashFileNotExist(){
-
-    }
+ 
 
     @Test
     void testFindById() {
