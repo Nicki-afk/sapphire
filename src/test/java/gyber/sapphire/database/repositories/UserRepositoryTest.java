@@ -27,6 +27,8 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
@@ -233,39 +235,44 @@ public class UserRepositoryTest {
 
     @ParameterizedTest
     @ValueSource(longs = {-1 , 0 , -0 , -129012})
-    void testFindByIdWithInvalidId(){
+    void testFindByIdWithInvalidId(Long invalidId){
+
+        User userToSave = ( this.userRepository.save( (generateOnlyOneUser()) ) );
+        assertNotNull(userToSave);
+
+        User userToGet = this.userRepository.findById(invalidId).orElse(null);
+        assertNull(userToGet);
+        
 
     }
 
-    @Test
-    void testFindByUserName() {
+    @ParameterizedTest
+    @MethodSource("getMoreUserParameters")
+    void testFindByUserName(User user) {
 
-        // assertNotNull(
-        //         (this.userRepository
-        //                 .findByUserName(
-        //                         (saveAndGetAttribute(User::getUserName))))
+        User userToSave = ( this.userRepository.save(user) );
+        assertNotNull(userToSave);
+        assertNotNull((userToSave.getUserName()));
 
-        // );
+        User userToGet = this.userRepository.findByUserName((userToSave.getUserName())).orElse(null);
+        assertNotNull(userToGet);
+        assertTrue( (userToSave.equals(userToGet)) );
+        assertEquals( (userToSave.getUserName())  , (userToGet.getUserName()) ); 
 
-    }
-
-    @Test
-    void testFindByUserNameWithUsernameIsNull(){
-
-    }
-
-    @Test
-    void testFindByUserNameWithUsernameNotExist(){
 
     }
 
-    @Test
-    void testFindByUserNameWithNullUsername(){
 
-    }
+    @ParameterizedTest
+    @NullAndEmptySource
+    void testFindByUserNameWithNullOrEmptyInput(String userName){
+        User userToSave = this.userRepository.save( (generateOnlyOneUser()) );
+        assertNotNull(userToSave);
+        assertFalse( (userToSave.getUserName().isEmpty()) );
 
-    @Test
-    void testFindByUserNameWithEmptyUsername(){
+        User userToGet = this.userRepository.findByUserName(userName).orElse(null);
+        assertNull(userToGet);
+
 
     }
 
@@ -298,6 +305,10 @@ public class UserRepositoryTest {
 
     @Test
     void testDeleteByCryptoWalletAddress(){}
+
+
+
+
 
 
 
