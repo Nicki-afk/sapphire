@@ -24,6 +24,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Commit;
@@ -214,13 +215,24 @@ public class UserRepositoryTest {
 
  
 
-    @Test
-    void testFindById() {
+    @ParameterizedTest
+    @MethodSource("getMoreUserParameters")
+    void testFindById(User user) {
+
+        User userToSave = ( this.userRepository.save( user ) );
+        assertNotNull("User is null", userToSave);
+        assertNotNull("Saved User entity have a  invalid id" ,  (userToSave.getId()) );
+
+        User userToGet = ( (this.userRepository.findById( (userToSave.getId()))).orElse(null));
+        assertNotNull(userToGet);
+
+
         
     }
 
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(longs = {-1 , 0 , -0 , -129012})
     void testFindByIdWithInvalidId(){
 
     }
