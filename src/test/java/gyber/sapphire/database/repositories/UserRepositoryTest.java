@@ -2,6 +2,7 @@ package gyber.sapphire.database.repositories;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
@@ -278,8 +279,31 @@ public class UserRepositoryTest {
 
 
     // UPDATE
-    @Test
-    void testUpdateHashUserFile(){}
+    @ParameterizedTest
+    @MethodSource("getMoreUserParameters")
+    void testUpdateHashUserFile(User user){
+        User userBeforeUpdate = this.userRepository.save(user);
+        assertNotNull( userBeforeUpdate);
+
+        userBeforeUpdate.setHashUserFile("wufhwiufgwiufgw");
+
+        //this.userRepository.save(userBeforeUpdate);
+
+
+        this.userRepository.updateHashUserFile(userBeforeUpdate.getId(), "fwfwijfwouhfwuhfwiufh");
+
+        User userAfterUpdate = this.userRepository.findById(userBeforeUpdate.getId()).orElse(null);
+        assertNotNull(userAfterUpdate);
+
+      //  System.out.println("\n\n\n " + userBeforeUpdate + "\n\n" + userAfterUpdate);
+
+        assertFalse(userBeforeUpdate.equals(userAfterUpdate));
+        
+        assertNotEquals( (userBeforeUpdate.getHashUserFile()) , (userAfterUpdate.getHashUserFile()) );
+        assertTrue( (userBeforeUpdate.getId() == userAfterUpdate.getId()) );
+
+
+    }
 
 
     @Test
