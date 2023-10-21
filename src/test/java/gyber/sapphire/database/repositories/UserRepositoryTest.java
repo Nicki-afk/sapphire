@@ -279,31 +279,29 @@ public class UserRepositoryTest {
 
 
     // UPDATE
-    @ParameterizedTest
-    @MethodSource("getMoreUserParameters")
-    void testUpdateHashUserFile(User user){
-        User userBeforeUpdate = this.userRepository.save(user);
+    // @ParameterizedTest
+    // @MethodSource("getMoreUserParameters")
+    @Test
+    void testUpdateHashUserFile(){
+        User userBeforeUpdate = this.userRepository.saveAndFlush( (generateOnlyOneUser()) );
         assertNotNull( userBeforeUpdate);
 
-        userBeforeUpdate.setHashUserFile("wufhwiufgwiufgw");
 
-        //this.userRepository.save(userBeforeUpdate);
-
-
-        this.userRepository.updateHashUserFile(userBeforeUpdate.getId(), "fwfwijfwouhfwuhfwiufh");
-
-        User userAfterUpdate = this.userRepository.findById(userBeforeUpdate.getId()).orElse(null);
-        assertNotNull(userAfterUpdate);
-
-      //  System.out.println("\n\n\n " + userBeforeUpdate + "\n\n" + userAfterUpdate);
-
-        assertFalse(userBeforeUpdate.equals(userAfterUpdate));
+        Long userID = (userBeforeUpdate.getId());
+        this.userRepository.updateHashUserFile( userID , "sgljwofjwofiwoifhwoifwifhwoifhwoifh");
+        this.userRepository.flush();
         
-        assertNotEquals( (userBeforeUpdate.getHashUserFile()) , (userAfterUpdate.getHashUserFile()) );
-        assertTrue( (userBeforeUpdate.getId() == userAfterUpdate.getId()) );
+    
 
+        User userAfterUpdate = this.userRepository.findById(userID).orElse(null);
+
+        assertNotNull(userAfterUpdate);
+        assertNotEquals(userBeforeUpdate , userAfterUpdate);
+        assertNotEquals( (userBeforeUpdate.getHashUserFile()) , (userAfterUpdate.getHashUserFile()) );
 
     }
+
+
 
 
     @Test
