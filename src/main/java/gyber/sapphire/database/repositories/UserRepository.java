@@ -27,8 +27,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // UPDATE
     @Modifying
-    @Query("UPDATE User u SET u.hashUserFile = :hashFile WHERE u.id = :userId")
-    void updateHashUserFile(@Param(value = "userId") Long userId, @Param(value = "hashFile") String hashFile);
+    @Query("UPDATE User u SET u.hashUserFile = :file WHERE u.id = :uid")
+    void updateHashUserFile(@Param(value = "uid") Long userId, @Param(value = "file") String file);
 
     @Modifying
     @Query("UPDATE User u SET u.userName = :newUserName WHERE u.id = :userId")
