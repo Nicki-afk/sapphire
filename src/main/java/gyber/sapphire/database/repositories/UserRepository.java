@@ -28,14 +28,17 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // UPDATE
     @Modifying
     @Query("UPDATE User u SET u.hashUserFile = :hashFile WHERE u.id = :userId")
-    void updateHashUserFile(@Param("userId") Long userId, @Param("hashFile") String hashFile);
+    void updateHashUserFile(@Param(value = "userId") Long userId, @Param(value = "hashFile") String hashFile);
 
+    @Modifying
     @Query("UPDATE User u SET u.userName = :newUserName WHERE u.id = :userId")
     void updateUserName(Long userId, String newUserName);
 
+    @Modifying
     @Query("UPDATE User u SET u.cryptoWalletAddress = :newCryptoWalletAddress WHERE u.id = :userId")
     void updateCryptoWalletAddress(Long userId, String newCryptoWalletAddress);
 
+    @Modifying
     @Query("UPDATE User u SET u.onlineNetStatus = :newStatus WHERE u.id = :userId")
     void updateNetStatus(Long userId, @Param("newStatus") NetStatus newStatus);
 
