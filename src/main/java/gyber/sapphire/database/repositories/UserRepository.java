@@ -26,19 +26,19 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByBetaTestKey(String key);
 
     // UPDATE
-    @Modifying
+    @Modifying(clearAutomatically  = true)
     @Query("UPDATE User u SET u.hashUserFile = :file WHERE u.id = :uid")
     void updateHashUserFile(@Param(value = "uid") Long userId, @Param(value = "file") String file);
 
-    @Modifying
+    @Modifying(clearAutomatically  = true)
     @Query("UPDATE User u SET u.userName = :newUserName WHERE u.id = :userId")
     void updateUserName(Long userId, String newUserName);
 
-    @Modifying
+    @Modifying(clearAutomatically  = true)
     @Query("UPDATE User u SET u.cryptoWalletAddress = :newCryptoWalletAddress WHERE u.id = :userId")
     void updateCryptoWalletAddress(Long userId, String newCryptoWalletAddress);
 
-    @Modifying
+    @Modifying(clearAutomatically  = true)
     @Query("UPDATE User u SET u.onlineNetStatus = :newStatus WHERE u.id = :userId")
     void updateNetStatus(Long userId, @Param("newStatus") NetStatus newStatus);
 
