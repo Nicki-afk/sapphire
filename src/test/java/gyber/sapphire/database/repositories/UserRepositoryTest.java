@@ -281,8 +281,8 @@ public class UserRepositoryTest {
     // UPDATE
     @ParameterizedTest
     @MethodSource("getMoreUserParameters")
-    void testUpdateHashUserFile(){
-        User userBeforeUpdate = this.userRepository.saveAndFlush( (generateOnlyOneUser()) );
+    void testUpdateHashUserFile(User user){
+        User userBeforeUpdate = this.userRepository.saveAndFlush( user );
         assertNotNull( userBeforeUpdate);
 
 
@@ -304,8 +304,28 @@ public class UserRepositoryTest {
 
 
 
-    @Test
-    void testUpdateUsername(){}
+    @ParameterizedTest
+    @MethodSource("getMoreUserParameters")
+    void testUpdateUsername(User user){
+
+        User userBeforeUpdate = this.userRepository.saveAndFlush( user);
+        assertNotNull( userBeforeUpdate);
+
+
+        Long userID = (userBeforeUpdate.getId());
+        this.userRepository.updateUserName(userID, "@simple");
+        this.userRepository.flush();
+        
+    
+
+        User userAfterUpdate = this.userRepository.findById(userID).orElse(null);
+
+        assertNotNull(userAfterUpdate);
+        assertNotEquals(userBeforeUpdate , userAfterUpdate);
+        assertNotEquals( (userBeforeUpdate.getUserName()) , (userAfterUpdate.getUserName()) );
+
+
+    }
 
 
     @Test
