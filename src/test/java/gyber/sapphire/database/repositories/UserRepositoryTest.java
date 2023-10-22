@@ -279,9 +279,8 @@ public class UserRepositoryTest {
 
 
     // UPDATE
-    // @ParameterizedTest
-    // @MethodSource("getMoreUserParameters")
-    @Test
+    @ParameterizedTest
+    @MethodSource("getMoreUserParameters")
     void testUpdateHashUserFile(){
         User userBeforeUpdate = this.userRepository.saveAndFlush( (generateOnlyOneUser()) );
         assertNotNull( userBeforeUpdate);
@@ -300,6 +299,7 @@ public class UserRepositoryTest {
         assertNotEquals( (userBeforeUpdate.getHashUserFile()) , (userAfterUpdate.getHashUserFile()) );
 
     }
+
 
 
 
