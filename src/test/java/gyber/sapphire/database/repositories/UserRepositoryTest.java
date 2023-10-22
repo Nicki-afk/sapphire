@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +15,15 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import javax.validation.constraints.Null;
+
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
+import org.junit.function.ThrowingRunnable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -30,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
@@ -56,7 +62,7 @@ public class UserRepositoryTest {
             "@" + new RandomString(5).nextString(),
             "0x" + new RandomString(16).nextString(),
             new RandomString(128).nextString(),
-            NetStatus.ONLINE,
+            NetStatus.DEPARTED,
             new RandomString(200).nextString().toUpperCase()
         );
     }
@@ -301,6 +307,31 @@ public class UserRepositoryTest {
     }
 
 
+    /*
+     * The repository allows you to save values that are null or empty
+    */
+    @ParameterizedTest
+    @NullAndEmptySource
+    void testUpdateHashUserFileWithNullOrEmptyInput(String hashFile){
+
+        User userBeforeUpdate = this.userRepository.saveAndFlush( (generateOnlyOneUser()) );
+        assertNotNull( userBeforeUpdate);
+
+
+        Long userID = (userBeforeUpdate.getId());
+        this.userRepository.updateHashUserFile( userID , hashFile);
+        this.userRepository.flush();
+
+        User userAfterUpdate = this.userRepository.findById(userID).orElse(null);
+        assertNotNull(userAfterUpdate);
+
+
+        assertTrue((userAfterUpdate.getHashUserFile() == null || userAfterUpdate.getHashUserFile().isEmpty()));
+
+
+    }
+
+
 
 
 
@@ -329,11 +360,223 @@ public class UserRepositoryTest {
 
 
     @Test
-    void testUpdateCryptoWalletAddress(){}
+    @Rollback(true)
+    void testUpdateUsernameWhichAlreadyTaken(){
+        User userOne = generateOnlyOneUser();
+        User userTwo = generateOnlyOneUser();
+
+        assertNotNull((this.userRepository.saveAndFlush(userOne)));
+        assertNotNull((this.userRepository.saveAndFlush(userTwo)));
+
+     
+       Exception e = 
+       assertThrows(DataIntegrityViolationException.class , () ->  this.userRepository.updateUserName( (userTwo.getId()) , (userOne.getUserName()) ));
+
+       assertNotNull(e);
+       assertInstanceOf( DataIntegrityViolationException.class, e);
 
 
-    @Test
-    void testUpdateNetStatus(){}
+
+
+    }
+
+
+    public static Stream<Arguments> getUserObjectsAndAddressesWhichNeedUpdate(){
+        return Stream
+        .of(
+            Arguments.of(
+                 (
+                    new User(
+                        "@" + new RandomString(5).nextString(),
+                        "0x" + new RandomString(16).nextString(),
+                        new RandomString(128).nextString(),
+                        NetStatus.ONLINE,
+                        new RandomString(200).nextString().toUpperCase()
+
+                    )
+                ) , ("0x" + new RandomString(16).nextString())
+                
+            ) , 
+
+            Arguments.of(
+                 (
+                    new User(
+                        "@" + new RandomString(5).nextString(),
+                        "0x" + new RandomString(16).nextString(),
+                        new RandomString(128).nextString(),
+                        NetStatus.ONLINE,
+                        new RandomString(200).nextString().toUpperCase()
+
+                    )
+                ) , ("0x" + new RandomString(16).nextString())
+                
+            ) , 
+
+            Arguments.of(
+                 (
+                    new User(
+                        "@" + new RandomString(5).nextString(),
+                        "0x" + new RandomString(16).nextString(),
+                        new RandomString(128).nextString(),
+                        NetStatus.ONLINE,
+                        new RandomString(200).nextString().toUpperCase()
+
+                    )
+                ) , ("0x" + new RandomString(16).nextString())
+                
+            ) 
+
+
+        );
+    }
+
+    @ParameterizedTest 
+    @MethodSource("getUserObjectsAndAddressesWhichNeedUpdate")
+    void testUpdateCryptoWalletAddress(User user , String newWallet){
+
+        User userBeforeUpdate = this.userRepository.saveAndFlush( user);
+        assertNotNull( userBeforeUpdate);
+        assertNotEquals( (userBeforeUpdate.getCryptoWalletAddress()) , newWallet );
+
+
+        Long userID = (userBeforeUpdate.getId());
+        this.userRepository.updateCryptoWalletAddress(userID, newWallet);
+        this.userRepository.flush();
+        
+    
+
+        User userAfterUpdate = this.userRepository.findById(userID).orElse(null);
+
+        assertNotNull(userAfterUpdate);
+        assertNotEquals(userBeforeUpdate , userAfterUpdate);
+        assertNotEquals( (userBeforeUpdate.getCryptoWalletAddress()) , (userAfterUpdate.getCryptoWalletAddress()) );
+        assertEquals(userAfterUpdate.getCryptoWalletAddress() , newWallet);
+
+    }
+
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    void testUpdateCryptoWalletAddressWithNullOrEmptyInput(String wallet ){
+
+        User userBeforeUpdate = this.userRepository.saveAndFlush( (generateOnlyOneUser()) );
+        assertNotNull( userBeforeUpdate);
+        
+        this.userRepository.updateCryptoWalletAddress((userBeforeUpdate.getId()), wallet);
+        this.userRepository.flush();
+
+        String updateWallet = this.userRepository.getById( (userBeforeUpdate.getId()) ).getCryptoWalletAddress();
+
+        assertTrue( (updateWallet == null || updateWallet.isEmpty()) );
+
+
+    }
+
+
+    @RepeatedTest(10)
+    @Rollback(true)
+    void testUpdateCryptoWalletAddressWhichAddressAlreadyTaken(){
+        User uOne = generateOnlyOneUser();
+        User uTwo = generateOnlyOneUser();
+
+        this.userRepository.save(uOne);
+        this.userRepository.save(uTwo);
+
+
+        String existWallet = uOne.getCryptoWalletAddress();
+     
+        Exception e = 
+        assertThrows(DataIntegrityViolationException.class , () -> this.userRepository.updateCryptoWalletAddress((uTwo.getId()) , existWallet));
+
+        assertNotNull(e);
+        assertInstanceOf(DataIntegrityViolationException.class  , e);
+        assertNotEquals( (uTwo.getCryptoWalletAddress()) , existWallet );
+
+    }
+
+
+    public static Stream<Arguments> getUsersWhichHaveStatusDeparted(){
+        return Stream.of(
+          
+         Arguments.of(
+                 (
+                    new User(
+                        "@" + new RandomString(5).nextString(),
+                        "0x" + new RandomString(16).nextString(),
+                        new RandomString(128).nextString(),
+                        NetStatus.DEPARTED,
+                        new RandomString(200).nextString().toUpperCase()
+
+                    )
+                ) 
+                
+            ) , 
+
+            Arguments.of(
+                 (
+                    new User(
+                        "@" + new RandomString(5).nextString(),
+                        "0x" + new RandomString(16).nextString(),
+                        new RandomString(128).nextString(),
+                        NetStatus.DEPARTED,
+                        new RandomString(200).nextString().toUpperCase()
+
+                    )
+                ) 
+                
+            ) , 
+
+            Arguments.of(
+                 (
+                    new User(
+                        "@" + new RandomString(5).nextString(),
+                        "0x" + new RandomString(16).nextString(),
+                        new RandomString(128).nextString(),
+                        NetStatus.DEPARTED,
+                        new RandomString(200).nextString().toUpperCase()
+
+                    )
+                ) 
+                
+            ) , 
+
+            Arguments.of(
+                 (
+                    new User(
+                        "@" + new RandomString(5).nextString(),
+                        "0x" + new RandomString(16).nextString(),
+                        new RandomString(128).nextString(),
+                        NetStatus.DEPARTED,
+                        new RandomString(200).nextString().toUpperCase()
+
+                    )
+                ) 
+                
+            )
+        
+      
+        );
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("getUsersWhichHaveStatusDeparted")
+    void testUpdateNetStatus(User user){
+        User userBeforeStatusUpdate = this.userRepository.saveAndFlush(user);
+        assertNotNull(userBeforeStatusUpdate);
+
+        Long idUserToUpdate = userBeforeStatusUpdate.getId();
+
+        this.userRepository.updateNetStatus(idUserToUpdate, NetStatus.ONLINE);
+        this.userRepository.flush();
+
+        NetStatus updateNetStatus = this.userRepository.getById(idUserToUpdate).getOnlineNetStatus();
+        assertNotNull(updateNetStatus);
+        assertTrue( (updateNetStatus == NetStatus.ONLINE) );
+        assertTrue( (userBeforeStatusUpdate.getOnlineNetStatus() != updateNetStatus) );
+
+        
+    }
 
 
 
