@@ -35,14 +35,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username" , unique = true)
     @Size(min = 6, max = 8)
     @NotBlank
     private String userName;
 
-    @Column(name = "crypto_wallet")
+    @Column(name = "crypto_wallet" , unique = true)
     @NotBlank
     private String cryptoWalletAddress;
+    
     @Column(name = "pub_key")
     @NotBlank
     private String publicUserKey;
