@@ -11,37 +11,23 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import javax.validation.constraints.Null;
-
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
-import org.junit.function.ThrowingRunnable;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.annotation.Commit;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.transaction.annotation.Transactional;
-
-import gyber.sapphire.beta.BetaTestKey;
 import gyber.sapphire.profile.NetStatus;
 import gyber.sapphire.profile.User;
 
@@ -53,90 +39,68 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    private List<String> usersHash = new ArrayList<>() , usernames = new ArrayList<>();
-
-
+    private List<String> usersHash = new ArrayList<>(), usernames = new ArrayList<>();
 
     private User generateOnlyOneUser() {
         return new User(
-            "@" + new RandomString(5).nextString(),
-            "0x" + new RandomString(16).nextString(),
-            new RandomString(128).nextString(),
-            NetStatus.DEPARTED,
-            new RandomString(200).nextString().toUpperCase()
-        );
-    }
-
-
-
-
-
-
-    public static Stream<Arguments> getMoreUserParameters(){
-        return Stream.of(
-            Arguments.of(
-                (
-                new User(
                 "@" + new RandomString(5).nextString(),
                 "0x" + new RandomString(16).nextString(),
                 new RandomString(128).nextString(),
-                NetStatus.ONLINE,
-                new RandomString(200).nextString().toUpperCase()
+                NetStatus.DEPARTED,
+                new RandomString(200).nextString().toUpperCase());
+    }
 
-                 )
-                )
-            ) , 
+    public static Stream<Arguments> getMoreUserParameters() {
+        return Stream.of(
+                Arguments.of(
+                        (new User(
+                                "@" + new RandomString(5).nextString(),
+                                "0x" + new RandomString(16).nextString(),
+                                new RandomString(128).nextString(),
+                                NetStatus.ONLINE,
+                                new RandomString(200).nextString().toUpperCase()
 
-            Arguments.of(
-                (
-                    new User(
-                    "@" + new RandomString(5).nextString(),
-                    "0x" + new RandomString(16).nextString(),
-                    new RandomString(128).nextString(),
-                    NetStatus.ONLINE,
-                    new RandomString(200).nextString().toUpperCase()
+                        ))),
 
-                    )
-                )
-            ) , 
+                Arguments.of(
+                        (new User(
+                                "@" + new RandomString(5).nextString(),
+                                "0x" + new RandomString(16).nextString(),
+                                new RandomString(128).nextString(),
+                                NetStatus.ONLINE,
+                                new RandomString(200).nextString().toUpperCase()
 
-            Arguments.of(
-                (
-                    new User(
-                        "@" + new RandomString(5).nextString(),
-                        "0x" + new RandomString(16).nextString(),
-                        new RandomString(128).nextString(),
-                        NetStatus.ONLINE,
-                        new RandomString(200).nextString().toUpperCase()
+                        ))),
 
-                    )
-                )
-            ) 
+                Arguments.of(
+                        (new User(
+                                "@" + new RandomString(5).nextString(),
+                                "0x" + new RandomString(16).nextString(),
+                                new RandomString(128).nextString(),
+                                NetStatus.ONLINE,
+                                new RandomString(200).nextString().toUpperCase()
+
+                        )))
 
         );
     }
-
 
     // SAVE
 
     @ParameterizedTest
     @MethodSource("getMoreUserParameters")
-    void testSaveUser(User user){
- 
+    void testSaveUser(User user) {
+
         User userToSaveTest = this.userRepository.save(user);
-        assertNotNull( userToSaveTest);
+        assertNotNull(userToSaveTest);
 
-        User userToGetTest = this.userRepository.findByUserName( (userToSaveTest.getUserName()) ).get();
-        assertNotNull(userToGetTest); 
-
+        User userToGetTest = this.userRepository.findByUserName((userToSaveTest.getUserName())).get();
+        assertNotNull(userToGetTest);
 
         assertTrue((userToSaveTest.equals(userToGetTest)));
         assertTrue((userToSaveTest.getUserName().equals(userToGetTest.getUserName()))); // additional check
-        
+
     }
-
-
-
 
     // READ
     @Test
@@ -150,106 +114,84 @@ public class UserRepositoryTest {
     void testFindByCryptoWalletAddress(User user) {
 
         User userToSaveTest = this.userRepository.save(user);
-        assertNotNull( userToSaveTest);
+        assertNotNull(userToSaveTest);
 
         String crypto = userToSaveTest.getCryptoWalletAddress();
         assertNotNull(crypto);
 
-        User userToGetTest = this.userRepository.findByCryptoWalletAddress( crypto ).get();
-        assertNotNull(userToGetTest); 
-
+        User userToGetTest = this.userRepository.findByCryptoWalletAddress(crypto).get();
+        assertNotNull(userToGetTest);
 
         assertTrue((userToSaveTest.equals(userToGetTest)));
         assertTrue(
-            (userToSaveTest.getCryptoWalletAddress().equals(userToGetTest.getCryptoWalletAddress()))
-        );
+                (userToSaveTest.getCryptoWalletAddress().equals(userToGetTest.getCryptoWalletAddress())));
 
-
-                        
     }
-
-
-
 
     @ParameterizedTest
     @NullAndEmptySource
-    void testFindByCryptoWalletAddressWithNullAddressOrEmptyAddress(String wallet){
+    void testFindByCryptoWalletAddressWithNullAddressOrEmptyAddress(String wallet) {
 
-        User userToSave = ( this.userRepository.save( generateOnlyOneUser() ) );
+        User userToSave = (this.userRepository.save(generateOnlyOneUser()));
         assertNotNull("User is null", userToSave);
-        assertNotNull("Saved User entity have a wallet address null" ,  (userToSave.getCryptoWalletAddress()) );
+        assertNotNull("Saved User entity have a wallet address null", (userToSave.getCryptoWalletAddress()));
 
-        User userToGet = ( (this.userRepository.findByCryptoWalletAddress(wallet)).orElse(null));
+        User userToGet = ((this.userRepository.findByCryptoWalletAddress(wallet)).orElse(null));
         assertNull(userToGet);
 
     }
 
-
-  
-
-
-
-    @ParameterizedTest 
+    @ParameterizedTest
     @MethodSource("getMoreUserParameters")
     void testFindByHashUserFile(User user) {
-        
-        User userToSave = ( this.userRepository.save( user ) );
-        assertNotNull("User is null", userToSave);
-        assertNotNull("Saved User entity have a hash file  null" ,  (userToSave.getHashUserFile()) );
 
-        User userToGet = ( (this.userRepository.findByHashUserFile( (userToSave.getHashUserFile()))).orElse(null));
+        User userToSave = (this.userRepository.save(user));
+        assertNotNull("User is null", userToSave);
+        assertNotNull("Saved User entity have a hash file  null", (userToSave.getHashUserFile()));
+
+        User userToGet = ((this.userRepository.findByHashUserFile((userToSave.getHashUserFile()))).orElse(null));
         assertNotNull(userToGet);
 
         assertTrue((userToSave.equals(userToGet)));
-        assertEquals(userToSave.getHashUserFile() , userToGet.getHashUserFile());
-    
+        assertEquals(userToSave.getHashUserFile(), userToGet.getHashUserFile());
 
     }
-
 
     @ParameterizedTest
     @NullAndEmptySource
-    void testFindByHashUserFileWithNullOrEmptyInput(String hashUserFile){
+    void testFindByHashUserFileWithNullOrEmptyInput(String hashUserFile) {
 
-        User userToSave = ( this.userRepository.save( generateOnlyOneUser() ) );
+        User userToSave = (this.userRepository.save(generateOnlyOneUser()));
         assertNotNull("User is null", userToSave);
-        assertNotNull("Save User hash file is null " , (userToSave.getHashUserFile()));
-     
-        User userToGet = ( (this.userRepository.findByHashUserFile( hashUserFile)).orElse(null));
+        assertNotNull("Save User hash file is null ", (userToSave.getHashUserFile()));
+
+        User userToGet = ((this.userRepository.findByHashUserFile(hashUserFile)).orElse(null));
         assertNull(userToGet);
 
-
     }
-
-
- 
 
     @ParameterizedTest
     @MethodSource("getMoreUserParameters")
     void testFindById(User user) {
 
-        User userToSave = ( this.userRepository.save( user ) );
+        User userToSave = (this.userRepository.save(user));
         assertNotNull("User is null", userToSave);
-        assertNotNull("Saved User entity have a  invalid id" ,  (userToSave.getId()) );
+        assertNotNull("Saved User entity have a  invalid id", (userToSave.getId()));
 
-        User userToGet = ( (this.userRepository.findById( (userToSave.getId()))).orElse(null));
+        User userToGet = ((this.userRepository.findById((userToSave.getId()))).orElse(null));
         assertNotNull(userToGet);
 
-
-        
     }
 
-
     @ParameterizedTest
-    @ValueSource(longs = {-1 , 0 , -0 , -129012})
-    void testFindByIdWithInvalidId(Long invalidId){
+    @ValueSource(longs = { -1, 0, -0, -129012 })
+    void testFindByIdWithInvalidId(Long invalidId) {
 
-        User userToSave = ( this.userRepository.save( (generateOnlyOneUser()) ) );
+        User userToSave = (this.userRepository.save((generateOnlyOneUser())));
         assertNotNull(userToSave);
 
         User userToGet = this.userRepository.findById(invalidId).orElse(null);
         assertNull(userToGet);
-        
 
     }
 
@@ -257,311 +199,261 @@ public class UserRepositoryTest {
     @MethodSource("getMoreUserParameters")
     void testFindByUserName(User user) {
 
-        User userToSave = ( this.userRepository.save(user) );
+        User userToSave = (this.userRepository.save(user));
         assertNotNull(userToSave);
         assertNotNull((userToSave.getUserName()));
 
         User userToGet = this.userRepository.findByUserName((userToSave.getUserName())).orElse(null);
         assertNotNull(userToGet);
-        assertTrue( (userToSave.equals(userToGet)) );
-        assertEquals( (userToSave.getUserName())  , (userToGet.getUserName()) ); 
-
+        assertTrue((userToSave.equals(userToGet)));
+        assertEquals((userToSave.getUserName()), (userToGet.getUserName()));
 
     }
 
-
     @ParameterizedTest
     @NullAndEmptySource
-    void testFindByUserNameWithNullOrEmptyInput(String userName){
-        User userToSave = this.userRepository.save( (generateOnlyOneUser()) );
+    void testFindByUserNameWithNullOrEmptyInput(String userName) {
+        User userToSave = this.userRepository.save((generateOnlyOneUser()));
         assertNotNull(userToSave);
-        assertFalse( (userToSave.getUserName().isEmpty()) );
+        assertFalse((userToSave.getUserName().isEmpty()));
 
         User userToGet = this.userRepository.findByUserName(userName).orElse(null);
         assertNull(userToGet);
 
-
     }
-
 
     // UPDATE
     @ParameterizedTest
     @MethodSource("getMoreUserParameters")
-    void testUpdateHashUserFile(User user){
-        User userBeforeUpdate = this.userRepository.saveAndFlush( user );
-        assertNotNull( userBeforeUpdate);
-
+    void testUpdateHashUserFile(User user) {
+        User userBeforeUpdate = this.userRepository.saveAndFlush(user);
+        assertNotNull(userBeforeUpdate);
 
         Long userID = (userBeforeUpdate.getId());
-        this.userRepository.updateHashUserFile( userID , "sgljwofjwofiwoifhwoifwifhwoifhwoifh");
+        this.userRepository.updateHashUserFile(userID, "sgljwofjwofiwoifhwoifwifhwoifhwoifh");
         this.userRepository.flush();
-        
-    
 
         User userAfterUpdate = this.userRepository.findById(userID).orElse(null);
 
         assertNotNull(userAfterUpdate);
-        assertNotEquals(userBeforeUpdate , userAfterUpdate);
-        assertNotEquals( (userBeforeUpdate.getHashUserFile()) , (userAfterUpdate.getHashUserFile()) );
+        assertNotEquals(userBeforeUpdate, userAfterUpdate);
+        assertNotEquals((userBeforeUpdate.getHashUserFile()), (userAfterUpdate.getHashUserFile()));
 
     }
-
 
     /*
      * The repository allows you to save values that are null or empty
-    */
+     */
     @ParameterizedTest
     @NullAndEmptySource
-    void testUpdateHashUserFileWithNullOrEmptyInput(String hashFile){
+    void testUpdateHashUserFileWithNullOrEmptyInput(String hashFile) {
 
-        User userBeforeUpdate = this.userRepository.saveAndFlush( (generateOnlyOneUser()) );
-        assertNotNull( userBeforeUpdate);
-
+        User userBeforeUpdate = this.userRepository.saveAndFlush((generateOnlyOneUser()));
+        assertNotNull(userBeforeUpdate);
 
         Long userID = (userBeforeUpdate.getId());
-        this.userRepository.updateHashUserFile( userID , hashFile);
+        this.userRepository.updateHashUserFile(userID, hashFile);
         this.userRepository.flush();
 
         User userAfterUpdate = this.userRepository.findById(userID).orElse(null);
         assertNotNull(userAfterUpdate);
 
-
         assertTrue((userAfterUpdate.getHashUserFile() == null || userAfterUpdate.getHashUserFile().isEmpty()));
-
 
     }
 
-
-
-
-
     @ParameterizedTest
     @MethodSource("getMoreUserParameters")
-    void testUpdateUsername(User user){
+    void testUpdateUsername(User user) {
 
-        User userBeforeUpdate = this.userRepository.saveAndFlush( user);
-        assertNotNull( userBeforeUpdate);
-
+        User userBeforeUpdate = this.userRepository.saveAndFlush(user);
+        assertNotNull(userBeforeUpdate);
 
         Long userID = (userBeforeUpdate.getId());
         this.userRepository.updateUserName(userID, "@simple");
         this.userRepository.flush();
-        
-    
 
         User userAfterUpdate = this.userRepository.findById(userID).orElse(null);
 
         assertNotNull(userAfterUpdate);
-        assertNotEquals(userBeforeUpdate , userAfterUpdate);
-        assertNotEquals( (userBeforeUpdate.getUserName()) , (userAfterUpdate.getUserName()) );
-
+        assertNotEquals(userBeforeUpdate, userAfterUpdate);
+        assertNotEquals((userBeforeUpdate.getUserName()), (userAfterUpdate.getUserName()));
 
     }
 
-
     @Test
     @Rollback(true)
-    void testUpdateUsernameWhichAlreadyTaken(){
+    void testUpdateUsernameWhichAlreadyTaken() {
         User userOne = generateOnlyOneUser();
         User userTwo = generateOnlyOneUser();
 
         assertNotNull((this.userRepository.saveAndFlush(userOne)));
         assertNotNull((this.userRepository.saveAndFlush(userTwo)));
 
-     
-       Exception e = 
-       assertThrows(DataIntegrityViolationException.class , () ->  this.userRepository.updateUserName( (userTwo.getId()) , (userOne.getUserName()) ));
+        Exception e = assertThrows(DataIntegrityViolationException.class,
+                () -> this.userRepository.updateUserName((userTwo.getId()), (userOne.getUserName())));
 
-       assertNotNull(e);
-       assertInstanceOf( DataIntegrityViolationException.class, e);
-
-
-
+        assertNotNull(e);
+        assertInstanceOf(DataIntegrityViolationException.class, e);
 
     }
 
-
-    public static Stream<Arguments> getUserObjectsAndAddressesWhichNeedUpdate(){
+    public static Stream<Arguments> getUserObjectsAndAddressesWhichNeedUpdate() {
         return Stream
-        .of(
-            Arguments.of(
-                 (
-                    new User(
-                        "@" + new RandomString(5).nextString(),
-                        "0x" + new RandomString(16).nextString(),
-                        new RandomString(128).nextString(),
-                        NetStatus.ONLINE,
-                        new RandomString(200).nextString().toUpperCase()
+                .of(
+                        Arguments.of(
+                                (new User(
+                                        "@" + new RandomString(5).nextString(),
+                                        "0x" + new RandomString(16).nextString(),
+                                        new RandomString(128).nextString(),
+                                        NetStatus.ONLINE,
+                                        new RandomString(200).nextString().toUpperCase()
 
-                    )
-                ) , ("0x" + new RandomString(16).nextString())
-                
-            ) , 
+                                )), ("0x" + new RandomString(16).nextString())
 
-            Arguments.of(
-                 (
-                    new User(
-                        "@" + new RandomString(5).nextString(),
-                        "0x" + new RandomString(16).nextString(),
-                        new RandomString(128).nextString(),
-                        NetStatus.ONLINE,
-                        new RandomString(200).nextString().toUpperCase()
+                        ),
 
-                    )
-                ) , ("0x" + new RandomString(16).nextString())
-                
-            ) , 
+                        Arguments.of(
+                                (new User(
+                                        "@" + new RandomString(5).nextString(),
+                                        "0x" + new RandomString(16).nextString(),
+                                        new RandomString(128).nextString(),
+                                        NetStatus.ONLINE,
+                                        new RandomString(200).nextString().toUpperCase()
 
-            Arguments.of(
-                 (
-                    new User(
-                        "@" + new RandomString(5).nextString(),
-                        "0x" + new RandomString(16).nextString(),
-                        new RandomString(128).nextString(),
-                        NetStatus.ONLINE,
-                        new RandomString(200).nextString().toUpperCase()
+                                )), ("0x" + new RandomString(16).nextString())
 
-                    )
-                ) , ("0x" + new RandomString(16).nextString())
-                
-            ) 
+                        ),
 
+                        Arguments.of(
+                                (new User(
+                                        "@" + new RandomString(5).nextString(),
+                                        "0x" + new RandomString(16).nextString(),
+                                        new RandomString(128).nextString(),
+                                        NetStatus.ONLINE,
+                                        new RandomString(200).nextString().toUpperCase()
 
-        );
+                                )), ("0x" + new RandomString(16).nextString())
+
+                        )
+
+                );
     }
 
-    @ParameterizedTest 
+    @ParameterizedTest
     @MethodSource("getUserObjectsAndAddressesWhichNeedUpdate")
-    void testUpdateCryptoWalletAddress(User user , String newWallet){
+    void testUpdateCryptoWalletAddress(User user, String newWallet) {
 
-        User userBeforeUpdate = this.userRepository.saveAndFlush( user);
-        assertNotNull( userBeforeUpdate);
-        assertNotEquals( (userBeforeUpdate.getCryptoWalletAddress()) , newWallet );
-
+        User userBeforeUpdate = this.userRepository.saveAndFlush(user);
+        assertNotNull(userBeforeUpdate);
+        assertNotEquals((userBeforeUpdate.getCryptoWalletAddress()), newWallet);
 
         Long userID = (userBeforeUpdate.getId());
         this.userRepository.updateCryptoWalletAddress(userID, newWallet);
         this.userRepository.flush();
-        
-    
 
         User userAfterUpdate = this.userRepository.findById(userID).orElse(null);
 
         assertNotNull(userAfterUpdate);
-        assertNotEquals(userBeforeUpdate , userAfterUpdate);
-        assertNotEquals( (userBeforeUpdate.getCryptoWalletAddress()) , (userAfterUpdate.getCryptoWalletAddress()) );
-        assertEquals(userAfterUpdate.getCryptoWalletAddress() , newWallet);
+        assertNotEquals(userBeforeUpdate, userAfterUpdate);
+        assertNotEquals((userBeforeUpdate.getCryptoWalletAddress()), (userAfterUpdate.getCryptoWalletAddress()));
+        assertEquals(userAfterUpdate.getCryptoWalletAddress(), newWallet);
 
     }
-
 
     @ParameterizedTest
     @NullAndEmptySource
-    void testUpdateCryptoWalletAddressWithNullOrEmptyInput(String wallet ){
+    void testUpdateCryptoWalletAddressWithNullOrEmptyInput(String wallet) {
 
-        User userBeforeUpdate = this.userRepository.saveAndFlush( (generateOnlyOneUser()) );
-        assertNotNull( userBeforeUpdate);
-        
+        User userBeforeUpdate = this.userRepository.saveAndFlush((generateOnlyOneUser()));
+        assertNotNull(userBeforeUpdate);
+
         this.userRepository.updateCryptoWalletAddress((userBeforeUpdate.getId()), wallet);
         this.userRepository.flush();
 
-        String updateWallet = this.userRepository.getById( (userBeforeUpdate.getId()) ).getCryptoWalletAddress();
+        String updateWallet = this.userRepository.getById((userBeforeUpdate.getId())).getCryptoWalletAddress();
 
-        assertTrue( (updateWallet == null || updateWallet.isEmpty()) );
-
+        assertTrue((updateWallet == null || updateWallet.isEmpty()));
 
     }
 
-
     @RepeatedTest(10)
     @Rollback(true)
-    void testUpdateCryptoWalletAddressWhichAddressAlreadyTaken(){
+    void testUpdateCryptoWalletAddressWhichAddressAlreadyTaken() {
         User uOne = generateOnlyOneUser();
         User uTwo = generateOnlyOneUser();
 
         this.userRepository.save(uOne);
         this.userRepository.save(uTwo);
 
-
         String existWallet = uOne.getCryptoWalletAddress();
-     
-        Exception e = 
-        assertThrows(DataIntegrityViolationException.class , () -> this.userRepository.updateCryptoWalletAddress((uTwo.getId()) , existWallet));
+
+        Exception e = assertThrows(DataIntegrityViolationException.class,
+                () -> this.userRepository.updateCryptoWalletAddress((uTwo.getId()), existWallet));
 
         assertNotNull(e);
-        assertInstanceOf(DataIntegrityViolationException.class  , e);
-        assertNotEquals( (uTwo.getCryptoWalletAddress()) , existWallet );
+        assertInstanceOf(DataIntegrityViolationException.class, e);
+        assertNotEquals((uTwo.getCryptoWalletAddress()), existWallet);
 
     }
 
-
-    public static Stream<Arguments> getUsersWhichHaveStatusDeparted(){
+    public static Stream<Arguments> getUsersWhichHaveStatusDeparted() {
         return Stream.of(
-          
-         Arguments.of(
-                 (
-                    new User(
-                        "@" + new RandomString(5).nextString(),
-                        "0x" + new RandomString(16).nextString(),
-                        new RandomString(128).nextString(),
-                        NetStatus.DEPARTED,
-                        new RandomString(200).nextString().toUpperCase()
 
-                    )
-                ) 
-                
-            ) , 
+                Arguments.of(
+                        (new User(
+                                "@" + new RandomString(5).nextString(),
+                                "0x" + new RandomString(16).nextString(),
+                                new RandomString(128).nextString(),
+                                NetStatus.DEPARTED,
+                                new RandomString(200).nextString().toUpperCase()
 
-            Arguments.of(
-                 (
-                    new User(
-                        "@" + new RandomString(5).nextString(),
-                        "0x" + new RandomString(16).nextString(),
-                        new RandomString(128).nextString(),
-                        NetStatus.DEPARTED,
-                        new RandomString(200).nextString().toUpperCase()
+                        ))
 
-                    )
-                ) 
-                
-            ) , 
+                ),
 
-            Arguments.of(
-                 (
-                    new User(
-                        "@" + new RandomString(5).nextString(),
-                        "0x" + new RandomString(16).nextString(),
-                        new RandomString(128).nextString(),
-                        NetStatus.DEPARTED,
-                        new RandomString(200).nextString().toUpperCase()
+                Arguments.of(
+                        (new User(
+                                "@" + new RandomString(5).nextString(),
+                                "0x" + new RandomString(16).nextString(),
+                                new RandomString(128).nextString(),
+                                NetStatus.DEPARTED,
+                                new RandomString(200).nextString().toUpperCase()
 
-                    )
-                ) 
-                
-            ) , 
+                        ))
 
-            Arguments.of(
-                 (
-                    new User(
-                        "@" + new RandomString(5).nextString(),
-                        "0x" + new RandomString(16).nextString(),
-                        new RandomString(128).nextString(),
-                        NetStatus.DEPARTED,
-                        new RandomString(200).nextString().toUpperCase()
+                ),
 
-                    )
-                ) 
-                
-            )
-        
-      
+                Arguments.of(
+                        (new User(
+                                "@" + new RandomString(5).nextString(),
+                                "0x" + new RandomString(16).nextString(),
+                                new RandomString(128).nextString(),
+                                NetStatus.DEPARTED,
+                                new RandomString(200).nextString().toUpperCase()
+
+                        ))
+
+                ),
+
+                Arguments.of(
+                        (new User(
+                                "@" + new RandomString(5).nextString(),
+                                "0x" + new RandomString(16).nextString(),
+                                new RandomString(128).nextString(),
+                                NetStatus.DEPARTED,
+                                new RandomString(200).nextString().toUpperCase()
+
+                        ))
+
+                )
+
         );
     }
 
-
     @ParameterizedTest
     @MethodSource("getUsersWhichHaveStatusDeparted")
-    void testUpdateNetStatus(User user){
+    void testUpdateNetStatus(User user) {
         User userBeforeStatusUpdate = this.userRepository.saveAndFlush(user);
         assertNotNull(userBeforeStatusUpdate);
 
@@ -572,29 +464,73 @@ public class UserRepositoryTest {
 
         NetStatus updateNetStatus = this.userRepository.getById(idUserToUpdate).getOnlineNetStatus();
         assertNotNull(updateNetStatus);
-        assertTrue( (updateNetStatus == NetStatus.ONLINE) );
-        assertTrue( (userBeforeStatusUpdate.getOnlineNetStatus() != updateNetStatus) );
+        assertTrue((updateNetStatus == NetStatus.ONLINE));
+        assertTrue((userBeforeStatusUpdate.getOnlineNetStatus() != updateNetStatus));
 
-        
     }
-
-
-
 
     // DELETE
     @Test
-    void testDeleteById(){}
+    void testDeleteById() {
+
+        User userToSave = generateOnlyOneUser();
+        this.userRepository.save(userToSave);
+
+        Long userDeleteId = userToSave.getId();
+
+        this.userRepository.deleteById(userDeleteId);
+
+        assertFalse((this.userRepository.findById(userDeleteId).isPresent()));
+
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @Rollback(true)
+    void testDeleteByIdWithNullOrEmptyInput(Long invId) {
+
+        User userToSave = generateOnlyOneUser();
+        this.userRepository.save(userToSave);
+
+        Long userDeleteId = userToSave.getId();
+
+        assertThrows(InvalidDataAccessApiUsageException.class, () -> this.userRepository.deleteById(invId));
+        assertTrue((this.userRepository.findById(userDeleteId).isPresent()));
+    }
 
     @Test
-    void testDeleteByUserName(){}
+    void testDeleteByUserName() {
+
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    void testDeleteByUserNameWithNullOrEmptySource(String invUsername) {
+
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "@SimpleS21", "@Invalid", "@UseRnAme", "@Randoms" })
+    void testDeleteByUserNameWithOtherUsernames(String username) {
+
+    }
 
     @Test
-    void testDeleteByCryptoWalletAddress(){}
+    void testDeleteByCryptoWalletAddress() {
 
+    }
 
+    @ParameterizedTest
+    @NullAndEmptySource
+    void testDeleteByCryptoWalletAddressWithNullOrEmptyInput(String wallet) {
 
+    }
 
+    @ParameterizedTest
+    @ValueSource(strings = { "0xwoCOwKC0q2CjonLNclD112eCQ1d1ScvAcAfar211rfa",
+            "0xwoCOwKC0q2CjIJbncv012cee234rtlD112eCQd1ScvAcAfar211rfa", "0xWWsacCwwvZ012e8C81xXqu12D31r1fDqwd" })
+    void testDeleteByCryptoWalletAddressWithOtherWalletsAddresses(String wallet) {
 
-
+    }
 
 }
