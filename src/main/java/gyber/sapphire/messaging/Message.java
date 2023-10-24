@@ -28,8 +28,8 @@ public class Message {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
 
-    @Column @NotBlank @Size(min = 6 , max = 8) private String from;
-    @Column @NotBlank @Size(min = 6 , max = 8) private String to;
+    @Column(name = "fromH") @NotBlank @Size(min = 6 , max = 8) private String from;
+    @Column(name = "toH") @NotBlank @Size(min = 6 , max = 8) private String to;
 
     @Column(name = "message_hash")
     @NotBlank 
