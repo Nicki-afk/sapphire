@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -608,6 +609,12 @@ public class UserRepositoryTest {
         assertTrue( (this.userRepository.findByCryptoWalletAddress(deleteWallet).isPresent()) );
         assertEquals( userToSave , (this.userRepository.findByCryptoWalletAddress(deleteWallet).get()) );
 
+    }
+
+    @BeforeEach
+    public void clearAll(){
+
+        this.userRepository.deleteAll();
     }
 
 }
