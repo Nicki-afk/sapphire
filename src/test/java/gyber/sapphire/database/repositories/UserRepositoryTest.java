@@ -10,7 +10,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
@@ -498,20 +500,53 @@ public class UserRepositoryTest {
         assertTrue((this.userRepository.findById(userDeleteId).isPresent()));
     }
 
+
+
     @Test
     void testDeleteByUserName() {
+
+        User userToDelete = generateOnlyOneUser();
+        assertNotNull(this.userRepository.save(userToDelete));
+
+        String userDeleteUsername = userToDelete.getUserName();
+
+        this.userRepository.deleteByUserName(userDeleteUsername);
+        this.userRepository.flush();
+
+        assertFalse( (this.userRepository.findByUserName(userDeleteUsername).isPresent()));
+
 
     }
 
     @ParameterizedTest
     @NullAndEmptySource
     void testDeleteByUserNameWithNullOrEmptySource(String invUsername) {
+        User userToDelete = generateOnlyOneUser();
+        assertNotNull(this.userRepository.save(userToDelete));
+
+        this.userRepository.deleteByUserName(invUsername);
+        this.userRepository.flush();
+
+        assertTrue( (this.userRepository.findByUserName( (userToDelete.getUserName()) ).isPresent()));
+        assertEquals( userToDelete , (this.userRepository.findByUserName( (userToDelete.getUserName()) ).get()));
 
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = { "@SimpleS21", "@Invalid", "@UseRnAme", "@Randoms" })
-    void testDeleteByUserNameWithOtherUsernames(String username) {
+    @Test
+    void testDeleteByUserNameWithOtherUsernames() {
+
+        for (int i = 0; i < 10; i++) {
+
+                assertNotNull(
+                (this.userRepository.save(generateOnlyOneUser()))
+                );
+                
+        }
+
+        String randomUsername = new RandomString(5).nextString();
+        this.userRepository.deleteByUserName(randomUsername);
+
+        assertTrue( ( (this.userRepository.count()) == 10 ) );
 
     }
 
