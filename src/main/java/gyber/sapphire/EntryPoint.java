@@ -1,4 +1,4 @@
-package gyber;
+package gyber.sapphire;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,8 +9,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import gyber.sapphire.config.SpringConfig;
 
-
-public class MainClass {
+@SpringBootApplication
+public class EntryPoint {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringConfig.class , args);

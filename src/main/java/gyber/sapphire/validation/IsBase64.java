@@ -8,6 +8,8 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import gyber.sapphire.validation.validators.IsBase64Validator;
+
 @Target({ElementType.FIELD , ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = IsBase64Validator.class)
