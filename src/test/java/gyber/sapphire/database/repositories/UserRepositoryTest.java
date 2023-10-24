@@ -10,9 +10,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
@@ -23,10 +21,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
@@ -487,7 +487,7 @@ public class UserRepositoryTest {
     }
 
     @ParameterizedTest
-    @NullAndEmptySource
+    @NullSource
     @Rollback(true)
     void testDeleteByIdWithNullOrEmptyInput(Long invId) {
 
@@ -498,6 +498,21 @@ public class UserRepositoryTest {
 
         assertThrows(InvalidDataAccessApiUsageException.class, () -> this.userRepository.deleteById(invId));
         assertTrue((this.userRepository.findById(userDeleteId).isPresent()));
+    }
+
+
+    @Rollback(true)
+    @ParameterizedTest
+    @ValueSource(longs = {12313 , -1 , 1_000_000 , -242 , -7_000})
+    void testDeleteByIdWithInvalidIdArgument(Long invId){
+        User userToSave = generateOnlyOneUser();
+        this.userRepository.save(userToSave);
+
+
+        assertThrows(EmptyResultDataAccessException.class, () -> this.userRepository.deleteById(invId));
+        assertTrue((this.userRepository.findById((userToSave.getId())).isPresent()));
+
+
     }
 
 
