@@ -553,18 +553,45 @@ public class UserRepositoryTest {
     @Test
     void testDeleteByCryptoWalletAddress() {
 
+        User userToDelete = generateOnlyOneUser();
+        String delteWallet = userToDelete.getCryptoWalletAddress();
+
+        assertNotNull( (this.userRepository.save(userToDelete)) );
+
+        this.userRepository.deleteByCryptoWalletAddress(delteWallet);
+
+        assertFalse( (this.userRepository.findByCryptoWalletAddress(delteWallet).isPresent()) );
+
     }
 
     @ParameterizedTest
     @NullAndEmptySource
-    void testDeleteByCryptoWalletAddressWithNullOrEmptyInput(String wallet) {
+    void testDeleteByCryptoWalletAddressWithNullOrEmptyInput(String nullOrEmptyWallet) {
+        User userToDelete = generateOnlyOneUser();
+        String deleteWallet = userToDelete.getCryptoWalletAddress();
+
+        assertNotNull( (this.userRepository.save(userToDelete)) );
+
+        this.userRepository.deleteByCryptoWalletAddress(nullOrEmptyWallet);
+
+        assertTrue( (this.userRepository.findByCryptoWalletAddress(deleteWallet).isPresent()) );
+
 
     }
 
     @ParameterizedTest
     @ValueSource(strings = { "0xwoCOwKC0q2CjonLNclD112eCQ1d1ScvAcAfar211rfa",
             "0xwoCOwKC0q2CjIJbncv012cee234rtlD112eCQd1ScvAcAfar211rfa", "0xWWsacCwwvZ012e8C81xXqu12D31r1fDqwd" })
-    void testDeleteByCryptoWalletAddressWithOtherWalletsAddresses(String wallet) {
+    void testDeleteByCryptoWalletAddressWithOtherWalletsAddresses(String notExistWallet) {
+        User userToSave = generateOnlyOneUser();
+        String deleteWallet = userToSave.getCryptoWalletAddress();
+
+        assertNotNull( (this.userRepository.save(userToSave)) );
+
+        this.userRepository.deleteByCryptoWalletAddress(notExistWallet);
+
+        assertTrue( (this.userRepository.findByCryptoWalletAddress(deleteWallet).isPresent()) );
+        assertEquals( userToSave , (this.userRepository.findByCryptoWalletAddress(deleteWallet).get()) );
 
     }
 
