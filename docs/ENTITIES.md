@@ -66,6 +66,22 @@ The Notification entity acts as an alert mechanism within the Sapphire messaging
 ### Objective:
 The main purpose of the Notification entity is to ensure that users stay informed and updated about pertinent events on the platform. By providing timely alerts, the Notification entity aids users in staying engaged, responsive, and up-to-date with their communications and other relevant happenings within the Sapphire messaging ecosystem.
 
+| Field name | Data Type | Description | Relationship | 
+|------------|-----------|-------------|--------------|
+| notId      | Long      | Unique notification ID | PK | 
+| typeNoti   | Enum (SYSTEM , MESSAGE , SECURITY ) | Notification type | |
+| content | String | content notification | | 
+| associatedChat | Chat | Refers to the chat where the event occurred, if applicable. | @ManyToOne | 
+| associatedUser | User | Refers to the user related to the event, if applicable. | @ManyToOne | 
+| createdAt | Date |  Time when the notification was generated | | 
+| sentAt    | Date | Time when the notification was sednded |  | 
+| receivedAt | Date | Time when the notification was recive  |  |
+| read      | boolean | Was the notification read |  | 
+| imageNotification | URL | if the notification has an image, it will be set to this field; if not, the default image will be used | | 
+
+
+
+
 
 
 
