@@ -56,6 +56,7 @@ The primary aim of the Chat entity is to manage and facilitate real-time interac
 | chatType | Enum ( GROUP_CHAT , ONE_TO_ONE_CHAT , SYSTEM_CHAT ) | Chat type | | 
 | notifications | List< Notification > | notifications in a specific chat, for example new messages | @OneToMany | 
 | chatStatus | Enum ( ARHIVED , ACTIVE , DELETED)  | chat status | | 
+| messages | Message | message list | @OneToMany | 
 
 
 ## Notification Entity Description for the Sapphire Project Documentation
@@ -78,6 +79,9 @@ The main purpose of the Notification entity is to ensure that users stay informe
 | receivedAt | Date | Time when the notification was recive  |  |
 | read      | boolean | Was the notification read |  | 
 | imageNotification | URL | if the notification has an image, it will be set to this field; if not, the default image will be used | | 
+
+
+
 
 
 
