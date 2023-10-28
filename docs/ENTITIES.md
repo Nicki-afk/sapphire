@@ -75,10 +75,39 @@ The main purpose of the Notification entity is to ensure that users stay informe
 | associatedChat | Chat | Refers to the chat where the event occurred, if applicable. | @ManyToOne | 
 | associatedUser | User | Refers to the user related to the event, if applicable. | @ManyToOne | 
 | createdAt | Date |  Time when the notification was generated | | 
-| sentAt    | Date | Time when the notification was sednded |  | 
+| sentAt    | Date | Time when the notification was sednt |  | 
 | receivedAt | Date | Time when the notification was recive  |  |
 | read      | boolean | Was the notification read |  | 
 | imageNotification | URL | if the notification has an image, it will be set to this field; if not, the default image will be used | | 
+
+## Message Entity Description for the Sapphire Project Documentation
+
+### Overview:
+The Message entity plays a pivotal role in the Sapphire messaging platform, symbolizing individual pieces of communication exchanged between users. Each Message instance captures the essence of a single communicative intent, whether it's text, media, or any other form of digital content. This entity not only stores the actual content but also contextual details surrounding the exchange, offering a comprehensive view of the conversation's progression.
+
+### Objective:
+The primary function of the Message entity is to chronicle the flow of communication within chats. It acts as a vessel carrying information from one user to another, ensuring that every piece of data, whether it's a simple greeting or a multimedia file, is accurately logged and delivered. The entity provides the structural basis for representing user interactions, supporting features like message ordering, timestamping, and content type differentiation.
+
+
+
+| Field name | Data Type | Description | Relationship | 
+|------------|-----------|-------------|--------------|
+| msgId      | Long      | unique message id | PK | 
+| sentAt     | Date      | Time when the notification was sent | | 
+| receivedAt | Date      | Time when the notification recived  | |
+| senderId   | User      | The user who sent the message | @ManyToOne | 
+| recipientId| User      | The user who received the message | @ManyToOne |
+| content  | String | Message content | | 
+| files    | List< URL >  | file addresses, file address that is saved on the server or that is saved in IPFS | | 
+| isDelete | boolean | This flag indicates whether the message has been deleted. A message can only be deleted for everyone | | 
+| isRead | boolean | indicates whether the message has been read | | 
+| isDelivered | boolean | displays whether the message was delivered  | | 
+| chat  | Chat | Indicates which chat the message belongs to | @ManyToOne | 
+
+
+
+
+
 
 
 
