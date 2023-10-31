@@ -105,6 +105,27 @@ The primary function of the Message entity is to chronicle the flow of communica
 | chat  | Chat | Indicates which chat the message belongs to | @ManyToOne | 
 
 
+## BetaTestKey Entity Description for the Sapphire Project Documentation
+
+
+### Overview:
+In the intricate framework of the Sapphire project, the BetaTestKey entity emerges as a crucial element for both quality assurance and user engagement. This cryptographic string serves as an exclusive gateway, offering a selected subset of users the privilege of exploring the beta version of the platform. More than just a digital "golden ticket," the BetaTestKey is imbued with meta-information related to usage statistics, feature access, and the beta-testing timeline.
+
+### Objective:
+The multifaceted objective of the BetaTestKey is clear. Its primary purpose is to regulate and manage entry into the beta stage of the Sapphire project, ensuring that only qualified testers gain the ability to engage with nascent features. By creating this environment of exclusivity, the team can capture valuable user data in a more controlled setting, refining functionalities based on actual user experiences while mitigating the risks associated with exposing a broader user base to potential flaws or incomplete capabilities.
+
+The BetaTestKey entity also contributes to the segmentation of different types of users—such as enthusiasts, newcomers, or experts—providing the development team with insights into how various user categories interact with the Sapphire environment. This nuanced, data-driven approach serves as an invaluable tool for optimizing the user experience before a full-scale public launch.
+
+
+
+| Field name | Data Type | Description | Relationship | 
+|------------|-----------|-------------|--------------|
+| createdAt    | LocalDateTime | Key creation time | | 
+| expirAt    | LocalDateTime | Key expiration time | |
+| isUsed     | boolean | Shows whether the key has been used by another user. If yes then the user must use a different key | | 
+| activatedAt | LocalDateTime | Time to activate key | |    
+| key  | String | Directly cham key 128 characters long | | 
+| user | User | User who uses this key | @OneToOne  |
 
 
 
