@@ -128,6 +128,31 @@ The BetaTestKey entity also contributes to the segmentation of different types o
 | user | User | User who uses this key | @OneToOne  |
 
 
+## UserAvatar Entity Description for the Sapphire Project Documentation
+
+
+### Overview:
+Within the intricate ecosystem of the Sapphire platform, the UserAvatar entity stands out as a visual representation of a user's identity and presence. This digital icon, whether custom-uploaded or selected from a predefined set, serves as the first point of interaction and recognition among peers on the platform. More than just a static image, the UserAvatar encapsulates the user's chosen persona, offering a hint of their style, preferences, and sometimes even their mood.
+
+### Objective:
+The primary purpose of the UserAvatar entity is to personalize and enrich the user experience on the Sapphire platform. It provides users with a means to express themselves, setting them apart in a vast sea of digital identities. The avatar becomes especially crucial in forums, chatrooms, and any other interactive space within Sapphire, where visual cues can greatly enhance communication dynamics.
+
+
+
+
+| Field name | Data Type | Description | Relationship | 
+|------------|-----------|-------------|--------------|
+| id         | Long      | Unique Image id | PK |
+| userId     | User      | The user who owns the avatar | @OneToOne |
+| hash       | String    |  link to image on IPFS network | | 
+| defaultAvatar  | String  |  link to image on IPFS network | | 
+| imgSize    | Integer   | Size of the image in bytes. Useful for storage management. | | 
+| ImgFormat | String | File extension | | 
+| lastModified | LocalDateTime | Photo update date | | 
+
+
+
+
 
 
 
