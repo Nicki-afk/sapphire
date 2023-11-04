@@ -62,6 +62,29 @@ The primary aim of the Chat entity is to manage and facilitate real-time interac
 | messages | Message | message list | @OneToMany | 
 
 
+## GroupChat Entity Description for the Sapphire Project Documentation
+
+
+### Overview:
+The GroupChat entity is a cornerstone within the Sapphire communication platform, representing a digital space where multiple users can interact simultaneously. It is a virtual room where ideas, messages, and media are exchanged in a collective environment. Each GroupChat instance embodies a specific topic, project, or social interaction, equipped with tools and features that facilitate group dynamics and collaborative efforts.
+
+### Objective:
+The principal aim of the GroupChat entity is to provide a structured and secure environment for multi-user discussions and exchanges. It serves as a hub for collaborative work, social interaction, and information sharing, allowing users to engage in real-time communication and file sharing. The entity is designed to maintain the integrity and chronological order of conversations, support various media types, and allow for user roles and permissions to manage the group effectively.
+
+| Field name | Data Type | Description | Relationship | 
+|------------|-----------|-------------|--------------|
+| chatID     | Long      | Unique identifier for each chat | PK |
+| createdAt | Date      | Time the chat was created | |
+| participantsChat | List< User >(1..10000) | The default value will be 2 which will mean one on one chat | @OneToMany | 
+| owner | User | One group chat can only have one owner. This owner is indicated in this field | @OneToOne | 
+| moders | List < ChatUser > | is a list of moderators who can manage some group functions | @OneToMany |
+| chatType | Enum ( GROUP_CHAT , ONE_TO_ONE_CHAT , SYSTEM_CHAT ) | Chat type. The default value for this entity will be GROUP_CHAT | | 
+| notifications | List< Notification > | notifications in a specific chat, for example new messages | @OneToMany | 
+| chatStatus | Enum ( ARHIVED , ACTIVE , DELETED)  | chat status | | 
+| messages | Message | message list | @OneToMany | 
+
+
+
 ## Notification Entity Description for the Sapphire Project Documentation
 
 ### Overview:
