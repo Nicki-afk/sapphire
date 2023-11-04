@@ -44,6 +44,24 @@ The primary goal of maintaining a robust User entity is to facilitate seamless u
 
 
 
+
+## BlockedUser Entity Description for the Sapphire Project Documentation
+
+### Overview:
+The BlockedUser entity is a fundamental component of the Sapphire communication system, representing the mechanism through which users can restrict communications from other users deemed undesirable. This entity serves as a record of such actions, encapsulating the details of the users involved in the blocking relationship.
+
+### Objective:
+The BlockedUser entity’s main objective is to maintain a secure and comfortable environment for the users by allowing them to block any unwanted interaction. By creating an instance of BlockedUser, the system can effectively prevent blocked individuals from contacting the blocker via direct messages, calls, or from viewing their online status and activity. It acts as a shield, providing users with control over their interactions on the platform.
+
+
+| Field Name | Data Type | Description | Relationship | 
+|------------|-----------|-------------|--------------|
+| id         | Long      | unique id BlockedUser | PK | 
+| userId     | User      | Blocked User id | @ManyToOne | 
+| dateToBlocked | LocalDateTime |   date when the user was blocked | | 
+| subscription | String  | Some information about why the user was blocked  | | 
+
+
 ## Chat Entity Description for the Sapphire Project Documentation
 
 ### Overview:
@@ -61,7 +79,7 @@ The primary aim of the Chat entity is to manage and facilitate real-time interac
 | chatType | Enum ( GROUP_CHAT , ONE_TO_ONE_CHAT , SYSTEM_CHAT ) | Chat type. The default value for this entity will be ONE_TO_ONE_CHAT | | 
 | notifications | List< Notification > | notifications in a specific chat, for example new messages | @OneToMany | 
 | chatStatus | Enum ( ARHIVED , ACTIVE , DELETED)  | chat status | | 
-| messages | Message | message list | @OneToMany | 
+| messages | List < Message > | message list | @OneToMany | 
 
 
 ## GroupChat Entity Description for the Sapphire Project Documentation
@@ -83,7 +101,7 @@ The principal aim of the GroupChat entity is to provide a structured and secure 
 | chatType | Enum ( GROUP_CHAT , ONE_TO_ONE_CHAT , SYSTEM_CHAT ) | Chat type. The default value for this entity will be GROUP_CHAT | | 
 | notifications | List< Notification > | notifications in a specific chat, for example new messages | @OneToMany | 
 | chatStatus | Enum ( ARHIVED , ACTIVE , DELETED)  | chat status | | 
-| messages | Message | message list | @OneToMany | 
+| messages | List < Message > | message list | @OneToMany | 
 
 
 
