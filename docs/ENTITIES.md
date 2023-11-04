@@ -56,7 +56,7 @@ The primary aim of the Chat entity is to manage and facilitate real-time interac
 | chatID     | Long      | Unique identifier for each chat | PK |
 | createdAt | Date      | Time the chat was created | |
 | participantsChat | List< User >(2) | The default value will be 2 which will mean one on one chat | @OneToMany | 
-| chatType | Enum ( GROUP_CHAT , ONE_TO_ONE_CHAT , SYSTEM_CHAT ) | Chat type | | 
+| chatType | Enum ( GROUP_CHAT , ONE_TO_ONE_CHAT , SYSTEM_CHAT ) | Chat type. The default value for this entity will be ONE_TO_ONE_CHAT | | 
 | notifications | List< Notification > | notifications in a specific chat, for example new messages | @OneToMany | 
 | chatStatus | Enum ( ARHIVED , ACTIVE , DELETED)  | chat status | | 
 | messages | Message | message list | @OneToMany | 
