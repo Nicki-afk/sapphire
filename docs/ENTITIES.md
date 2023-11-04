@@ -30,11 +30,13 @@ The primary goal of maintaining a robust User entity is to facilitate seamless u
 | E-mail | String | User email for standard sing up  | Unique | 
 | password | String | User password Hash | | 
 | onlineStatus | Enum | User online status (DEPARTED, ONLINE , WAS_RECENTLY ) | |
-| chats    | Chat  | User chat list | @OneToMany | 
+| chats    | List < Chat >   | User chat list | @OneToMany | 
+| userGroups | List < GroupChat > | Stores all groups created by this user, that is, groups whose owner is this user | @OneToMany | 
+| participatesIn | List < ChatUser > | Displays how many groups this user is a member of. These are the groups in which the user is a member | @OneToMany | 
 | betaKey  | BetaTestKey | User secret beta key , to use applications in early access | @OneToOne | 
 | userAvatar | UserAvatar | User avatar photo | @OneToOne | 
-| blackList | UserBlackList | List of user's blocked contacts | @OneToMany | 
-| notifications | Notification | User Notifications | @OneToMany | 
+| blackList |List < BlockedUser >  | List of user's blocked contacts | @OneToMany | 
+| notifications | List < Notification > | User Notifications | @OneToMany | 
 | lang | LangEnum | User language | | 
 | subscription | String |  A small block about yourself that can hold 200 characters | | 
 | rols | Enum( USER , ADMIN , MODERATOR , DEVELOPER) | defining user roles | | 
@@ -76,12 +78,39 @@ The principal aim of the GroupChat entity is to provide a structured and secure 
 | chatID     | Long      | Unique identifier for each chat | PK |
 | createdAt | Date      | Time the chat was created | |
 | participantsChat | List< User >(1..10000) | The default value will be 2 which will mean one on one chat | @OneToMany | 
-| owner | User | One group chat can only have one owner. This owner is indicated in this field | @OneToOne | 
+| owner | User | One group chat can only have one owner. This owner is indicated in this field | @ManyToOne | 
 | moders | List < ChatUser > | is a list of moderators who can manage some group functions | @OneToMany |
 | chatType | Enum ( GROUP_CHAT , ONE_TO_ONE_CHAT , SYSTEM_CHAT ) | Chat type. The default value for this entity will be GROUP_CHAT | | 
 | notifications | List< Notification > | notifications in a specific chat, for example new messages | @OneToMany | 
 | chatStatus | Enum ( ARHIVED , ACTIVE , DELETED)  | chat status | | 
 | messages | Message | message list | @OneToMany | 
+
+
+
+
+## ChatUser Entity Description for the Sapphire Project Documentation
+
+
+### Overview:
+The ChatUser entity is a critical component in the Sapphire project's chat management architecture, defining the role and participation level of users within a chat context. This entity is the manifestation of a user within the chat ecosystem, imbuing them with the capacity to engage, contribute, and influence the flow of conversation. Each ChatUser instance delineates not just membership in a chat but also the individual's roles, permissions, and their functional scope within the group dynamics.
+
+### Objective:
+The primary function of the ChatUser entity is to enable effective management and hierarchical structuring within chat environments. It exists to assign roles, delineate permissions, and differentiate between general participants and those with elevated privileges, such as moderators or admins. This structure is essential for maintaining order, promoting constructive dialogue, and ensuring the smooth operation of the chat platform. It provides a clear governance model where responsibilities and capabilities are proportionate to the user’s role
+
+
+
+| Field name | Data Type | Description | Relationship | 
+|------------|-----------|-------------|--------------|
+| id         | Long      | unque id  ChatUser | PK |
+| userID     | User      | user ID to which this entity belongs  | @ManyToOne |
+| chat       | GroupChat | ID of the chat this entity belongs to | @ManyToOne  |    
+| joinDate  | LocalDateTime | join date | | 
+| role      | Enum (USER , ADMIN , MODERATOR , DEVELOPER) | defining user roles | | 
+| permissions | Enum(READ_MSG , SENT_MSG  , ADD_USERS , DEL_USERS   , CHANGE_MSG , DELETE_MSG , SENT_FILES , DEL_FILES , CHANGE_CHAT_STYLE )  | | 
+
+
+
+
 
 
 
