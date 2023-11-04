@@ -37,6 +37,9 @@ The primary goal of maintaining a robust User entity is to facilitate seamless u
 | notifications | Notification | User Notifications | @OneToMany | 
 | lang | LangEnum | User language | | 
 | subscription | String |  A small block about yourself that can hold 200 characters | | 
+| rols | Enum( USER , ADMIN , MODERATOR , DEVELOPER) | defining user roles | | 
+| rights | Enum(READ_MSG , SENT_MSG , CREATE_GROUP_CHAT , ACCOUNT_REFACTORING , BLOCK_USERS , DISBLOCK_USERS ,READ_USER_NOTIFICATION , FEEDBACK , CHANGE_MSG , DELETE_MSG , SENT_FILES ... ) | defines user rights | | 
+
 
 
 ## Chat Entity Description for the Sapphire Project Documentation
