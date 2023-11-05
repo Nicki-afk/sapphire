@@ -107,7 +107,7 @@ The principal aim of the GroupChat entity is to provide a structured and secure 
 | messages | List < Message > | message list | @OneToMany | 
 
 >[!NOTE]
->This class will inherit from the Chat base class, and will use the SINGLE_TABLE inheritance strategy found in Hibernate. Thus, we can put both objects of the **Chat** type and objects of other types for which Chat is a superclass into the chats collection in the User object
+>This class will inherit from the Chat base class, and will use the  *[SINGLE_TABLE](https://www.baeldung.com/hibernate-inheritance#single-table)* inheritance strategy found in Hibernate. Thus, we can put both objects of the **Chat** type and objects of other types for which Chat is a superclass into the chats collection in the User object
 
 
 ## ChatUser Entity Description for the Sapphire Project Documentation
