@@ -25,8 +25,8 @@ The primary goal of maintaining a robust User entity is to facilitate seamless u
 |------------|-----------|-------------|--------------|
 | id         | Long      | Unique identifier for each user | PK |
 | username   | String    |  Username chosen by the user | Unique | 
-| wallet     | String    | User cryptowallet address  | Unique |
-| hashUserFile | String  | User other data which saved in IPFS | Unique | 
+| wallet     | String    | User cryptowallet address  | Unique | 
+| createAt   | Date      | Date when account has been created | | 
 | E-mail | String | User email for standard sing up  | Unique | 
 | password | String | User password Hash | | 
 | onlineStatus | Enum | User online status (DEPARTED, ONLINE , WAS_RECENTLY ) | |
