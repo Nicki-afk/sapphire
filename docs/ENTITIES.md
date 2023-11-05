@@ -96,6 +96,9 @@ The principal aim of the GroupChat entity is to provide a structured and secure 
 | chatID     | Long      | Unique identifier for each chat | PK |
 | createdAt | Date      | Time the chat was created | |
 | participantsChat | List< User >(1..10000) | The default value will be 2 which will mean one on one chat | @OneToMany | 
+| groupName | String | Name group | | 
+| groupPhoto | String  | Photo Group . IPFS link | | 
+| subscription | String | a short description of what and who this group is for | |  
 | owner | User | One group chat can only have one owner. This owner is indicated in this field | @ManyToOne | 
 | moders | List < ChatUser > | is a list of moderators who can manage some group functions | @OneToMany |
 | chatType | Enum ( GROUP_CHAT , ONE_TO_ONE_CHAT , SYSTEM_CHAT ) | Chat type. The default value for this entity will be GROUP_CHAT | | 
@@ -103,7 +106,8 @@ The principal aim of the GroupChat entity is to provide a structured and secure 
 | chatStatus | Enum ( ARHIVED , ACTIVE , DELETED)  | chat status | | 
 | messages | List < Message > | message list | @OneToMany | 
 
-
+>[!NOTE]
+>This class will inherit from the Chat base class, and will use the SINGLE_TABLE inheritance strategy found in Hibernate. Thus, we can put both objects of the **Chat** type and objects of other types for which Chat is a superclass into the chats collection in the User object
 
 
 ## ChatUser Entity Description for the Sapphire Project Documentation
