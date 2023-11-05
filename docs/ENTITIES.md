@@ -31,7 +31,6 @@ The primary goal of maintaining a robust User entity is to facilitate seamless u
 | password | String | User password Hash | | 
 | onlineStatus | Enum | User online status (DEPARTED, ONLINE , WAS_RECENTLY ) | |
 | chats    | List < Chat >   | User chat list | @OneToMany | 
-| userGroups | List < GroupChat > | Stores all groups created by this user, that is, groups whose owner is this user | @OneToMany | 
 | participatesIn | List < ChatUser > | Displays how many groups this user is a member of. These are the groups in which the user is a member | @OneToMany | 
 | betaKey  | BetaTestKey | User secret beta key , to use applications in early access | @OneToOne | 
 | userAvatar | UserAvatar | User avatar photo | @OneToOne | 
