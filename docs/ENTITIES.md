@@ -41,6 +41,9 @@ The primary goal of maintaining a robust User entity is to facilitate seamless u
 | rols | Enum( USER , ADMIN , MODERATOR , DEVELOPER) | defining user roles | | 
 | rights | Enum(READ_MSG , SENT_MSG , CREATE_GROUP_CHAT , ACCOUNT_REFACTORING , BLOCK_USERS , DISBLOCK_USERS ,READ_USER_NOTIFICATION , FEEDBACK , CHANGE_MSG , DELETE_MSG , SENT_FILES ... ) | defines user rights | | 
 
+>[!NOTE]
+> For the MVP release, the User entity will not contain all the fields, but only some of them. The first version of the product will have the following fields : id , username , email , passwd , createAt , onlineStatus , chats , userAvatar(String) , blockedUsers , notifications , language (String).  
+
 
 
 
@@ -57,6 +60,7 @@ The BlockedUser entity’s main objective is to maintain a secure and comfortabl
 |------------|-----------|-------------|--------------|
 | id         | Long      | unique id BlockedUser | PK | 
 | userId     | User      | Blocked User id | @ManyToOne | 
+| blockedUserId | User  | Indicates the user ID that initiated the blocking | @ManyToOne |
 | dateToBlocked | LocalDateTime |   date when the user was blocked | | 
 | subscription | String  | Some information about why the user was blocked  | | 
 
@@ -74,11 +78,14 @@ The primary aim of the Chat entity is to manage and facilitate real-time interac
 |------------|-----------|-------------|--------------|
 | chatID     | Long      | Unique identifier for each chat | PK |
 | createdAt | Date      | Time the chat was created | |
-| participantsChat | List< User >(2) | The default value will be 2 which will mean one on one chat | @OneToMany | 
+| participantsChat | List< User >(2) | The default value will be 2 which will mean one on one chat | @ManyToMany | 
 | chatType | Enum ( GROUP_CHAT , ONE_TO_ONE_CHAT , SYSTEM_CHAT ) | Chat type. The default value for this entity will be ONE_TO_ONE_CHAT | | 
 | notifications | List< Notification > | notifications in a specific chat, for example new messages | @OneToMany | 
 | chatStatus | Enum ( ARHIVED , ACTIVE , DELETED)  | chat status | | 
-| messages | List < Message > | message list | @OneToMany | 
+
+
+>[!NOTE]
+> For the MVP release, the Chat entity will not contain all the fields, but only some of them. The first version of the product will have the following fields : chatID , createdAt , participantsChat , chatType , name (optional). Within the **MVP**, this object can also be used instead of the **GroupChat** object
 
 
 ## GroupChat Entity Description for the Sapphire Project Documentation
@@ -103,7 +110,7 @@ The principal aim of the GroupChat entity is to provide a structured and secure 
 | chatType | Enum ( GROUP_CHAT , ONE_TO_ONE_CHAT , SYSTEM_CHAT ) | Chat type. The default value for this entity will be GROUP_CHAT | | 
 | notifications | List< Notification > | notifications in a specific chat, for example new messages | @OneToMany | 
 | chatStatus | Enum ( ARHIVED , ACTIVE , DELETED)  | chat status | | 
-| messages | List < Message > | message list | @OneToMany | 
+<!-- | messages | List < Message > | message list | @OneToMany |  -->
 
 >[!NOTE]
 >This class will inherit from the Chat base class, and will use the  *[SINGLE_TABLE](https://www.baeldung.com/hibernate-inheritance#single-table)* inheritance strategy found in Hibernate. Thus, we can put both objects of the **Chat** type and objects of other types for which Chat is a superclass into the chats collection in the User object
@@ -172,14 +179,15 @@ The primary function of the Message entity is to chronicle the flow of communica
 | sentAt     | Date      | Time when the notification was sent | | 
 | receivedAt | Date      | Time when the notification recived  | |
 | senderId   | User      | The user who sent the message | @ManyToOne | 
-| recipientId| User      | The user who received the message | @ManyToOne |
-| content  | String | Message content | | 
+| chat  | Chat | Indicates which chat the message belongs to | @ManyToOne | 
+| content  | String | The message content is stored encrypted in IPFS. This field contains an encrypted link to the message from IPFS | | 
 | files    | List< URL >  | file addresses, file address that is saved on the server or that is saved in IPFS | | 
 | isDelete | boolean | This flag indicates whether the message has been deleted. A message can only be deleted for everyone | | 
 | isRead | boolean | indicates whether the message has been read | | 
 | isDelivered | boolean | displays whether the message was delivered  | | 
-| chat  | Chat | Indicates which chat the message belongs to | @ManyToOne | 
 
+>[!NOTE]
+> For the MVP release, the Message entity will not contain all the fields, but only some of them. The first version of the product will have the following fields : **msgId** , **content** , **senderID** , **chat** , **sentAt**.
 
 ## BetaTestKey Entity Description for the Sapphire Project Documentation
 
@@ -225,6 +233,17 @@ The primary purpose of the UserAvatar entity is to personalize and enrich the us
 | imgSize    | Integer   | Size of the image in bytes. Useful for storage management. | | 
 | ImgFormat | String | File extension | | 
 | lastModified | LocalDateTime | Photo update date | | 
+
+
+### Conclusion and Possible Changes to the Entity Structure
+
+This document presents the main components required to develop a preliminary version (MVP) of our messenger. These factors were chosen based on their critical importance to the core functionality of the product, as well as to simplify the development and speed up the MVP launch process.
+
+Important note: The entities and their structure presented here are not final and may change based on project development, user feedback, and changing business requirements. Once the MVP is live and starts receiving feedback from individual users, we will have a clearer idea of which features are most important and what improvements are needed.
+
+In addition, some consequences that may be necessary at this stage can be excluded from the MVP in order to integrate the most important aspects of the product. This does not mean that such entities will not be implemented in the future, but in the twentieth MVP our main goal is to create a workable product with the necessary set of features necessary to support the basic demand of our users.
+
+As the project evolves, we recommend that we review and expand the list and modification of entities to provide a richer, more flexible user experience, as well as include additional features that will support our product. This is part of our continuous process of improvement and adaptation to the needs of our users and the market.
 
 
 
