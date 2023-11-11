@@ -58,6 +58,27 @@ Sapphire Messenger utilizes an advanced process of message encryption and storag
 This process ensures that messages can only be read by their intended recipients, providing a high level of security and confidentiality for communication in Sapphire Messenger.
 
 
+### Your Data
+
+In Sapphire Messenger, we adhere to the principle of minimal data collection, limiting ourselves to only what is necessary for user identification and authorization. Our approach is aimed at providing a convenient user experience while simultaneously protecting your confidentiality.
+
+We strive to ensure that marketers and metrics collection systems do not have access to the content of your conversations and personal data. There is no practice of selling user data in Sapphire Messenger.
+
+Furthermore, we do not use authorization through third-party services such as Google, Microsoft, Apple, and others, to further strengthen the protection of your personal information. You can read more about the project rules in this document [PRINCIPALS.md]()
+
+### Confidentiality & Anonymity
+
+In Sapphire Messenger, we strive to maintain a balance between confidentiality and anonymity, paying special attention to each of these aspects. Our priority is confidentiality: we employ advanced technologies to ensure that personal data and user messages remain protected from unauthorized access.
+
+While anonymity is an important focus for us, it remains a complex challenge that we plan to address in the future. We recognize that complete anonymity in the digital space faces numerous challenges, and we are actively exploring ways to implement it without compromising user security and convenience.
+
+Currently, our goal is to create a reliable platform where everyone can feel safe, knowing their confidentiality is protected. At the same time, we continue to work on improving anonymity to offer our users even greater freedom and control over their personal information.
+
+Our current goal is to offer a secure platform where users can feel confident about their privacy. While we continue to enhance user anonymity, our users' freedom and control over their personal information remain a top priority. We believe that this dedication to confidentiality, even at the expense of certain features, sets Sapphire Messenger apart in the digital communication space.However, we will try to make the messenger as convenient and at the same time confidential for users
 
 
+### Idea & Implementers
 
+Sapphire Messenger was conceived within the [Gyber Experiment](https://github.com/OpenDevCommune) community in 2023, stemming from the creative vision of an individual known as [Gybernaty](https://github.com/TheMacroeconomicDao). The idea was inspired by the ambition to develop a messenger that stands out for its security and confidentiality.
+
+Since its inception, the project has evolved independently from the Gyber Experiment community due to differences with the experiment's initiator. The primary implementer and developer of the project is currently Nicki-afk. This document is being read in Nicki-afk's repository, where the ongoing development and refinement of Sapphire Messenger take place.
