@@ -82,6 +82,10 @@ Subscription: An optional section that includes information about you and your i
 >[!NOTE] 
 > We constantly review and adapt our data collection policy in line with current security and privacy requirements. It is important to emphasize that we never collect data that can directly reveal your identity, such as phone numbers, passport details, or geolocation. Our task is to ensure that every user feels protected and confidential while using Sapphire Messenger.
 
+
+
+
+
 ### Confidentiality & Anonymity
 
 In Sapphire Messenger, we strive to maintain a balance between confidentiality and anonymity, paying special attention to each of these aspects. Our priority is confidentiality: we employ advanced technologies to ensure that personal data and user messages remain protected from unauthorized access.
