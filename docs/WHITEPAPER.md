@@ -55,7 +55,11 @@ Sapphire Messenger utilizes an advanced process of message encryption and storag
 
 4. **Reception and Decryption**: User B uses their private key to decrypt the link, accesses the message in IPFS, downloads, and decrypts it.
 
-This process ensures that messages can only be read by their intended recipients, providing a high level of security and confidentiality for communication in Sapphire Messenger.
+This process ensures that messages can only be read by their intended recipients, providing a high level of security and confidentiality for communication in Sapphire Messenger. In the context of messaging, the emphasis has been on privacy, and increased privacy is achieved through: 
+
+- **Message Encryption**: Encrypting data before sending it to IPFS ensures that even if the data is available in clear text on the decentralized network, it remains unreadable to unintended recipients.
+
+- **Link Encryption**: IPFS message link encryption adds an additional layer of security by ensuring that only those with the appropriate decryption key can access the data.
 
 
 ### Your Data
