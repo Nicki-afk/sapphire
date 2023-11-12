@@ -82,3 +82,15 @@ Our current goal is to offer a secure platform where users can feel confident ab
 Sapphire Messenger was conceived within the [Gyber Experiment](https://github.com/OpenDevCommune) community in 2023, stemming from the creative vision of an individual known as [Gybernaty](https://github.com/TheMacroeconomicDao). The idea was inspired by the ambition to develop a messenger that stands out for its security and confidentiality.
 
 Since its inception, the project has evolved independently from the Gyber Experiment community due to differences with the experiment's initiator. The primary implementer and developer of the project is currently Nicki-afk. This document is being read in Nicki-afk's repository, where the ongoing development and refinement of Sapphire Messenger take place.
+
+>[!NOTE]
+>It is important to note the fact that although sapphire develops separately from the Gybernaty community, it still indirectly relates to this community since it shares the vision and philosophy of this community
+
+
+### Final Goal
+
+The ultimate goal of the Sapphire project is not about making profits, gaining publicity, or attracting investments. Our primary mission is to create a product that provides users with the highest possible level of confidentiality. We are committed to ensuring that every user of Sapphire Messenger can be confident in the security of their personal data and conversations.
+
+It is crucial to emphasize that Sapphire is not a product of any corporation and belongs to no one. This uniqueness sets our project apart in the digital communication world, where many solutions are controlled by large players. Our independence allows us to focus entirely on the interests and security of our users.
+
+We are focused on developing technologies that protect the data and privacy of our users. By creating an environment for free communication without fears of interference or information leaks, we see our work not just as a technical task but as an important social project capable of changing the perception of security and confidentiality in the digital world.
