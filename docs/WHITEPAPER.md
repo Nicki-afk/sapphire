@@ -66,6 +66,22 @@ We strive to ensure that marketers and metrics collection systems do not have ac
 
 Furthermore, we do not use authorization through third-party services such as Google, Microsoft, Apple, and others, to further strengthen the protection of your personal information. You can read more about the project rules in this document [PRINCIPALS.md]()
 
+In Sapphire Messenger, we strive to collect only the most necessary data while ensuring maximum confidentiality and security for our users. Here is a detailed list of the data we collect:
+
+1. **Username**: Used for identification in the system and interaction with other users.
+2. **E-mail**: Necessary for account registration, access recovery, and important notifications.
+3. **Crypto Wallet** Address: For integration with cryptocurrency payments and transactions.
+4. **Password**: Your key to the account, which we store in an encrypted form.
+5. **Online Status**: Indicates whether you are currently active in the app.
+6. **Chats**: Although we store your chat history for the convenience of synchronization between devices, we do not have access to their content. Our goal is to eventually move away from storing chats on the server, transferring them to local storage without the possibility of cloud upload.
+7. **Blocked Users**: This information is used to manage your contact list and restrict communication access. Plans are to implement this function locally on your device.
+8. **Language** (lang): For automatic translation of the application interface into your preferred language.
+Subscription: An optional section that includes information about you and your interests if you choose to provide it.
+
+
+>[!NOTE] 
+> We constantly review and adapt our data collection policy in line with current security and privacy requirements. It is important to emphasize that we never collect data that can directly reveal your identity, such as phone numbers, passport details, or geolocation. Our task is to ensure that every user feels protected and confidential while using Sapphire Messenger.
+
 ### Confidentiality & Anonymity
 
 In Sapphire Messenger, we strive to maintain a balance between confidentiality and anonymity, paying special attention to each of these aspects. Our priority is confidentiality: we employ advanced technologies to ensure that personal data and user messages remain protected from unauthorized access.
