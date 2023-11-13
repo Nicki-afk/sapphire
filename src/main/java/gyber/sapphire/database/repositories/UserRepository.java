@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUserName(String userName);
 
+    Optional<User>findByEmail(String email);
+
 
     @Modifying(clearAutomatically  = true)
     @Query("UPDATE User u SET u.userName = :newUserName WHERE u.id = :userId")
@@ -30,7 +32,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void deleteById(Long id);
 
     void deleteByUserName(String username);
-
-    // void deleteByCryptoWalletAddress(String cryptoWalletAddress);
-
 }
