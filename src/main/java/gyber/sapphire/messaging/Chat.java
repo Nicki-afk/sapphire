@@ -25,6 +25,10 @@ public class Chat {
 
     @Column(name = "create_at") @NotNull private LocalDateTime dateAndTimeToCreateChat;
 
+    @ManyToOne
+    @JoinColumn(name = "usr_chat" , nullable = false)
+    private User usr;
+
 
     @Column(name = "chat_type")
     @Enumerated(EnumType.STRING)
