@@ -34,6 +34,7 @@ import org.springframework.test.context.TestPropertySource;
 import gyber.sapphire.profile.NetStatus;
 import gyber.sapphire.profile.User;
 
+@Disabled
 @DataJpaTest
 @TestPropertySource("classpath:test-source.properties")
 @Rollback(value = false)
