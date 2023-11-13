@@ -5,10 +5,18 @@
 > Focus on Key Technologies: The primary objective of this document is to provide a high-level understanding of the core technologies and frameworks that form the backbone of Sapphire Messenger. It focuses on the most critical components that define the architecture and functionality of the application.In summary, this document serves as a general guide to the technology stack of Sapphire Messenger, outlining the key technologies and frameworks. It is not an exhaustive list of all the components or a detailed guide to their implementation within the project. The document is designed to provide a clear and concise understanding of the technological underpinnings of the application, while acknowledging the dynamic and potentially confidential aspects of software development.
 
 
+<div>
+<img src="https://github.com/devicons/devicon/blob/master/icons/java/java-plain.svg" title="Java" alt="Java " width="40" height="40"/>&nbsp;
 
-![Alt text](https://github.com/devicons/devicon/blob/master/icons/java/java-plain.svg)
+<img src="https://github.com/devicons/devicon/blob/master/icons/spring/spring-original.svg" title="Spring Framework" alt="Spring Framework " width="40" height="40"/>
 
+<img src="https://github.com/devicons/devicon/blob/master/icons/redis/redis-original.svg" title="Redis DB" alt="Reddis Database " width="40" height="40"/>
 
+<img src="https://github.com/devicons/devicon/blob/master/icons/postgresql/postgresql-original.svg" title="PostgreSQL" alt="PostgreSQL Database " width="40" height="40"/>
+
+<img src="https://definicionesde.org/wp-content/uploads/2020/07/Ipfs-logo-1024-ice-text.png" title="IPFS" alt="IPFS " width="40" height="40"/>
+
+</div>
 
 This document provides a comprehensive overview of the technology stack and architectural framework utilized in the development of Sapphire Messenger, a secure and private messaging application. The document highlights the strategic choice of technologies and frameworks that align with the core principles of security, efficiency, and user privacy.
 
