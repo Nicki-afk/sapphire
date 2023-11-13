@@ -108,7 +108,7 @@ Sapphire Messenger was conceived within the [Gyber Experiment](https://github.co
 Since its inception, the project has evolved independently from the Gyber Experiment community due to differences with the experiment's initiator. The primary implementer and developer of the project is currently Nicki-afk. This document is being read in Nicki-afk's repository, where the ongoing development and refinement of Sapphire Messenger take place.
 
 >[!NOTE]
->It is important to note the fact that although sapphire develops separately from the Gybernaty community, it still indirectly relates to this community since it shares the vision and philosophy of this community
+>It is important to note the fact that although sapphire develops separately from the Gybernaty community, it still indirectly relates to this community since it shares the vision and philosophy of this community    
 
 
 ### Final Goal
