@@ -43,11 +43,7 @@ public class TokenLocalStorageManager {
 
     public  TokenPairObject addTokenPairForUser(User user) throws TokenLocalStorageException{
 
-        if(!objectUserIsValid(user)){
-            throw new TokenLocalStorageException("Error mapping user data, mapping unit == { User object } is null" , new NullPointerException("User object is null"));
-
-        }
-
+    
 
         this.THREAD_READ_WRITE_MANAGER.writeLock().lock();
         try{
@@ -75,9 +71,6 @@ public class TokenLocalStorageManager {
         try{
             if(refresh.isEmpty() || refresh == null){
                 throw new TokenLocalStorageException("Error mapping user data, mapping unit == refresh token is empty or null" , new NullPointerException("User refresh is null or empty"));
-
-            }else if (!objectUserIsValid(user)){
-                throw new TokenLocalStorageException("Error mapping user data, mapping unit == { User object } is null" , new NullPointerException("User object is null"));
 
             }
 
@@ -115,9 +108,7 @@ public class TokenLocalStorageManager {
 
     public void updateTokenPairUser(User user) throws TokenLocalStorageException{
 
-        if(!objectUserIsValid(user)){
-            throw new TokenLocalStorageException("Unable to refresh user token because user object is null" , new NullPointerException("User object is null"));
-        }
+     
 
         this.THREAD_READ_WRITE_MANAGER.writeLock().lock();
 
@@ -231,10 +222,7 @@ public class TokenLocalStorageManager {
 
     public TokenPairObject getTokenPairInUser(User user) throws TokenLocalStorageException{
 
-            if (!objectUserIsValid(user)){
-                throw new TokenLocalStorageException("Error mapping user data, mapping unit == { User object } is null" , new NullPointerException("User object is null"));
-
-            }
+        
         this.THREAD_READ_WRITE_MANAGER.readLock().lock();
         
         try{
@@ -302,14 +290,6 @@ public class TokenLocalStorageManager {
 
     }
 
-    /*
-     * @nic_ko : Временное решение. В будущем подключить валидацию Spring 
-     */
-    private boolean objectUserIsValid(User user){
-        return user == null || user.getUserName().isEmpty() || user.getUserName() == null ||   
-                    user.getCryptoWalletAddress().isEmpty() || user.getCryptoWalletAddress() == null || 
-                                            user.getHashUserFile().isEmpty() || user.getHashUserFile() == null ? false : true;
-    }
 
 
 

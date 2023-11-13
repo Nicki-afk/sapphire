@@ -2,8 +2,6 @@ package gyber.sapphire.database.repositories;
 
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import gyber.sapphire.profile.User;
 import gyber.sapphire.profile.NetStatus;
 import org.springframework.data.jpa.repository.Query;
@@ -18,12 +16,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUserName(String userName);
 
-    Optional<User> findByCryptoWalletAddress(String cryptoWalletAddress);
+    // Optional<User> findByCryptoWalletAddress(String cryptoWalletAddress);
 
     Optional<User> findByHashUserFile(String hashUserFile);
 
-    @Query("SELECT user FROM User user WHERE user.betaTestKey.key = :key")
-    Optional<User> findByBetaTestKey(String key);
+    // @Query("SELECT user FROM User user WHERE user.betaTestKey.key = :key")
+    // Optional<User> findByBetaTestKey(String key);
 
     // UPDATE
     @Modifying(clearAutomatically  = true)
