@@ -4,6 +4,8 @@
 >[!NOTE]
 > Focus on Key Technologies: The primary objective of this document is to provide a high-level understanding of the core technologies and frameworks that form the backbone of Sapphire Messenger. It focuses on the most critical components that define the architecture and functionality of the application.In summary, this document serves as a general guide to the technology stack of Sapphire Messenger, outlining the key technologies and frameworks. It is not an exhaustive list of all the components or a detailed guide to their implementation within the project. The document is designed to provide a clear and concise understanding of the technological underpinnings of the application, while acknowledging the dynamic and potentially confidential aspects of software development.
 
+<br>
+<br>
 
 <div align="center">
 
@@ -21,12 +23,12 @@
 
 <img src="https://github.com/devicons/devicon/blob/master/icons/grafana/grafana-original.svg" title="Grafana" alt="Grafana" width="40" height="40"/>
 
+
 <img src="https://github.com/devicons/devicon/blob/master/icons/docker/docker-original.svg" title="Docker" alt="Docker " width="40" height="40"/>
 
 <img src="https://github.com/devicons/devicon/blob/master/icons/linux/linux-original.svg" title="Linux" alt="Linux " width="40" height="40"/>
 
 
-<img src="https://github.com/devicons/devicon/blob/master/icons/linux/linux-original.svg" title="Linux" alt="Linux " width="40" height="40"/>
 
 
 
@@ -39,6 +41,11 @@
 <img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-plain.svg" title="JavaScript" alt="JavaScript " width="40" height="40"/>
 
 </div>
+
+<br>
+<br>
+
+---
 
 This document provides a comprehensive overview of the technology stack and architectural framework utilized in the development of Sapphire Messenger, a secure and private messaging application. The document highlights the strategic choice of technologies and frameworks that align with the core principles of security, efficiency, and user privacy.
 
