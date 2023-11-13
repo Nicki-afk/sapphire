@@ -5,7 +5,9 @@
 > Focus on Key Technologies: The primary objective of this document is to provide a high-level understanding of the core technologies and frameworks that form the backbone of Sapphire Messenger. It focuses on the most critical components that define the architecture and functionality of the application.In summary, this document serves as a general guide to the technology stack of Sapphire Messenger, outlining the key technologies and frameworks. It is not an exhaustive list of all the components or a detailed guide to their implementation within the project. The document is designed to provide a clear and concise understanding of the technological underpinnings of the application, while acknowledging the dynamic and potentially confidential aspects of software development.
 
 
-<div>
+<div align="center">
+
+<h3>PRESTACK</h3>
 <img src="https://github.com/devicons/devicon/blob/master/icons/java/java-plain.svg" title="Java" alt="Java " width="40" height="40"/>&nbsp;
 
 <img src="https://github.com/devicons/devicon/blob/master/icons/spring/spring-original.svg" title="Spring Framework" alt="Spring Framework " width="40" height="40"/>
@@ -14,7 +16,27 @@
 
 <img src="https://github.com/devicons/devicon/blob/master/icons/postgresql/postgresql-original.svg" title="PostgreSQL" alt="PostgreSQL Database " width="40" height="40"/>
 
-<img src="https://definicionesde.org/wp-content/uploads/2020/07/Ipfs-logo-1024-ice-text.png" title="IPFS" alt="IPFS " width="40" height="40"/>
+
+<img src="https://github.com/devicons/devicon/blob/master/icons/jenkins/jenkins-original.svg" title="Jenkins" alt="Jenkins " width="40" height="40"/>
+
+<img src="https://github.com/devicons/devicon/blob/master/icons/grafana/grafana-original.svg" title="Grafana" alt="Grafana" width="40" height="40"/>
+
+<img src="https://github.com/devicons/devicon/blob/master/icons/docker/docker-original.svg" title="Docker" alt="Docker " width="40" height="40"/>
+
+<img src="https://github.com/devicons/devicon/blob/master/icons/linux/linux-original.svg" title="Linux" alt="Linux " width="40" height="40"/>
+
+
+<img src="https://github.com/devicons/devicon/blob/master/icons/linux/linux-original.svg" title="Linux" alt="Linux " width="40" height="40"/>
+
+
+
+<img src="https://github.com/devicons/devicon/blob/master/icons/html5/html5-original.svg" title="HTML5" alt="HTML5" width="40" height="40"/>
+
+
+<img src="https://github.com/devicons/devicon/blob/master/icons/css3/css3-original.svg" title="CSS3" alt="CSS3 " width="40" height="40"/>
+
+
+<img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-plain.svg" title="JavaScript" alt="JavaScript " width="40" height="40"/>
 
 </div>
 
