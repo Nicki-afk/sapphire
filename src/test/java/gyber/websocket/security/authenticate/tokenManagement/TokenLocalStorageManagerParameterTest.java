@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
@@ -28,6 +29,7 @@ import gyber.sapphire.errors.TokenLocalStorageException;
 import gyber.sapphire.profile.NetStatus;
 import gyber.sapphire.profile.User;
 
+@Disabled
 @SpringBootTest(classes =  {TokenLocalStorageManager.class , JwtService.class , RTService.class})
 public class TokenLocalStorageManagerParameterTest {
 

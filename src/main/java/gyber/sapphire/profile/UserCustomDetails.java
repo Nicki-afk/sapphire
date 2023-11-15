@@ -12,32 +12,32 @@ import lombok.Setter;
 @Setter
 public class UserCustomDetails implements UserDetails{
 
-   // private UserIPFSModel userIPFSModel;
-
+    
    private Long id;
    private String username;
-   private String cryptoWalletAddress;
+   private String email;
+   private String passwd;
 
 
-    public UserCustomDetails(User userIPFSModel){
-        this.id = userIPFSModel.getId();
-        this.cryptoWalletAddress = userIPFSModel.getCryptoWalletAddress();
-        this.username = userIPFSModel.getUserName();
+
+    public UserCustomDetails(User usr){
+        this.id = usr.getId();
+        this.username = usr.getUserName();
+        this.passwd = usr.getPasswd();
+        this.email = usr.getEmail();
     }
 
     public UserCustomDetails(){}
 
-    public UserCustomDetails(Long idUser , String username , String cryptoWalletAddress){
+    public UserCustomDetails(Long idUser , String username , String email ,  String passwd){
         this.id = idUser;
         this.username = username;
-        this.cryptoWalletAddress = cryptoWalletAddress;
+        this.email = email;
+        this.passwd = passwd;
     }
 
 
-    public String getCryptoWlletAddress(){
-        return this.cryptoWalletAddress;
-
-    }
+ 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -48,7 +48,7 @@ public class UserCustomDetails implements UserDetails{
     @Override
     public String getPassword() {
         // TODO Auto-generated method stub
-        return null; // null
+        return passwd; // null
     }
 
     @Override

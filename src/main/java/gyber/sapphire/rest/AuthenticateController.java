@@ -71,48 +71,48 @@ public class AuthenticateController {
         @RequestHeader("Authenticate-Message") @NotBlank @IsBase64 String base64Message  
     ) throws UnsupportedEncodingException, TokenLocalStorageException{
 
-
-        String decodeWalletAddress = new String( Base64.getDecoder().decode((base64WalletAddress.getBytes())));
+  // String decodeWalletAddress = new String( Base64.getDecoder().decode((base64WalletAddress.getBytes())));
 
       
-        boolean signatureConfirmed = SignatureChecker
-                                        .builder()
-                                        .setInputBase64Signature(base64Signature)
-                                        .setInputBase64Message(base64Message)
-                                        .setInputBase64WalletAddress(base64WalletAddress)
-                                        .copyBytes()
-                                        .createSignatureObject()
-                                        .recoveryPublicKey()
-                                        .recoveryWalletAddress()
-                                        .build()
-                                        .verifySignature();
+        // boolean signatureConfirmed = SignatureChecker
+        //                                 .builder()
+        //                                 .setInputBase64Signature(base64Signature)
+        //                                 .setInputBase64Message(base64Message)
+        //                                 .setInputBase64WalletAddress(base64WalletAddress)
+        //                                 .copyBytes()
+        //                                 .createSignatureObject()
+        //                                 .recoveryPublicKey()
+        //                                 .recoveryWalletAddress()
+        //                                 .build()
+        //                                 .verifySignature();
 
 
-        if(!this.repository.findByCryptoWalletAddress(decodeWalletAddress).isPresent()){
-           return ResponseEntity
-                       .status(401)
-                       .header("X-Auth-Failure-Reason", "des=\"User not found at this wallet address\"")
-                       .build();
-        }else if(!signatureConfirmed){
-                return ResponseEntity
-                       .status(401)
-                       .header("X-Auth-Failure-Reason", "des=\"The user failed signature verification\"")
-                       .build();
+        // if(!this.repository.findByCryptoWalletAddress(decodeWalletAddress).isPresent()){
+        //    return ResponseEntity
+        //                .status(401)
+        //                .header("X-Auth-Failure-Reason", "des=\"User not found at this wallet address\"")
+        //                .build();
+        // }else if(!signatureConfirmed){
+        //         return ResponseEntity
+        //                .status(401)
+        //                .header("X-Auth-Failure-Reason", "des=\"The user failed signature verification\"")
+        //                .build();
 
-        }
+        // }
 
-        UserCustomDetails userDetails = this.userCustomDetailsService.loadUserByCryptowalletAddress(decodeWalletAddress);
+        // UserCustomDetails userDetails = this.userCustomDetailsService.loadUserByCryptowalletAddress(decodeWalletAddress);
 
 
-        UsernamePasswordAuthenticationToken userCredentalsData = new UsernamePasswordAuthenticationToken(
-        userDetails.getUsername(), null);
+        // UsernamePasswordAuthenticationToken userCredentalsData = new UsernamePasswordAuthenticationToken(
+        // userDetails.getUsername(), null);
 
-        SecurityContextHolder.getContext().setAuthentication(userCredentalsData);
+        // SecurityContextHolder.getContext().setAuthentication(userCredentalsData);
 
         
-        TokenPairObject tokenPairObject = this.tokenManager.addTokenPairForUser((this.repository.findByCryptoWalletAddress(decodeWalletAddress).get()));
+        // TokenPairObject tokenPairObject = this.tokenManager.addTokenPairForUser((this.repository.findByCryptoWalletAddress(decodeWalletAddress).get()));
 
-        return ResponseEntity.ok().body(tokenPairObject);
+      
+        return ResponseEntity.ok().build();
 
     }
 

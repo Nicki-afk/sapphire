@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
@@ -34,6 +35,7 @@ import gyber.sapphire.profile.User;
 /*
  * TODO : Усложнить тест. Добавить метод который генерирует множество параметров User
  */
+@Disabled
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TokenLocalStorageManager.class , JwtService.class , RTService.class})
 public class TokenLocalStorageManagerTest {

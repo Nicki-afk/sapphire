@@ -2,8 +2,6 @@ package gyber.sapphire.database.repositories;
 
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import gyber.sapphire.profile.User;
 import gyber.sapphire.profile.NetStatus;
 import org.springframework.data.jpa.repository.Query;
@@ -18,26 +16,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUserName(String userName);
 
-    Optional<User> findByCryptoWalletAddress(String cryptoWalletAddress);
+    Optional<User>findByEmail(String email);
 
-    Optional<User> findByHashUserFile(String hashUserFile);
-
-    @Query("SELECT user FROM User user WHERE user.betaTestKey.key = :key")
-    Optional<User> findByBetaTestKey(String key);
-
-    // UPDATE
-    @Modifying(clearAutomatically  = true)
-    @Query("UPDATE User u SET u.hashUserFile = :file WHERE u.id = :uid")
-    void updateHashUserFile(@Param(value = "uid") Long userId, @Param(value = "file") String file);
 
     @Modifying(clearAutomatically  = true)
     @Query("UPDATE User u SET u.userName = :newUserName WHERE u.id = :userId")
     void updateUserName(Long userId, String newUserName);
 
-    @Modifying(clearAutomatically  = true)
-    @Query("UPDATE User u SET u.cryptoWalletAddress = :newCryptoWalletAddress WHERE u.id = :userId")
-    void updateCryptoWalletAddress(Long userId, String newCryptoWalletAddress);
-
+ 
     @Modifying(clearAutomatically  = true)
     @Query("UPDATE User u SET u.onlineNetStatus = :newStatus WHERE u.id = :userId")
     void updateNetStatus(Long userId, @Param("newStatus") NetStatus newStatus);
@@ -46,7 +32,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void deleteById(Long id);
 
     void deleteByUserName(String username);
-
-    void deleteByCryptoWalletAddress(String cryptoWalletAddress);
-
 }

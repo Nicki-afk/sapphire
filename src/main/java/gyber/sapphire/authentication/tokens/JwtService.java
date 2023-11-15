@@ -34,7 +34,7 @@ public class JwtService implements TokenAuthenticate {
     public String createToken(UserCustomDetails userCustomDetails) {
 
         if(userCustomDetails == null || userCustomDetails.getId() == null || userCustomDetails.getUsername() == null || 
-                            userCustomDetails.getUsername().isEmpty() || userCustomDetails.getCryptoWalletAddress().isEmpty() || userCustomDetails.getCryptoWalletAddress() == null){
+                            userCustomDetails.getUsername().isEmpty() ){
             throw new NullPointerException("UserDetails object is null , or filelds in this object is null or empty");
 
         }
@@ -66,7 +66,7 @@ public class JwtService implements TokenAuthenticate {
     public String testCreateJwt(UserCustomDetails userCustomDetails , long seconds){
 
         if(userCustomDetails == null || userCustomDetails.getId() == null || userCustomDetails.getUsername() == null || 
-                            userCustomDetails.getUsername().isEmpty() || userCustomDetails.getCryptoWalletAddress().isEmpty() || userCustomDetails.getCryptoWalletAddress() == null){
+                            userCustomDetails.getUsername().isEmpty() ){
             throw new NullPointerException("UserDetails object is null , or filelds in this object is null or empty");
 
         }
