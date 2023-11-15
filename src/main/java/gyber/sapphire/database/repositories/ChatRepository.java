@@ -22,15 +22,15 @@ public interface ChatRepository extends JpaRepository<Chat , Long> {
     @Query("SELECT c FROM Chat c JOIN c.participantsChat p WHERE p.id = :usrId")
     List<Chat> getUserChatList(Long usrId);
 
-    @Query("SELECT u FROM User u JOIN u.chats c WHERE c.chatId = :chatId")
-    List<User> getParticipantsChat(Long chatId);
+    @Query("SELECT u FROM User u JOIN u.chats c WHERE c.chatId = :idChat")
+    List<User> getParticipantsChat(Long idChat);
 
 
 
     // UPDATE 
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE Chat c SET c.nameChat = :newChatName WHERE c.chatId = :chatId")
-    void updateChatName(String newNameChat , Long chatId);
+    @Query("UPDATE Chat c SET c.nameChat = :newChatName WHERE c.chatId = :idChat")
+    void updateChatName(String newChatName , Long idChat);
 
 
     default void updateChatParticipants(Long chatId , User newUser){
