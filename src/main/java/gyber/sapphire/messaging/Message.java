@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import gyber.sapphire.profile.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,10 @@ public class Message {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column(name = "msg_id")
     private Long msgID;
+
+
+    @ManyToOne
+    private User snederId;
 
  
     @Column(name = "message_hash")
