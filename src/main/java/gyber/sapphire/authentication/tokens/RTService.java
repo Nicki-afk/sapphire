@@ -10,16 +10,14 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Base64Utils;
 
-import net.bytebuddy.utility.RandomString;
 
 @Service
 public class RTService implements TokenAuthenticate{
 
 
 
-    private String randomTokenString =  new RandomString(128).nextString();
+    private String randomTokenString =  "wofwuifwoifjwoij";
     private Date expirDate;
 
 

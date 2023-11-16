@@ -2,7 +2,7 @@ package gyber.sapphire.authentication.filters;
 
 import java.io.IOException;
 import java.util.Arrays;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

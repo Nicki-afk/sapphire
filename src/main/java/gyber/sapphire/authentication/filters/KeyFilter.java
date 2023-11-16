@@ -1,26 +1,16 @@
 package gyber.sapphire.authentication.filters;
 
 import java.io.IOException;
-import java.util.Arrays;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import gyber.sapphire.authentication.tokens.TokenPairObject;
 import gyber.sapphire.beta.BetaTestKeyManager;
 import gyber.sapphire.errors.BetaTestKeyException;
-import gyber.sapphire.errors.ErrorRestResponse;
-import gyber.sapphire.errors.TokenLocalStorageException;
-import gyber.sapphire.profile.User;
 
 
 @Service
