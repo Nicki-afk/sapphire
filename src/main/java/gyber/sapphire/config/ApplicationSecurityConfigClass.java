@@ -3,9 +3,12 @@ package gyber.sapphire.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.util.AntPathMatcher;
 
 import gyber.sapphire.authentication.filters.JwtFilter;
 import gyber.sapphire.authentication.filters.KeyFilter;
@@ -22,49 +27,68 @@ import gyber.sapphire.profile.UserCustomDetailsService;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfig {
+public class ApplicationSecurityConfigClass {
 
-    @Autowired
-    private UserCustomDetailsService userIPFSCustomDetailsService;
+    // @Autowired
+    // private UserCustomDetailsService userIPFSCustomDetailsService;
+
+
+
+
+
 
 
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-      
-            http
-            .authorizeHttpRequests(
-                (request) -> request
-                .requestMatchers("/home" , "/page")
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests()
+                .requestMatchers(new AntPathRequestMatcher("/blog")).permitAll()
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                // .loginPage("/login")
                 .permitAll()
-                .anyRequest()
-                .authenticated()
+                .and()
+                .logout()
+                .permitAll()
+                .and()
+                .httpBasic();
 
-            ).formLogin((form) -> 
-             form.loginPage("/login")
-             .permitAll()
-             ).logout((logout) -> 
-             logout.permitAll());
-       
-
-         return http.build();
-
-
+        return http.build();
     }
 
 
-    @Bean
-	public UserDetailsService userDetailsService() {
-		UserDetails user =
-			 User.withDefaultPasswordEncoder()
-				.username("user")
-				.password("password")
-				.roles("USER")
-				.build();
+@Bean
+public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+}
 
-		return new InMemoryUserDetailsManager(user);
-	}
+
+
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails user = User.withDefaultPasswordEncoder()
+                               .username("user")
+                               .password("password")
+                               .build();
+
+        return new InMemoryUserDetailsManager(user);
+    }
+
+    // @Bean
+	// public UserDetailsService userDetailsService() {
+	// 	UserDetails user =
+	// 		 User.withDefaultPasswordEncoder()
+	// 			.username("user")
+	// 			.password("password")
+	// 			.roles("USER")
+	// 			.build();
+
+	// 	return new InMemoryUserDetailsManager(user);
+	// }
 
     // @Override
     // protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -100,22 +124,22 @@ public class SpringSecurityConfig {
     // }
 
 
-    @Bean
-    public JwtFilter getJwtFilter(){
-        return new JwtFilter();
+    // @Bean
+    // public JwtFilter getJwtFilter(){
+    //     return new JwtFilter();
 
-    }
+    // }
 
 
-    @Bean
-    public RefreshFilter getRefreshFilter(){
-        return new RefreshFilter();
-    }
+    // @Bean
+    // public RefreshFilter getRefreshFilter(){
+    //     return new RefreshFilter();
+    // }
 
-    @Bean 
-    public KeyFilter getKeyFilter(){
-        return new KeyFilter();
-    }
+    // @Bean 
+    // public KeyFilter getKeyFilter(){
+    //     return new KeyFilter();
+    // }
 
 
 
