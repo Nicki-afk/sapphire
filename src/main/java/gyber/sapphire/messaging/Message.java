@@ -11,8 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
+import gyber.sapphire.profile.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,28 +26,35 @@ public class Message {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "msg_id")
+    private Long msgID;
 
-    @Column(name = "fromH") @NotBlank @Size(min = 6 , max = 8) private String from;
-    @Column(name = "toH") @NotBlank @Size(min = 6 , max = 8) private String to;
 
+    @ManyToOne
+    private User snederId;
+
+ 
     @Column(name = "message_hash")
     @NotBlank 
     private String content;
 
-    @Column @NotNull private LocalDateTime dateSent;
-    @Column @NotNull private LocalDateTime dateReceived;
-    @Column @NotNull private Boolean isRead = false;
-    @Column @NotNull private Boolean isDelivered = false;
+    @Column @NotNull private LocalDateTime sentAt;
 
 
     @ManyToOne
     @JoinColumn(name = "chatId" , nullable = false)
     private Chat chat;
 
- 
+
+    public Message(@NotBlank String content, Chat chat) {
+        this.content = content;
+        this.chat = chat;
+    }
 
 
+    public Message(@NotBlank String content) {
+        this.content = content;
+    }
 
 
 }

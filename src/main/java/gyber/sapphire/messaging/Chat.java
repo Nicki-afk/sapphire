@@ -1,15 +1,11 @@
 package gyber.sapphire.messaging;
 
 import java.time.LocalDateTime;
-import java.util.Queue;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import gyber.sapphire.profile.User;
 import lombok.AllArgsConstructor;
@@ -27,21 +23,36 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long chatId;
 
-    @Column(name = "time_to_create") @NotNull private LocalDateTime dateAndTimeToCreateChat;
-
-    @Column(name = "companion_one") @NotBlank private String user1;
-    @Column(name = "companion_two") @NotBlank private String user2;
-
-    @OneToMany(mappedBy = "chat" ,  fetch = FetchType.LAZY)
-    private Set<Message>messageList;
-
+    @Column(name = "create_at") @NotNull private LocalDateTime dateAndTimeToCreateChat;
 
     @ManyToOne
-    @JoinColumn(name = "userchat" , nullable = false)
-    private User userChats;
+    @JoinColumn(name = "usr_chat" , nullable = false)
+    private User usr;
 
 
+    @Column(name = "chat_type")
+    @Enumerated(EnumType.STRING)
+    private ChatType chatType;
 
+    @ManyToMany
+    private List<User> participantsChat;
 
+    @Column(name = "chat_name")
+    @NotBlank
+    private String nameChat;
+    
+
+    public Chat(ChatType chatType, @NotBlank String nameChat) {
+        this.chatType = chatType;
+        this.nameChat = nameChat;
+    }
+
+    public Chat(ChatType chatType, List<User> participantsChat, @NotBlank String nameChat) {
+        this.chatType = chatType;
+        this.participantsChat = participantsChat;
+        this.nameChat = nameChat;
+    }
+
+    
     
 }

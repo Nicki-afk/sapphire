@@ -18,26 +18,15 @@ public class MessageController {
 
     @MessageMapping("/tohimself")
     public void sendToHimself(Message message){
-        String userChanel = "/app/tohimself/".concat(message.getFrom());
-        this.simpMessagingTemplate.convertAndSend(userChanel, message);
-        System.out.println("Message to himself sent successful");
+       
 
     }
 
-    // TODO : После добавления Spring Security изменить метод на convertAndSendToUser()
-    @MessageMapping("/keyexchange")
-    public void keyExchange(@Payload KeyExchangeSystemMessage keyExchangeSystemMessage){
-        String userChannel = "/app/keyexchange".concat(keyExchangeSystemMessage.getTo());
-        this.simpMessagingTemplate.convertAndSend(userChannel, keyExchangeSystemMessage);
-        System.out.println("Message key sent succesful");
-    }
-
+ 
     // TODO : После добавления Spring Security изменить метод на convertAndSendToUser()
     @MessageMapping("/p2p")
     public void sendToUser(@Payload Message message){
-        String userChanel = "/app/p2p/".concat(message.getTo());
-        this.simpMessagingTemplate.convertAndSend(userChanel, message);
-        System.out.println("Message sent succesful");
+       
     }
 
 

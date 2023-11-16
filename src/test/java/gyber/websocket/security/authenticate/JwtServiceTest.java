@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.sql.Date;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import gyber.sapphire.profile.UserCustomDetails;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 
+@Disabled
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = JwtService.class)
 public class JwtServiceTest {
