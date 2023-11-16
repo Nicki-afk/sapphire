@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
 
-import net.bytebuddy.utility.RandomString;
 
 @Service
 @Getter
@@ -34,8 +33,8 @@ public class BetaTestKeyManager {
 
         BetaTestKey[]moreKeys = new BetaTestKey[quantity];
         for(int x = 0; x < moreKeys.length; x++){
-            String key = new RandomString(128).nextString();
-            moreKeys[x] = new BetaTestKey(key);
+           // String key = new RandomString(128).nextString();
+            moreKeys[x] = new BetaTestKey("key");
         }
 
         return moreKeys;
@@ -57,8 +56,8 @@ public class BetaTestKeyManager {
 
         BetaTestKey[]moreKeys = new BetaTestKey[quantity];
         for(int x = 0; x < moreKeys.length; x++){
-            String key = new RandomString(128).nextString();
-            moreKeys[x] = new BetaTestKey((LocalDateTime.now()), (LocalDateTime.now().plusMinutes(1)), false, key);
+           // String key = new RandomString(128).nextString();
+            moreKeys[x] = new BetaTestKey((LocalDateTime.now()), (LocalDateTime.now().plusMinutes(1)), false, "key");
         }
 
         return moreKeys;
