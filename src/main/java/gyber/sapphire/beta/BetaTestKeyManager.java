@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import gyber.sapphire.database.repositories.BetaTestKeyRepository;
 import gyber.sapphire.errors.BetaTestKeyException;
-import gyber.sapphire.profile.User;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;

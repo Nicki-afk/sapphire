@@ -2,10 +2,10 @@ package gyber.sapphire.validation.validators;
 
 import java.util.Base64;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 import gyber.sapphire.validation.IsBase64;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class IsBase64Validator implements ConstraintValidator<IsBase64 , String>{
 

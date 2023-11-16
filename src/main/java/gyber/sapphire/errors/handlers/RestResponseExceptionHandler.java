@@ -3,9 +3,6 @@ package gyber.sapphire.errors.handlers;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +16,8 @@ import gyber.sapphire.errors.BetaTestKeyException;
 import gyber.sapphire.errors.ErrorRestResponse;
 import gyber.sapphire.errors.TokenLocalStorageException;
 import io.jsonwebtoken.JwtException;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ValidationException;
 
 @ControllerAdvice
 public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler{

@@ -2,8 +2,6 @@ package gyber.sapphire.database.repositories;
 
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import gyber.sapphire.profile.User;
 import gyber.sapphire.profile.NetStatus;
 import org.springframework.data.jpa.repository.Query;

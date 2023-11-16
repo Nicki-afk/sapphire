@@ -5,10 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-
 import gyber.sapphire.validation.validators.IsBase64Validator;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 @Target({ElementType.FIELD , ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
