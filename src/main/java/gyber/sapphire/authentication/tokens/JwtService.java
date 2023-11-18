@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import gyber.sapphire.profile.User;
-import gyber.sapphire.profile.UserCustomDetails;
+// import gyber.sapphire.profile.UserCustomDetails;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -30,66 +30,66 @@ public class JwtService implements TokenAuthenticate {
 
 
 
-    @Override
-    public String createToken(UserCustomDetails userCustomDetails) {
+    // @Override
+    // public String createToken(UserCustomDetails userCustomDetails) {
 
-        if(userCustomDetails == null || userCustomDetails.getId() == null || userCustomDetails.getUsername() == null || 
-                            userCustomDetails.getUsername().isEmpty() || userCustomDetails.getCryptoWalletAddress().isEmpty() || userCustomDetails.getCryptoWalletAddress() == null){
-            throw new NullPointerException("UserDetails object is null , or filelds in this object is null or empty");
+    //     if(userCustomDetails == null || userCustomDetails.getId() == null || userCustomDetails.getUsername() == null || 
+    //                         userCustomDetails.getUsername().isEmpty() || userCustomDetails.getCryptoWalletAddress().isEmpty() || userCustomDetails.getCryptoWalletAddress() == null){
+    //         throw new NullPointerException("UserDetails object is null , or filelds in this object is null or empty");
 
-        }
+    //     }
        
 
-        Map<String , Object>payload = new HashMap<>();
-        payload.put("userId", userCustomDetails.getId());
-        payload.put("username", userCustomDetails.getUsername());
+    //     Map<String , Object>payload = new HashMap<>();
+    //     payload.put("userId", userCustomDetails.getId());
+    //     payload.put("username", userCustomDetails.getUsername());
 
-        this.expirationDate = Date.from(LocalDateTime.now().plusHours(4).atZone(ZoneId.systemDefault()).toInstant());
+    //     this.expirationDate = Date.from(LocalDateTime.now().plusHours(4).atZone(ZoneId.systemDefault()).toInstant());
 
-       return   Jwts.
-                         builder()
-                        .signWith(SignatureAlgorithm.HS256 , singature)
-                        .setSubject("jwt")
-                        .setClaims(payload)
-                        .setHeaderParam("type", "JWT")
-                        .setIssuedAt(new Date())
-                        .setIssuer("sapphire-messanger-server")
-                        .setExpiration(this.expirationDate)
-                        .compact();
+    //    return   Jwts.
+    //                      builder()
+    //                     .signWith(SignatureAlgorithm.HS256 , singature)
+    //                     .setSubject("jwt")
+    //                     .setClaims(payload)
+    //                     .setHeaderParam("type", "JWT")
+    //                     .setIssuedAt(new Date())
+    //                     .setIssuer("sapphire-messanger-server")
+    //                     .setExpiration(this.expirationDate)
+    //                     .compact();
 
                   
 
-    }
+    // }
 
 
     // for test
-    public String testCreateJwt(UserCustomDetails userCustomDetails , long seconds){
+    // public String testCreateJwt(UserCustomDetails userCustomDetails , long seconds){
 
-        if(userCustomDetails == null || userCustomDetails.getId() == null || userCustomDetails.getUsername() == null || 
-                            userCustomDetails.getUsername().isEmpty() || userCustomDetails.getCryptoWalletAddress().isEmpty() || userCustomDetails.getCryptoWalletAddress() == null){
-            throw new NullPointerException("UserDetails object is null , or filelds in this object is null or empty");
+    //     if(userCustomDetails == null || userCustomDetails.getId() == null || userCustomDetails.getUsername() == null || 
+    //                         userCustomDetails.getUsername().isEmpty() || userCustomDetails.getCryptoWalletAddress().isEmpty() || userCustomDetails.getCryptoWalletAddress() == null){
+    //         throw new NullPointerException("UserDetails object is null , or filelds in this object is null or empty");
 
-        }
+    //     }
        
 
 
-        Map<String , Object>payload = new HashMap<>();
-        payload.put("userId", userCustomDetails.getId());
-        payload.put("username", userCustomDetails.getUsername());
+    //     Map<String , Object>payload = new HashMap<>();
+    //     payload.put("userId", userCustomDetails.getId());
+    //     payload.put("username", userCustomDetails.getUsername());
 
-        this.expirationDate = Date.from(LocalDateTime.now().plusSeconds(seconds).atZone(ZoneId.systemDefault()).toInstant());
+    //     this.expirationDate = Date.from(LocalDateTime.now().plusSeconds(seconds).atZone(ZoneId.systemDefault()).toInstant());
 
-        return   Jwts.
-                         builder()
-                        .signWith(SignatureAlgorithm.HS256 , singature)
-                        .setSubject("jwt")
-                        .setClaims(payload)
-                        .setHeaderParam("type", "JWT")
-                        .setIssuedAt(new Date())
-                        .setIssuer("sapphire-messanger-server")
-                        .setExpiration(this.expirationDate)
-                        .compact();
-    }
+    //     return   Jwts.
+    //                      builder()
+    //                     .signWith(SignatureAlgorithm.HS256 , singature)
+    //                     .setSubject("jwt")
+    //                     .setClaims(payload)
+    //                     .setHeaderParam("type", "JWT")
+    //                     .setIssuedAt(new Date())
+    //                     .setIssuer("sapphire-messanger-server")
+    //                     .setExpiration(this.expirationDate)
+    //                     .compact();
+    // }
 
 
 

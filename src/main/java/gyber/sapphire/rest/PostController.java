@@ -16,7 +16,7 @@ import gyber.sapphire.database.repositories.UserRepository;
 import gyber.sapphire.errors.TokenLocalStorageException;
 import gyber.sapphire.messaging.Chat;
 import gyber.sapphire.profile.User;
-import gyber.sapphire.profile.UserCustomDetails;
+// import gyber.sapphire.profile.UserCustomDetails;
 
 
 @Controller
@@ -32,15 +32,15 @@ public class PostController {
     
 
 
-    @PostMapping("/save")
-    public ResponseEntity postUser(@RequestBody @Valid User user) throws TokenLocalStorageException{
+    // @PostMapping("/save")
+    // public ResponseEntity postUser(@RequestBody @Valid User user) throws TokenLocalStorageException{
 
-        this.userRepository.save(user);
+    //     this.userRepository.save(user);
         
-        return ResponseEntity.ok(authenticate(user)); 
+    //     return ResponseEntity.ok(authenticate(user)); 
 
 
-    }
+    // }
 
     @PostMapping("/chatnew")
     public ResponseEntity postNewUserChat(@RequestBody  @Valid Chat chat){
@@ -53,12 +53,12 @@ public class PostController {
 
 
 
-    public TokenPairObject authenticate(User user) throws TokenLocalStorageException{
-        UserCustomDetails userCustomDetails = new UserCustomDetails(user);
-        UsernamePasswordAuthenticationToken userPrincipal = new UsernamePasswordAuthenticationToken(userCustomDetails.getUsername(), null, userCustomDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(userPrincipal);
+    // public TokenPairObject authenticate(User user) throws TokenLocalStorageException{
+    //     UserCustomDetails userCustomDetails = new UserCustomDetails(user);
+    //     UsernamePasswordAuthenticationToken userPrincipal = new UsernamePasswordAuthenticationToken(userCustomDetails.getUsername(), null, userCustomDetails.getAuthorities());
+    //     SecurityContextHolder.getContext().setAuthentication(userPrincipal);
 
-        return this.tokenLocalStorageManager.addTokenPairForUser(user);
-    }
+    //     return this.tokenLocalStorageManager.addTokenPairForUser(user);
+    // }
 }
 
