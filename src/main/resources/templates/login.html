@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Form</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+  }
+  .login-form {
+    width: 300px; /* Further reduced width */
+    padding: 40px;
+    background-color: #222;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    color: #fff;
+  }
+  .input-group {
+    margin-bottom: 15px; /* Reduced margin for a tighter layout */
+  }
+  .input-group label {
+    margin-bottom: 5px;
+    margin-left: 12px;
+    display: block;
+  }
+  .input-group input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    margin-left: 12px;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  .login-form button {
+    width: calc(100% - 20px); /* Button width adjusted to fit new form width */
+    padding: 15px; /* Adjust padding to match the design */
+    border: none;
+    border-radius: 5px;
+    background-color: #e91e63;
+    margin-left: 12px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    box-sizing: border-box;
+  }
+  .login-form button:hover {
+    background-color: #d81b60;
+  }
+  .login-form a {
+    color: #aaa;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .login-form a:hover {
+    color: white;
+  }
+</style>
+</head>
+<body>
+  <div class="login-form">
+    <form action="/proccess/login" method="post"> <!-- Replace your-action-url with the URL you want to post data to -->
+      <div class="input-group">
+        <label for="username">Login</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit">войти</button>
+    </form>
+    <a href="#">Don't have account? Register</a>
+  </div>
+</body>
+</html>
